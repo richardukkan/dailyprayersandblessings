@@ -29,14 +29,9 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+body { background: transparent; color: var(--ink); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
 
-body::before {
-  content: ''; position: fixed; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(184,134,11,0.07), transparent 60%),
-    radial-gradient(ellipse 40% 30% at 10% 80%, rgba(107,76,42,0.05), transparent 60%);
-}
+body::before { display: none; }
 
 .wrapper { position: relative; max-width: 700px; margin: 0 auto; padding: 44px 20px 80px; }
 
