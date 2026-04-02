@@ -9,29 +9,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #faf6ed;
+  --bg: #ffffff;
   --card: #ffffff;
-  --warm: #f5f0e8;
-  --gold: #b8860b;
-  --gold-light: #fdf8ed;
-  --gold-mid: #d4a843;
-  --brown: #6b4c2a;
-  --cream: #f9f4e8;
-  --border: rgba(184,134,11,0.2);
-  --ink: #2a1f0e;
-  --muted: #7a6848;
-  --green: #2d6a4f;
-  --green-light: #eaf4ee;
-  --rose: #9b4a5a;
-  --rose-light: #fdf0f2;
-  --blue: #2c5f8a;
-  --blue-light: #edf4fb;
+  --warm: #fff0fa;
+  --gold: #7c3aed;
+  --gold-light: #f5f0ff;
+  --gold-mid: #a855f7;
+  --brown: #4f46e5;
+  --cream: #fef9ff;
+  --border: rgba(124,58,237,0.15);
+  --ink: #1e1b4b;
+  --muted: #6b7280;
+  --green: #059669;
+  --green-light: #d1fae5;
+  --rose: #e11d48;
+  --rose-light: #ffe4e6;
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
 
-body::before { display: none; }
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(167,139,250,0.22), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 5%, rgba(251,191,36,0.18), transparent 50%),
+    radial-gradient(ellipse 45% 35% at 5% 90%, rgba(236,72,153,0.14), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 95% 85%, rgba(59,130,246,0.16), transparent 55%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(16,185,129,0.08), transparent 60%);
+}
 
 .wrapper { position: relative; max-width: 700px; margin: 0 auto; padding: 44px 20px 80px; }
 
@@ -44,15 +52,15 @@ h1 em { font-style: italic; color: var(--gold); }
 .subtitle { font-size: 15px; font-weight: 300; color: var(--muted); line-height: 1.6; }
 
 /* Time of day banner */
-.time-banner { background: var(--gold-light); border: 1px solid var(--border); border-radius: 12px; padding: 12px 20px; margin-bottom: 28px; text-align: center; font-size: 13px; color: var(--muted); font-weight: 500; }
+.time-banner { background: linear-gradient(135deg, #f0f4ff, #fdf0ff); border: 1px solid rgba(124,58,237,0.2); border-radius: 12px; padding: 12px 20px; margin-bottom: 28px; text-align: center; font-size: 13px; color: var(--muted); font-weight: 500; }
 .time-banner strong { color: var(--gold); }
 
 /* Verse of the week */
-.votw { background: linear-gradient(135deg, #2a1f0e, #3d2d12); border-radius: 20px; padding: 28px 28px 24px; margin-bottom: 28px; text-align: center; position: relative; overflow: hidden; }
-.votw::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at 50% 0%, rgba(212,168,67,0.12), transparent 60%); pointer-events:none; }
-.votw-label { font-size: 9px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(212,168,67,0.7); margin-bottom: 14px; }
-.votw-text { font-family: 'Playfair Display', serif; font-size: clamp(15px,3vw,20px); font-style: italic; color: #f5e8c8; line-height: 1.7; margin-bottom: 12px; }
-.votw-ref { font-size: 13px; font-weight: 700; color: var(--gold-mid); letter-spacing: 0.06em; }
+.votw { background: linear-gradient(135deg, #4f46e5, #7c3aed, #a855f7); border-radius: 20px; padding: 28px 28px 24px; margin-bottom: 28px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(124,58,237,0.3); }
+.votw::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at 50% 0%, rgba(251,191,36,0.2), transparent 60%); pointer-events:none; }
+.votw-label { font-size: 9px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(253,224,71,0.9); margin-bottom: 14px; }
+.votw-text { font-family: 'Playfair Display', serif; font-size: clamp(15px,3vw,20px); font-style: italic; color: #ffffff; line-height: 1.7; margin-bottom: 12px; }
+.votw-ref { font-size: 13px; font-weight: 700; color: #fde047; letter-spacing: 0.06em; }
 
 /* Need selector */
 .need-section { margin-bottom: 28px; }
@@ -70,15 +78,15 @@ h1 em { font-style: italic; color: var(--gold); }
 /* Mode toggle */
 .mode-row { display: flex; gap: 10px; margin-bottom: 24px; }
 .mode-btn { flex: 1; padding: 10px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--card); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all 0.2s; text-align: center; }
-.mode-btn.active { background: var(--brown); color: #fff; border-color: var(--brown); }
+.mode-btn.active { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; border-color: #7c3aed; }
 .mode-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
 
 /* Generate button */
-.gen-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--brown), #8b6230); color: #fff; border: none; border-radius: 16px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.03em; box-shadow: 0 4px 20px rgba(107,76,42,0.3); transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s; margin-bottom: 24px; }
-.gen-btn:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(107,76,42,0.4); }
+.gen-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899); color: #fff; border: none; border-radius: 16px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.03em; box-shadow: 0 4px 24px rgba(124,58,237,0.4); transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s; margin-bottom: 24px; }
+.gen-btn:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.5); }
 
 /* Verse card */
-.verse-card { display: none; border-radius: 24px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 8px 40px rgba(107,76,42,0.15); }
+.verse-card { display: none; border-radius: 24px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 8px 40px rgba(124,58,237,0.2); }
 .verse-card.show { display: block; animation: fadeUp 0.5s ease both; }
 
 .vc-top { padding: 36px 32px 28px; text-align: center; position: relative; }
@@ -88,23 +96,23 @@ h1 em { font-style: italic; color: var(--gold); }
 .vc-reference { font-size: 16px; font-weight: 700; letter-spacing: 0.08em; color: var(--gold); margin-bottom: 10px; }
 .vc-version { font-size: 10px; color: var(--muted); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
 
-/* Colours per mood */
-.mood-hope .vc-top { background: linear-gradient(135deg, #fdf8ed, #fef9f0); }
-.mood-strength .vc-top { background: linear-gradient(135deg, #f0f4ff, #eef2ff); }
-.mood-peace .vc-top { background: linear-gradient(135deg, #eaf4ee, #f0f9f4); }
-.mood-healing .vc-top { background: linear-gradient(135deg, #fdf0f2, #fef4f5); }
-.mood-gratitude .vc-top { background: linear-gradient(135deg, #fdf8ed, #fffbf0); }
-.mood-guidance .vc-top { background: linear-gradient(135deg, #f5f0ff, #f3eeff); }
-.mood-love .vc-top { background: linear-gradient(135deg, #fff0f5, #fdf0f2); }
-.mood-anxiety .vc-top { background: linear-gradient(135deg, #edf4fb, #eef6ff); }
-.mood-grief .vc-top { background: linear-gradient(135deg, #f5f0e8, #f9f5ee); }
-.mood-purpose .vc-top { background: linear-gradient(135deg, #f0fdf4, #eafaf0); }
-.mood-parenting .vc-top { background: linear-gradient(135deg, #fff9f0, #fef6ec); }
-.mood-morning .vc-top { background: linear-gradient(135deg, #fffbf0, #fdf8e8); }
-.mood-evening .vc-top { background: linear-gradient(135deg, #1a1030, #251840); }
-.mood-evening .vc-verse { color: #e8e0ff; }
-.mood-evening .vc-mood { color: rgba(200,180,255,0.7); }
-.mood-evening .vc-version { color: rgba(200,180,255,0.5); }
+/* Colours per mood - bright & vibrant */
+.mood-hope .vc-top { background: linear-gradient(135deg, #fef9c3, #fde68a); }
+.mood-strength .vc-top { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+.mood-peace .vc-top { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+.mood-healing .vc-top { background: linear-gradient(135deg, #fce7f3, #fbcfe8); }
+.mood-gratitude .vc-top { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+.mood-guidance .vc-top { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+.mood-love .vc-top { background: linear-gradient(135deg, #ffe4e6, #fecdd3); }
+.mood-anxiety .vc-top { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+.mood-grief .vc-top { background: linear-gradient(135deg, #e2e8f0, #cbd5e1); }
+.mood-purpose .vc-top { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+.mood-parenting .vc-top { background: linear-gradient(135deg, #ffedd5, #fed7aa); }
+.mood-morning .vc-top { background: linear-gradient(135deg, #fef9c3, #fde68a); }
+.mood-evening .vc-top { background: linear-gradient(135deg, #1e1b4b, #312e81); }
+.mood-evening .vc-verse { color: #e0e7ff; }
+.mood-evening .vc-mood { color: rgba(200,180,255,0.8); }
+.mood-evening .vc-version { color: rgba(200,180,255,0.6); }
 
 /* Reflection */
 .vc-reflection { padding: 20px 32px; background: var(--cream); border-top: 1px solid var(--border); }
@@ -139,7 +147,7 @@ h1 em { font-style: italic; color: var(--gold); }
 /* Kid mode */
 .kid-badge { display: inline-block; background: #fff3e0; border: 1px solid rgba(245,124,0,0.3); color: #e65100; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; margin-left: 8px; }
 
-.footer-note { text-align: center; margin-top: 36px; font-size: 12px; color: #b0a088; }
+.footer-note { text-align: center; margin-top: 36px; font-size: 12px; color: #a78bfa; }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 </style>
