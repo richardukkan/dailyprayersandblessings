@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Permissions-Policy" content="clipboard-write=(self)">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prayer for the Day Generator – Your Daily Prayer | Daily Prayers & Blessings</title>
+<meta name="description" content="Receive a beautiful personalised prayer for the day. Choose your mood, your need and the time of day — and get a heartfelt prayer crafted just for you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --coral:   #ff6b6b;
+  --coral-lt:#fff5f5;
+  --teal:    #00b4d8;
+  --teal-lt: #e0f7fa;
+  --gold:    #ffd166;
+  --gold-dk: #f4a261;
+  --purple:  #9b5de5;
+  --purple-lt:#f3ecff;
+  --green:   #06d6a0;
+  --green-lt:#e6fff8;
+  --pink:    #f72585;
+  --pink-lt: #fff0f8;
+  --blue:    #4361ee;
+  --blue-lt: #edf0ff;
+  --ink:     #12111a;
+  --muted:   #5c5c7a;
+  --white:   #ffffff;
+  --border:  rgba(155,93,229,0.18);
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #fafafa;
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0%   0%,  rgba(255,107,107,0.15), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 100% 0%,  rgba(0,180,216,0.14),   transparent 52%),
+    radial-gradient(ellipse 50% 40% at 0%   100%,rgba(255,209,102,0.13), transparent 58%),
+    radial-gradient(ellipse 60% 45% at 100% 100%,rgba(155,93,229,0.13),  transparent 55%),
+    radial-gradient(ellipse 40% 35% at 50%  50%, rgba(6,214,160,0.07),   transparent 65%);
+}
+
+.wrapper {
+  position: relative; z-index: 1;
+  max-width: 780px; margin: 0 auto;
+  padding: 10px 20px 80px;
+}
+
+/* ── HEADER ── */
+header {
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeDown 0.7s ease both;
+}
+
+.halo {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 90px; height: 90px;
+  background: linear-gradient(135deg, #ff6b6b, #ffd166, #06d6a0, #4361ee, #9b5de5);
+  background-size: 300% 300%;
+  border-radius: 50%;
+  font-size: 42px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 36px rgba(155,93,229,0.35), 0 0 0 12px rgba(155,93,229,0.08);
+  animation: haloSpin 6s linear infinite, haloGlow 3s ease-in-out infinite;
+}
+
+@keyframes haloSpin {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes haloGlow {
+  0%,100% { box-shadow: 0 6px 36px rgba(155,93,229,0.35), 0 0 0 12px rgba(155,93,229,0.08); }
+  50%      { box-shadow: 0 8px 48px rgba(255,107,107,0.45), 0 0 0 20px rgba(255,107,107,0.06); }
+}
+
+.eyebrow {
+  font-size: 11px; font-weight: 900; letter-spacing: 0.28em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ff6b6b, #9b5de5, #00b4d8);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+}
+.eyebrow::before, .eyebrow::after {
+  content: '✦'; font-size: 10px;
+  -webkit-text-fill-color: rgba(155,93,229,0.5);
+}
+
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 7vw, 60px);
+  font-weight: 700; line-height: 1.1;
+  color: var(--ink); margin-bottom: 12px;
+}
+h1 em { font-style: italic; color: var(--purple); }
+h1 span { color: var(--coral); }
+
+.tagline {
+  font-size: 17px; font-weight: 400;
+  color: var(--muted); line-height: 1.65;
+  max-width: 520px; margin: 0 auto;
+}
+
+/* ── TODAY STRIP ── */
+.today-strip {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; flex-wrap: wrap;
+  margin-bottom: 28px;
+  animation: fadeUp 0.7s ease 0.05s both;
+}
+.today-pill {
+  padding: 8px 18px; border-radius: 999px;
+  font-size: 13px; font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.pill-day   { background: linear-gradient(135deg,#ff6b6b,#ffd166); color: white; box-shadow: 0 4px 14px rgba(255,107,107,0.3); }
+.pill-time  { background: linear-gradient(135deg,#00b4d8,#06d6a0); color: white; box-shadow: 0 4px 14px rgba(0,180,216,0.3); }
+.pill-verse {
+  background: var(--white); border: 2px solid var(--border);
+  color: var(--purple); font-style: italic; font-size: 12px;
+  max-width: 280px; text-align: center;
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-size: 11px; font-weight: 900; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+  text-align: center; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::before, .section-label::after {
+  content: ''; flex: 1; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(155,93,229,0.25));
+}
+.section-label::after { background: linear-gradient(90deg, rgba(155,93,229,0.25), transparent); }
+
+/* ── STEP CARDS ── */
+.step-card {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 24px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(155,93,229,0.07);
+  animation: fadeUp 0.6s ease both;
+}
+.step-card:nth-child(1) { animation-delay: 0.1s; }
+.step-card:nth-child(2) { animation-delay: 0.15s; }
+.step-card:nth-child(3) { animation-delay: 0.2s; }
+.step-card:nth-child(4) { animation-delay: 0.25s; }
+
+.step-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.step-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 900; color: white; flex-shrink: 0;
+}
+.s1 { background: linear-gradient(135deg, #ff6b6b, #ffd166); }
+.s2 { background: linear-gradient(135deg, #00b4d8, #06d6a0); }
+.s3 { background: linear-gradient(135deg, #9b5de5, #f72585); }
+.s4 { background: linear-gradient(135deg, #4361ee, #9b5de5); }
+
+.step-title { font-size: 15px; font-weight: 900; color: var(--ink); }
+
+/* ── PILL GRIDS ── */
+.pill-grid {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+
+.opt-pill {
+  padding: 10px 16px;
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  background: var(--white);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 800;
+  color: var(--muted); cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.opt-pill:hover { border-color: var(--purple); color: var(--purple); background: var(--purple-lt); transform: translateY(-1px); }
+
+/* Active states by group */
+.time-group  .opt-pill.active { background: linear-gradient(135deg,#ff6b6b,#ffd166); color:white; border-color:transparent; box-shadow:0 4px 14px rgba(255,107,107,0.35); }
+.need-group  .opt-pill.active { background: linear-gradient(135deg,#9b5de5,#f72585); color:white; border-color:transparent; box-shadow:0 4px 14px rgba(155,93,229,0.35); }
+.mood-group  .opt-pill.active { background: linear-gradient(135deg,#00b4d8,#06d6a0); color:white; border-color:transparent; box-shadow:0 4px 14px rgba(0,180,216,0.35); }
+.length-group .opt-pill.active { background: linear-gradient(135deg,#4361ee,#9b5de5); color:white; border-color:transparent; box-shadow:0 4px 14px rgba(67,97,238,0.35); }
+
+/* ── GENERATE BUTTON ── */
+.gen-btn {
+  width: 100%; padding: 22px;
+  background: linear-gradient(135deg, #ff6b6b, #ffd166, #06d6a0, #4361ee, #9b5de5);
+  background-size: 300% 300%;
+  color: #fff; border: none;
+  border-radius: 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 21px; font-weight: 900;
+  cursor: pointer; letter-spacing: 0.02em;
+  box-shadow: 0 6px 36px rgba(155,93,229,0.4);
+  transition: transform 0.15s, box-shadow 0.2s;
+  margin-bottom: 32px;
+  animation: fadeUp 0.7s ease 0.3s both, gradientShift 4s ease infinite;
+  position: relative; overflow: hidden;
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.gen-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  pointer-events: none;
+}
+.gen-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 44px rgba(155,93,229,0.5); }
+.gen-btn:active { transform: translateY(0); }
+
+/* ── PRAYER CARD ── */
+.prayer-card {
+  display: none; border-radius: 28px; overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.13);
+  animation: riseUp 0.65s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.prayer-card.show { display: block; }
+
+@keyframes riseUp {
+  from { opacity: 0; transform: translateY(50px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header zones — colour by need */
+.pc-header {
+  padding: 40px 36px 32px;
+  text-align: center; position: relative; overflow: hidden;
+}
+@media(max-width:480px){ .pc-header { padding: 28px 20px 24px; } }
+.pc-header::before {
+  content: attr(data-glyph);
+  position: absolute; right: 12px; top: -10px;
+  font-size: 110px; opacity: 0.1; line-height: 1;
+  pointer-events: none;
+}
+
+.need-morning     .pc-header { background: linear-gradient(135deg,#ff6b6b,#ffd166,#fff8e1); }
+.need-afternoon   .pc-header { background: linear-gradient(135deg,#ffd166,#06d6a0,#e0fff8); }
+.need-evening     .pc-header { background: linear-gradient(135deg,#4361ee,#9b5de5,#e8e0ff); }
+.need-night       .pc-header { background: linear-gradient(135deg,#12111a,#1a1040,#2d1f60); }
+.need-night .pc-meta, .need-night .pc-title, .need-night .pc-verse-text { color: #e8e0ff !important; }
+.need-night .pc-ref { color: #ffd166 !important; }
+.need-strength    .pc-header { background: linear-gradient(135deg,#ff6b6b,#f72585,#ffeef8); }
+.need-peace       .pc-header { background: linear-gradient(135deg,#00b4d8,#06d6a0,#e6fff8); }
+.need-healing     .pc-header { background: linear-gradient(135deg,#06d6a0,#4361ee,#edf0ff); }
+.need-guidance    .pc-header { background: linear-gradient(135deg,#9b5de5,#4361ee,#edf0ff); }
+.need-gratitude   .pc-header { background: linear-gradient(135deg,#ffd166,#ff6b6b,#fff8f0); }
+.need-love        .pc-header { background: linear-gradient(135deg,#f72585,#ff6b6b,#fff5f5); }
+.need-anxiety     .pc-header { background: linear-gradient(135deg,#00b4d8,#4361ee,#edf5ff); }
+.need-grief       .pc-header { background: linear-gradient(135deg,#9b5de5,#4361ee,#f0f0ff); }
+.need-faith       .pc-header { background: linear-gradient(135deg,#ffd166,#9b5de5,#f5f0ff); }
+.need-work        .pc-header { background: linear-gradient(135deg,#4361ee,#00b4d8,#e0f7fa); }
+.need-family      .pc-header { background: linear-gradient(135deg,#ff6b6b,#9b5de5,#f5f0ff); }
+.need-forgiveness .pc-header { background: linear-gradient(135deg,#06d6a0,#ffd166,#fffbeb); }
+.need-purpose     .pc-header { background: linear-gradient(135deg,#9b5de5,#f72585,#fff0f8); }
+
+.pc-meta {
+  font-size: 10px; font-weight: 900; letter-spacing: 0.24em;
+  text-transform: uppercase; margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  opacity: 0.8; color: var(--ink);
+}
+.meta-badge {
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(6px);
+  padding: 4px 12px; border-radius: 999px;
+  font-size: 10px; font-weight: 900; letter-spacing: 0.16em;
+}
+
+.pc-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 4.5vw, 38px);
+  font-weight: 700; line-height: 1.15;
+  margin-bottom: 20px; color: var(--ink);
+}
+
+.pc-verse-box {
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 16px; padding: 16px 20px;
+  text-align: left;
+}
+.pc-verse-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-style: italic;
+  line-height: 1.75; margin-bottom: 6px;
+  color: var(--ink);
+}
+.pc-ref {
+  font-size: 12px; font-weight: 900;
+  letter-spacing: 0.08em; color: var(--purple);
+}
+
+/* Prayer body */
+.pc-prayer {
+  background: var(--white);
+  padding: 32px 36px;
+  border-top: 4px solid rgba(155,93,229,0.12);
+}
+@media(max-width:480px){ .pc-prayer { padding: 24px 20px; } }
+.pc-prayer-label {
+  font-size: 10px; font-weight: 900; letter-spacing: 0.24em;
+  text-transform: uppercase; margin-bottom: 18px;
+  background: linear-gradient(90deg, #9b5de5, #f72585);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex; align-items: center; gap: 10px;
+}
+.pc-prayer-label::after {
+  content: ''; flex: 1; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, rgba(155,93,229,0.4), transparent);
+  -webkit-text-fill-color: unset;
+  display: block;
+}
+.pc-prayer-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(17px, 2.8vw, 21px);
+  font-weight: 600; line-height: 1.95;
+  color: var(--ink);
+}
+
+/* Declaration */
+.pc-declare {
+  background: linear-gradient(135deg, #f3ecff, #e0f7fa);
+  padding: 22px 36px;
+  border-top: 2px solid rgba(155,93,229,0.15);
+}
+@media(max-width:480px){ .pc-declare { padding: 18px 20px; } }
+.pc-declare-label {
+  font-size: 10px; font-weight: 900; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--purple); margin-bottom: 10px;
+}
+.pc-declare-text {
+  font-size: 17px; font-weight: 900;
+  background: linear-gradient(135deg, #9b5de5, #4361ee);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.55;
+}
+
+/* Focus */
+.pc-focus {
+  background: linear-gradient(135deg, #e6fff8, #fffbeb);
+  padding: 20px 36px;
+  border-top: 2px solid rgba(6,214,160,0.2);
+}
+@media(max-width:480px){ .pc-focus { padding: 16px 20px; } }
+.pc-focus-label {
+  font-size: 10px; font-weight: 900; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--green); margin-bottom: 8px;
+}
+.pc-focus-text {
+  font-size: 15px; font-weight: 700;
+  color: #065f46; line-height: 1.6; font-style: italic;
+}
+
+/* ── ACTIONS ── */
+.actions-row {
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 10px; margin-bottom: 24px;
+}
+@media(min-width:480px){ .actions-row { grid-template-columns: repeat(4,1fr); } }
+
+.act-btn {
+  padding: 14px 8px; border-radius: 16px;
+  border: 2px solid var(--border); background: var(--white);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 800; color: var(--muted);
+  cursor: pointer; transition: all 0.2s; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  box-shadow: 0 2px 10px rgba(155,93,229,0.07);
+}
+.act-btn .ab-icon { font-size: 20px; }
+.act-btn:hover {
+  border-color: var(--purple); color: var(--purple);
+  background: var(--purple-lt); transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(155,93,229,0.18);
+}
+.act-btn.done { border-color: var(--green); color: var(--green); background: var(--green-lt); }
+
+/* ── SAVED ── */
+.saved-section { display: none; margin-bottom: 24px; }
+.saved-section.show { display: block; animation: fadeUp 0.4s ease both; }
+.saved-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.saved-title { font-size: 12px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.clear-saved { font-size: 12px; font-weight: 800; color: var(--coral); cursor: pointer; }
+.saved-item {
+  background: linear-gradient(135deg, var(--purple-lt), var(--teal-lt));
+  border: 1.5px solid var(--border); border-radius: 14px;
+  padding: 14px 18px; margin-bottom: 8px;
+}
+.saved-need { font-size: 11px; font-weight: 900; color: var(--purple); margin-bottom: 4px; letter-spacing: 0.1em; text-transform: uppercase; }
+.saved-preview { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: var(--muted); line-height: 1.6; }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; font-size: 13px; color: var(--muted);
+  margin-top: 32px; padding-top: 22px;
+  border-top: 2px solid rgba(155,93,229,0.15);
+}
+footer a { color: var(--purple); font-weight: 800; text-decoration: none; }
+
+@keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeUp   { from { opacity:0; transform:translateY(24px); }  to { opacity:1; transform:translateY(0); } }
+
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="halo">🙏</div>
+    <div class="eyebrow">Your Daily Prayer</div>
+    <h1><em>Prayer</em> for the<br><span>Day</span> Generator</h1>
+    <p class="tagline">Receive a heartfelt, personalised prayer crafted for exactly where you are — your time of day, your need and your heart.</p>
+  </header>
+
+  <!-- TODAY STRIP -->
+  <div class="today-strip">
+    <span class="today-pill pill-day" id="dayPill">Today</span>
+    <span class="today-pill pill-time" id="timePill">Good morning</span>
+    <span class="today-pill pill-verse" id="versePill">"This is the day the Lord has made."</span>
+  </div>
+
+  <!-- STEP 1 — TIME OF DAY -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num s1">1</div>
+      <div class="step-title">What time of day is it?</div>
+    </div>
+    <div class="pill-grid time-group">
+      <button class="opt-pill" id="time-morning"   onclick="setTime('morning')"   >🌅 Morning</button>
+      <button class="opt-pill" id="time-afternoon" onclick="setTime('afternoon')" >☀️ Afternoon</button>
+      <button class="opt-pill" id="time-evening"   onclick="setTime('evening')"   >🌇 Evening</button>
+      <button class="opt-pill" id="time-night"     onclick="setTime('night')"     >🌙 Night</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 — WHAT DO YOU NEED -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num s2">2</div>
+      <div class="step-title">What does your heart need today?</div>
+    </div>
+    <div class="pill-grid need-group">
+      <button class="opt-pill" id="need-strength"    onclick="setNeed('strength')"    >💪 Strength</button>
+      <button class="opt-pill" id="need-peace"       onclick="setNeed('peace')"       >🕊️ Peace</button>
+      <button class="opt-pill" id="need-healing"     onclick="setNeed('healing')"     >🌿 Healing</button>
+      <button class="opt-pill" id="need-guidance"    onclick="setNeed('guidance')"    >🧭 Guidance</button>
+      <button class="opt-pill" id="need-gratitude"   onclick="setNeed('gratitude')"   >🙏 Gratitude</button>
+      <button class="opt-pill" id="need-love"        onclick="setNeed('love')"        >❤️ Love</button>
+      <button class="opt-pill" id="need-anxiety"     onclick="setNeed('anxiety')"     >🌊 Anxiety Relief</button>
+      <button class="opt-pill" id="need-grief"       onclick="setNeed('grief')"       >🤍 Comfort</button>
+      <button class="opt-pill" id="need-faith"       onclick="setNeed('faith')"       >⚡ Faith</button>
+      <button class="opt-pill" id="need-work"        onclick="setNeed('work')"        >💼 Work & Purpose</button>
+      <button class="opt-pill" id="need-family"      onclick="setNeed('family')"      >👨‍👩‍👧 Family</button>
+      <button class="opt-pill" id="need-forgiveness" onclick="setNeed('forgiveness')" >🕊️ Forgiveness</button>
+      <button class="opt-pill" id="need-purpose"     onclick="setNeed('purpose')"     >⭐ Purpose</button>
+      <button class="opt-pill" id="need-joy"         onclick="setNeed('joy')"         >🌸 Joy</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — MOOD -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num s3">3</div>
+      <div class="step-title">How are you feeling right now?</div>
+    </div>
+    <div class="pill-grid mood-group">
+      <button class="opt-pill" id="mood-grateful"     onclick="setMood('grateful')"    >😊 Grateful</button>
+      <button class="opt-pill" id="mood-struggling"   onclick="setMood('struggling')"  >😟 Struggling</button>
+      <button class="opt-pill" id="mood-tired"        onclick="setMood('tired')"       >😴 Tired</button>
+      <button class="opt-pill" id="mood-hopeful"      onclick="setMood('hopeful')"     >🌤️ Hopeful</button>
+      <button class="opt-pill" id="mood-anxious"      onclick="setMood('anxious')"     >😰 Anxious</button>
+      <button class="opt-pill" id="mood-peaceful"     onclick="setMood('peaceful')"    >😌 At peace</button>
+      <button class="opt-pill" id="mood-broken"       onclick="setMood('broken')"      >💔 Broken</button>
+      <button class="opt-pill" id="mood-determined"   onclick="setMood('determined')"  >🔥 Determined</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 — LENGTH -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num s4">4</div>
+      <div class="step-title">How long would you like your prayer?</div>
+    </div>
+    <div class="pill-grid length-group">
+      <button class="opt-pill" id="len-short"  onclick="setLen('short')" >⚡ Quick (30 sec)</button>
+      <button class="opt-pill" id="len-medium" onclick="setLen('medium')">🙏 Medium (1 min)</button>
+      <button class="opt-pill" id="len-long"   onclick="setLen('long')"  >📖 Full (2 min)</button>
+    </div>
+  </div>
+
+  <!-- GENERATE -->
+  <button class="gen-btn" onclick="generate()">🙏 Generate My Prayer for Today</button>
+
+  <!-- PRAYER CARD -->
+  <div class="prayer-card" id="prayerCard">
+    <div class="pc-header" id="pcHeader" data-glyph="🙏">
+      <div class="pc-meta">
+        <span class="meta-badge" id="pcTimeBadge">MORNING</span>
+        <span class="meta-badge" id="pcNeedBadge">PEACE</span>
+        <span class="meta-badge" id="pcMoodBadge">HOPEFUL</span>
+      </div>
+      <div class="pc-title" id="pcTitle">A Morning Prayer for Peace</div>
+      <div class="pc-verse-box">
+        <div class="pc-verse-text" id="pcVerse">—</div>
+        <div class="pc-ref" id="pcRef">—</div>
+      </div>
+    </div>
+    <div class="pc-prayer">
+      <div class="pc-prayer-label">🙏 Your Prayer for Today</div>
+      <div class="pc-prayer-text" id="pcPrayer">—</div>
+    </div>
+    <div class="pc-declare">
+      <div class="pc-declare-label">⚡ Declare This Today</div>
+      <div class="pc-declare-text" id="pcDeclare">—</div>
+    </div>
+    <div class="pc-focus">
+      <div class="pc-focus-label">🌿 Your Focus for the Day</div>
+      <div class="pc-focus-text" id="pcFocus">—</div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions-row" id="actionsRow" style="display:none">
+    <button class="act-btn" onclick="copyPrayer()">
+      <span class="ab-icon">📋</span><span id="copyLabel">Copy</span>
+    </button>
+    <button class="act-btn" onclick="shareWhatsApp()">
+      <span class="ab-icon">💬</span><span>WhatsApp</span>
+    </button>
+    <button class="act-btn" onclick="savePrayer()">
+      <span class="ab-icon" id="heartIcon">🤍</span><span>Save</span>
+    </button>
+    <button class="act-btn" onclick="generate()">
+      <span class="ab-icon">🔄</span><span>New Prayer</span>
+    </button>
+  </div>
+
+  <!-- SAVED -->
+  <div class="saved-section" id="savedSection">
+    <div class="saved-header">
+      <span class="saved-title">❤️ Saved Prayers</span>
+      <span class="clear-saved" onclick="clearSaved()">Clear all</span>
+    </div>
+    <div id="savedList"></div>
+  </div>
+
+  <footer>
+    <p>🙏 <a href="https://dailyprayersandblessings.com">dailyprayersandblessings.com</a> · A fresh prayer every day, for every heart</p>
+  </footer>
+
+</div>
+
+<script>
+var selTime = '';
+var selNeed = '';
+var selMood = '';
+var selLen  = '';
+var currentPrayer = null;
+var savedPrayers  = [];
+var usedIdx = {};
+
+/* ── DATA ── */
+var VERSES = {
+  morning:   [{ v: 'This is the day that the Lord has made; let us rejoice and be glad in it.', r: 'Psalm 118:24' }, { v: 'Great is his faithfulness; his mercies begin afresh each morning.', r: 'Lamentations 3:23' }, { v: 'In the morning, Lord, you hear my voice; in the morning I lay my requests before you and wait expectantly.', r: 'Psalm 5:3' }],
+  afternoon: [{ v: 'I can do all this through him who gives me strength.', r: 'Philippians 4:13' }, { v: 'The Lord is my shepherd; I lack nothing.', r: 'Psalm 23:1' }, { v: 'Commit to the Lord whatever you do, and he will establish your plans.', r: 'Proverbs 16:3' }],
+  evening:   [{ v: 'Come to me, all you who are weary and burdened, and I will give you rest.', r: 'Matthew 11:28' }, { v: 'The Lord bless you and keep you; the Lord make his face shine on you.', r: 'Numbers 6:24' }, { v: 'Let the peace of Christ rule in your hearts.', r: 'Colossians 3:15' }],
+  night:     [{ v: 'I will both lie down in peace and sleep, for you alone, Lord, make me dwell in safety.', r: 'Psalm 4:8' }, { v: 'He grants sleep to those he loves.', r: 'Psalm 127:2' }, { v: 'When you lie down, your sleep will be sweet.', r: 'Proverbs 3:24' }],
+  strength:  [{ v: 'The Lord is my strength and my shield; my heart trusts in him.', r: 'Psalm 28:7' }, { v: 'He gives strength to the weary and increases the power of the weak.', r: 'Isaiah 40:29' }],
+  peace:     [{ v: 'And the peace of God, which transcends all understanding, will guard your hearts and your minds.', r: 'Philippians 4:7' }, { v: 'You will keep in perfect peace those whose minds are steadfast, because they trust in you.', r: 'Isaiah 26:3' }],
+  healing:   [{ v: 'He heals the brokenhearted and binds up their wounds.', r: 'Psalm 147:3' }, { v: 'By his wounds we are healed.', r: 'Isaiah 53:5' }],
+  guidance:  [{ v: 'Trust in the Lord with all your heart and lean not on your own understanding.', r: 'Proverbs 3:5' }, { v: 'Your word is a lamp for my feet, a light on my path.', r: 'Psalm 119:105' }],
+  gratitude: [{ v: 'Give thanks to the Lord, for he is good; his love endures forever.', r: 'Psalm 107:1' }, { v: 'Every good and perfect gift is from above.', r: 'James 1:17' }],
+  love:      [{ v: 'For God so loved the world that he gave his one and only Son.', r: 'John 3:16' }, { v: 'Neither height nor depth will be able to separate us from the love of God.', r: 'Romans 8:39' }],
+  anxiety:   [{ v: 'Cast all your anxiety on him because he cares for you.', r: '1 Peter 5:7' }, { v: 'Do not be anxious about anything, but in every situation, by prayer and petition, present your requests to God.', r: 'Philippians 4:6' }],
+  grief:     [{ v: 'The Lord is close to the brokenhearted and saves those who are crushed in spirit.', r: 'Psalm 34:18' }, { v: 'Blessed are those who mourn, for they will be comforted.', r: 'Matthew 5:4' }],
+  faith:     [{ v: 'Now faith is confidence in what we hope for and assurance about what we do not see.', r: 'Hebrews 11:1' }, { v: 'For we live by faith, not by sight.', r: '2 Corinthians 5:7' }],
+  work:      [{ v: 'For we are Gods handiwork, created in Christ Jesus to do good works.', r: 'Ephesians 2:10' }, { v: 'Whatever you do, work at it with all your heart, as working for the Lord.', r: 'Colossians 3:23' }],
+  family:    [{ v: 'The Lord bless you and keep you; the Lord make his face shine on you.', r: 'Numbers 6:24' }, { v: 'As for me and my household, we will serve the Lord.', r: 'Joshua 24:15' }],
+  forgiveness:[{ v: 'Bear with each other and forgive one another if any of you has a grievance against someone.', r: 'Colossians 3:13' }, { v: 'As far as the east is from the west, so far has he removed our transgressions from us.', r: 'Psalm 103:12' }],
+  purpose:   [{ v: 'For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you.', r: 'Jeremiah 29:11' }, { v: 'For we are Gods handiwork, created in Christ Jesus to do good works.', r: 'Ephesians 2:10' }],
+  joy:       [{ v: 'Rejoice in the Lord always. I will say it again: Rejoice!', r: 'Philippians 4:4' }, { v: 'The joy of the Lord is your strength.', r: 'Nehemiah 8:10' }]
+};
+
+var TITLES = {
+  morning:    { strength:'A Morning Prayer for Strength', peace:'A Morning Prayer for Peace', healing:'A Morning Prayer for Healing', guidance:'A Morning Prayer for Direction', gratitude:'A Morning Prayer of Gratitude', love:'A Morning Prayer of Love', anxiety:'A Morning Prayer for Calm', grief:'A Morning Prayer for Comfort', faith:'A Morning Prayer of Faith', work:'A Morning Prayer for Work', family:'A Morning Prayer for Family', forgiveness:'A Morning Prayer of Forgiveness', purpose:'A Morning Prayer for Purpose', joy:'A Morning Prayer of Joy' },
+  afternoon:  { strength:'An Afternoon Prayer for Strength', peace:'A Midday Prayer for Peace', healing:'A Midday Prayer for Healing', guidance:'A Midday Prayer for Guidance', gratitude:'A Midday Prayer of Thanks', love:'A Midday Prayer of Love', anxiety:'A Midday Prayer for Calm', grief:'A Midday Prayer for Comfort', faith:'A Midday Prayer of Faith', work:'A Midday Prayer for Work', family:'A Midday Prayer for Family', forgiveness:'A Midday Prayer of Forgiveness', purpose:'A Midday Prayer for Purpose', joy:'A Midday Prayer of Joy' },
+  evening:    { strength:'An Evening Prayer for Strength', peace:'An Evening Prayer for Peace', healing:'An Evening Prayer for Healing', guidance:'An Evening Prayer for Guidance', gratitude:'An Evening Prayer of Gratitude', love:'An Evening Prayer of Love', anxiety:'An Evening Prayer for Calm', grief:'An Evening Prayer for Comfort', faith:'An Evening Prayer of Faith', work:'An Evening Prayer for Work', family:'An Evening Prayer for Family', forgiveness:'An Evening Prayer of Forgiveness', purpose:'An Evening Prayer for Purpose', joy:'An Evening Prayer of Joy' },
+  night:      { strength:'A Nighttime Prayer for Rest', peace:'A Bedtime Prayer for Peace', healing:'A Nighttime Prayer for Healing', guidance:'A Nighttime Prayer for Guidance', gratitude:'A Bedtime Prayer of Thanks', love:'A Nighttime Prayer of Love', anxiety:'A Bedtime Prayer for Calm', grief:'A Nighttime Prayer for Comfort', faith:'A Nighttime Prayer of Faith', work:'A Nighttime Prayer of Rest', family:'A Nighttime Prayer for Family', forgiveness:'A Nighttime Prayer of Forgiveness', purpose:'A Nighttime Prayer for Purpose', joy:'A Bedtime Prayer of Joy' }
+};
+
+var GLYPHS = { strength:'💪', peace:'🕊️', healing:'🌿', guidance:'🧭', gratitude:'🙏', love:'❤️', anxiety:'🌊', grief:'🤍', faith:'⚡', work:'💼', family:'👨‍👩‍👧', forgiveness:'🕊️', purpose:'⭐', joy:'🌸' };
+
+var PRAYERS = {
+  strength: {
+    morning: {
+      grateful:   { short: 'Father God,\n\nI come to You this morning grateful for the strength You have already placed within me. I know that today will have demands — but You have never let me face them alone.\n\nFill me afresh with Your power and let me walk into this day knowing that the Lord Almighty is with me.\n\nAmen.', medium: 'Lord,\n\nI begin this morning with a grateful heart and a need I want to bring to You: I need Your strength today.\n\nNot just willpower or determination — those run out. I need the kind of strength that comes from trusting You completely. The kind that Paul described when he said he could do all things through Christ.\n\nAs I step into this day, let Your power be the thing I draw from. When my resources feel low, remind me that Yours never do. When I feel like I am running on empty, remind me that You are the source that does not run dry.\n\nThank You that I do not have to be strong on my own.\n\nAmen.', long: 'Heavenly Father,\n\nThis morning I come to You before I come to anything else. And I come with gratitude — genuine gratitude — because You have been faithful and I have nothing to complain about, only things to trust You with.\n\nToday I need Your strength. I feel the weight of the things on my plate. The responsibilities, the relationships, the tasks, the decisions. And I know that if I try to carry them in my own strength, I will end up depleted before lunchtime.\n\nSo I make a different choice. I choose to draw from You.\n\nYour Word says You give strength to the weary and increase the power of the weak. That is me, Lord. Weak in myself but choosing to trust in a God who is infinitely strong.\n\nGo before me today. Prepare the way. Give me words when I need them, wisdom when I face decisions, courage when I am tempted to take the easy path and endurance when the day gets long.\n\nLet everything I do today be done in Your strength for Your glory.\n\nAmen.' },
+      struggling: { short: 'Lord,\n\nThis morning is hard already. But You already knew that.\n\nGive me Your strength for today — not for the whole week, just today. One step at a time.\n\nAmen.', medium: 'Father,\n\nI will be honest with You this morning: I am struggling and I feel it before the day has even properly begun.\n\nI need Your strength urgently. Not tomorrow. This morning.\n\nBring to my mind everything You have said about how You carry the weak, how Your power is made perfect in weakness, how You have never once left me on my own. Let those truths cut through the fog.\n\nI choose to get up and keep going today. Not because I feel strong but because You are.\n\nAmen.', long: 'God,\n\nI am going to be completely honest with You this morning because You are the one Person I can be honest with.\n\nI am struggling. The weight of what I am carrying feels heavy before the day has even started. I woke up already tired, already worried, already wondering how I am going to get through what lies ahead.\n\nBut here is what I also know: You knew this morning was coming before I did. You have not been caught off guard by my weakness. And Your Word says that when I am weak, You are strong.\n\nSo I come to You weak. I lay down the pretence that I am managing fine. I stop trying to look like I have it together when I do not.\n\nLord, give me the strength I need for today. Not for next week. Just today. Give me courage for the next hour. And then the next.\n\nI believe You can do this. I believe You will.\n\nAmen.' },
+      tired:      { short: 'Father,\n\nI am tired this morning. But You are not. And today I will lean on You.\n\nRenew my strength. Let me soar, not crawl.\n\nAmen.', medium: 'Lord,\n\nI woke up tired today and I want to be honest with You about it.\n\nYour Word says those who hope in You will renew their strength. I choose hope this morning even though my body wants to choose bed.\n\nReplenish me. Give me energy that is not just physical but spiritual and emotional. Let me face today with the reserves that only You can provide.\n\nAmen.', long: 'Gracious God,\n\nI am tired. Genuinely tired. The kind of tired that sleep does not fully fix because it goes deeper than physical exhaustion.\n\nAnd yet here I am, getting up, showing up, choosing to bring this morning to You before I do anything else. That has to count for something.\n\nYour Word tells me that even young people get tired and worn out — but those who hope in You will renew their strength. They will soar on wings like eagles. They will run and not grow weary.\n\nI want that promise to be real for me today. I want strength that comes from somewhere other than myself — because my own reserves are low.\n\nFill me, Lord. Not just with energy but with purpose. Because sometimes what looks like tiredness is really a soul that needs reminding of why it gets up.\n\nRemind me why today matters. Remind me who I am doing this for. And give me the strength to do it well.\n\nAmen.' },
+      hopeful:    { short: 'Lord,\n\nThis morning I am hopeful. I believe today is going to be good. Give me Your strength to make the most of it.\n\nAmen.', medium: 'Father,\n\nThere is something hopeful in my heart this morning and I want to bring that to You as an offering.\n\nThank You for the hope. Thank You for the new day. Now give me the strength to match the hope — to actually step out and do the things that this hopeful heart is ready for.\n\nLet today be a day I look back on with gratitude.\n\nAmen.', long: 'Good morning Lord,\n\nI woke up this morning with hope in my heart. I cannot fully explain it — but something feels lighter, cleaner, more possible than it did yesterday.\n\nI believe that is a gift from You. And I receive it with both hands.\n\nNow give me the strength to honour that hope with action. Because hope without follow-through fades quickly. Let me match the hope You have placed in my heart with the effort and the courage to step out today.\n\nGive me the strength to pursue what You have called me to. To have the conversations that need to happen. To take the steps that need to be taken. To be present and fully alive in every moment of this day.\n\nI am hopeful, Lord. And I trust You to make this a day worth being hopeful for.\n\nAmen.' },
+      anxious:    { short: 'Lord, my morning started anxious but I choose strength over fear today. Be my courage.\n\nAmen.', medium: 'Father,\n\nI woke up anxious and I am bringing that straight to You before the day gets any longer.\n\nGive me Your strength. Not just emotional coping — but genuine spiritual strength that pushes back against the fear and replaces it with something solid.\n\nYou did not give me a spirit of fear. So I choose power, love and a sound mind today.\n\nAmen.', long: 'God,\n\nThe anxiety woke up before I did this morning. I opened my eyes and it was already there.\n\nI do not want to spend this day driven by fear. I want to spend it anchored in You.\n\nYour Word says You have not given me a spirit of fear — but of power and of love and of a sound mind. I receive all three right now. Power over the anxiety. Love that casts out fear. A mind that is steady and clear.\n\nGive me strength today that is bigger than the fear. Not the absence of anxiety — I know that might take time — but strength that is greater than it. Strength that lets me act and move and live even while anxiety tries to hold me back.\n\nYou are bigger than anything I am afraid of. Let me live from that truth today.\n\nAmen.' },
+      peaceful:   { short: 'Father, I am at peace this morning. Keep me there and give me strength to serve well today.\n\nAmen.', medium: 'Lord,\n\nThere is peace in my heart this morning. What a gift.\n\nFrom that peaceful place I ask for strength — the strength to serve, to love, to work and to be fully present in every moment of today. Let the peace underneath everything I do give it quality and depth.\n\nAmen.', long: 'Thank You, Father,\n\nFor the peace that is in my heart this morning. I do not take it for granted. There have been mornings where peace felt impossible, and I remember them. So today I receive this quietly and with gratitude.\n\nFrom this peaceful place I want to ask for strength. Not frantic energy — but the steady, purposeful strength that lets me give my best to whatever this day holds.\n\nLet the peace be the foundation and the strength be what I build on it. A day lived from peace rather than from panic. A day shaped by trust rather than urgency.\n\nGuide my steps today, Lord. Let every action come from a heart that knows it is held by You.\n\nAmen.' },
+      broken:     { short: 'Lord, I am broken this morning. But You are the God who heals. Give me strength just for today.\n\nAmen.', medium: 'Father,\n\nI will not pretend this morning. I am broken and I need You to know that.\n\nBut I remember that You are close to the brokenhearted. So close that You can actually give me what I need right now: enough strength to get through today. Just today.\n\nBe near. Be real. Be strong where I am not.\n\nAmen.', long: 'God,\n\nI am broken this morning and I have nothing to offer You except honestly.\n\nI do not have fine words or a composed heart. I just have the wreckage of a heart that is hurting and a desperate need for Your presence.\n\nThe Psalms say You are close to the brokenhearted. That You save those who are crushed in spirit. Lord, I am crushed this morning. Come close.\n\nI am not asking You to fix everything immediately. I am just asking for enough strength to face today. To get up. To keep going. To believe that this is not the end of the story.\n\nBe my strength when I have none of my own. Be the thing that holds me when I cannot hold myself.\n\nI trust You. Even now.\n\nAmen.' },
+      determined: { short: 'Lord, I am ready today. Give me Your strength to match my determination and let us do something great.\n\nAmen.', medium: 'Father,\n\nThere is determination in me this morning and I believe it is from You. I am ready to face the day with everything I have.\n\nNow I ask You to match that determination with Your strength. Let my resolve be undergirded by Your power so that what I accomplish today is not just impressive but meaningful.\n\nLet us go.\n\nAmen.', long: 'Lord,\n\nSomething has ignited in me this morning. A determination. A readiness. A sense that today is a day to be seized rather than survived.\n\nThank You for that. I believe it is a gift.\n\nNow I bring it to You and I ask You to strengthen it with Your power. Because determined effort without God can produce impressive things — but determined effort WITH God can produce things that last for eternity.\n\nLet my goals today be aligned with Yours. Let my energy be channelled into what actually matters. Let the things I work hard at today be the things You care about.\n\nI am determined and I am Yours. That is a powerful combination.\n\nLet us make today count.\n\nAmen.' }
+    },
+    evening: {
+      grateful: { short: 'Lord, thank You for the strength You gave me today. I felt You with me. I rest now in Your care.\n\nAmen.', medium: 'Father,\n\nI come to You this evening grateful for the strength You provided today. There were moments when it felt like more than I had on my own — and I know that was You.\n\nAs I wind down, replenish what was spent. Give me rest that restores and let me wake tomorrow ready again.\n\nAmen.', long: 'Lord,\n\nThis evening I want to say thank You for the strength You gave me today.\n\nThere were moments that required more than I had. Conversations that asked for patience I did not feel, tasks that needed focus I was struggling to find, decisions that required courage I had to ask for. And You provided all of it.\n\nNot always in the way I expected. Not always comfortably. But You did not let me face anything alone.\n\nNow the day is done and I bring it back to You. The good parts and the hard parts. The moments of success and the moments I wish had gone differently.\n\nAll of it is Yours.\n\nLet me rest well tonight knowing that Your strength will be fresh tomorrow.\n\nAmen.' },
+      struggling: { short: 'Father, today was hard. I need Your strength for tonight and Your mercy for tomorrow.\n\nAmen.', medium: 'Lord,\n\nThis evening I am honest: today was hard and I do not have much left.\n\nBe my strength in this quiet evening hour. Let Your presence be enough. And let tomorrow carry the promise of a new start with fresh mercy.\n\nI trust You.\n\nAmen.', long: 'Father,\n\nI come to You this evening empty. The day took more than I had and I am running on fumes.\n\nI do not want to pretend it went well when it did not. I do not want to dress up the difficulty for Your benefit. You already know.\n\nSo here is my honest evening prayer: I am spent. I am struggling. And I need You to be strong in the place where I am weak.\n\nLet tonight be restorative. Let sleep be a genuine gift. And let tomorrow morning carry fresh mercy and new strength — because Your Word promises that is exactly what each morning brings.\n\nI am holding on, Lord. But I am holding on to You. And that is enough.\n\nAmen.' },
+      tired: { short: 'Lord, I am so tired tonight. Hold me while I sleep and give me rest that truly restores.\n\nAmen.', medium: 'Father,\n\nI am exhausted this evening and I am bringing that tiredness to You rather than just pushing through it.\n\nHold me while I rest tonight. Let sleep be the gift You designed it to be. And wake me with enough strength to face tomorrow well.\n\nAmen.', long: 'God,\n\nThis evening I am tired in a way I cannot fully put into words. The kind of tired that makes everything feel a little heavier and a little harder than it probably is.\n\nI am bringing this tiredness to You. Not to apologise for it or to push through it — but to lay it down.\n\nYou give sleep to those You love. You watch over me through every hour of the night without growing tired Yourself. What a gift that is tonight.\n\nLet me rest deeply. Let my body recover and my mind quieten. Let tomorrow feel lighter than today.\n\nAnd in the meantime, just be near. I do not need anything spectacular tonight. Just the quiet sense that You are here and I am safe.\n\nAmen.' },
+      hopeful: { short: 'Lord, today had hard moments but I end it hopeful. Thank You. Strengthen me for tomorrow.\n\nAmen.', medium: 'Father,\n\nThis evening I find myself more hopeful than I expected to be. Thank You for that. You have a way of redeeming days that started rough.\n\nI go to rest tonight trusting You with tomorrow. Give me strength for what is ahead and let this hope carry through the night.\n\nAmen.', long: 'Good evening, Lord,\n\nI want to take a moment before the day closes to notice that somewhere between this morning and this evening, hope has crept back in.\n\nThank You for that. You are so good at finding the cracks in a heavy day and letting light through.\n\nI go to rest tonight with more in my heart than I woke up with. And that is entirely Your doing.\n\nStrengthen me through the night. Prepare me for tomorrow. And let this hope be the thing I wake up with instead of the anxiety or the heaviness.\n\nI trust You with the night and with the day to come.\n\nAmen.' },
+      anxious: { short: 'Lord, anxiety tried to win today but I am ending the day choosing You. Give me peace tonight and strength for tomorrow.\n\nAmen.', medium: 'Father,\n\nThis evening I am still carrying some anxiety from the day. But I refuse to take it to bed with me.\n\nI give it to You now. Every worry, every what-if, every thing I cannot control. You hold all of it while I rest. And in the morning I will come back to You for new strength.\n\nAmen.', long: 'God,\n\nThe anxiety that started this day is still following me into this evening. I want to be honest about that.\n\nBut I also want to make a deliberate choice before I sleep: I am giving this to You. All of it. Every worry that has been circling in my head, every fear about what might happen, every outcome I cannot control.\n\nYou are awake tonight. You never sleep. You have every detail of my life already in Your hands.\n\nSo I choose to rest. I choose to trust. I choose to believe that the things I am anxious about are safer with You than they are in my hands.\n\nGive me peaceful sleep tonight, Lord. And wake me with fresh strength and the reminder that You have not left.\n\nAmen.' },
+      peaceful: { short: 'Lord, I end this day at peace. What a gift. Keep me safe through the night.\n\nAmen.', medium: 'Father,\n\nThis evening I am at peace and I am not taking that for granted. Thank You for a day that ends this quietly.\n\nI lie down trusting You with the night. Keep me safe. Give me rest. And let me wake ready for whatever tomorrow holds.\n\nAmen.', long: 'Lord,\n\nAs this day comes to an end I find myself at peace. A genuine, settled peace that does not depend on everything being perfect but on knowing that You are in control.\n\nThank You.\n\nI did not always feel this way today. There were moments that unsettled me. But somehow, here in this evening quiet, Your peace has landed.\n\nI receive it with gratitude and I choose to rest in it.\n\nWatch over me through the night. Keep my household safe. Let my rest be deep and my waking be gentle.\n\nAnd let this peace be the thing that carries me into tomorrow rather than anxiety.\n\nGood night, Lord. I trust You with the dark hours.\n\nAmen.' },
+      broken: { short: 'Lord, this evening I am broken and tired. Be near tonight. That is enough.\n\nAmen.', medium: 'Father,\n\nThis evening I do not have much to offer. Just a broken heart and a need to know You are near.\n\nBe near tonight. Sit with me in this. You do not have to fix it tonight. Just be here.\n\nAmen.', long: 'God,\n\nThis evening I come to You with nothing dressed up. I am broken and tired and the day was harder than I could manage gracefully.\n\nAnd I am done pretending otherwise.\n\nThe Psalms are full of evenings like this. Evenings where the writer just brings their raw, unpolished heart to God and says: here I am. This is all I have.\n\nSo here I am.\n\nI am not asking for eloquent prayer or triumphant faith tonight. I am just asking You to be near. To be the presence that sits with me in this. To be the God who is close to the brokenhearted even when the broken heart does not have the energy to reach very far.\n\nHold me tonight, Lord. That is all I need.\n\nAmen.' },
+      determined: { short: 'Lord, I end this day ready for tomorrow. Restore me tonight and let me go again with Your strength.\n\nAmen.', medium: 'Father,\n\nToday was full and tomorrow I am ready to go again. But I need Your restoration tonight to match my determination.\n\nReplenish everything that was spent today. Let sleep be full and deep. And wake me ready to give my best for another day in Your service.\n\nAmen.', long: 'Lord,\n\nI end this day the way I started it: determined. Today had its challenges but they did not break my resolve. And I believe that is because You have been holding it.\n\nBefore I rest I want to thank You for the grace to keep going today. For the moments of clarity when I needed them. For the strength that showed up just when it was about to run out.\n\nNow I need something different: I need rest. Deep, full, restorative rest that prepares me to go again tomorrow.\n\nReplenish everything the day spent. Restore my mind, my body and my spirit. And let me wake tomorrow with the same fire, the same purpose and even more of Your strength to fuel it.\n\nAmen.' }
+    }
+  },
+  peace: {
+    morning: {
+      grateful: { short: 'Lord, I come to this morning grateful and asking for Your peace to lead my day. Still my heart before the noise begins.\n\nAmen.', medium: 'Father,\n\nThank You for this morning. I come to it grateful and I ask You to fill it with Your peace from the very first hour.\n\nStill my heart before the demands of the day begin to press. Let the peace that passes understanding be the thing underneath everything I do today.\n\nAmen.', long: 'Good morning, Father,\n\nI begin today with a grateful heart — grateful for rest, for a new day, for the simple grace of waking up.\n\nAnd from that place of gratitude I ask for one thing above everything else: Your peace.\n\nNot the peace the world offers, which depends on everything going right. But the peace that comes from knowing You. The peace that stands guard over my heart and my mind even when the day gets complicated.\n\nGo before me today, Lord. Prepare the ground. Calm what is going to try to unsettle me. Give me the steadiness that comes from being anchored in You.\n\nLet today be a day where peace is not just something I hope for but something I actually carry.\n\nAmen.' },
+      struggling: { short: 'Lord, I need Your peace this morning. My mind is already noisy. Come in and bring stillness.\n\nAmen.', medium: 'Father,\n\nMy mind is already noisy this morning and the day has barely begun. I am asking for Your peace urgently.\n\nSpeak into the noise. Bring stillness to the racing thoughts. Let me start this day centred in You rather than scattered by everything competing for my attention.\n\nAmen.', long: 'God,\n\nIt is morning and my mind is already full. Full of the things I have to do, the things I am worried about, the conversations I am dreading and the problems I do not know how to solve.\n\nAnd I am so tired of starting every day this way.\n\nSo I come to You first. Before the phone, before the news, before the to-do list. I come to the one who said Come to me and I will give you rest.\n\nGive me peace this morning. Not because everything is resolved but because You are here and You are in control of everything I am not.\n\nQuiet my mind. Slow my thoughts. Let me take one breath, one moment, one step at a time — rooted in the truth that You have already been where I am going today.\n\nAmen.' },
+      tired: { short: 'Father, I am tired and I need Your peace more than anything this morning. Carry me today.\n\nAmen.', medium: 'Lord,\n\nI am tired this morning and the last thing a tired soul needs is more noise.\n\nGive me Your peace. A quiet, steady peace that holds even when the day gets loud. Let that be the thing I carry through today instead of the exhaustion.\n\nAmen.', long: 'Lord,\n\nI woke up tired again. And on tired mornings like this one, the world feels a little louder, the problems feel a little heavier and the capacity to cope feels a little thinner.\n\nWhat I need this morning more than anything else is peace.\n\nNot a solution to every problem. Not answers to every question. Just peace. The quiet, deep, beyond-understanding peace that You give to those who bring their worries to You with thanksgiving.\n\nSo here they are. Every worry, every drain, every thing that kept me from resting well. I bring them to You.\n\nNow give me peace in return. Peace for a tired morning. Peace for a long day. Peace that holds even when I feel like I have nothing left.\n\nAmen.' },
+      hopeful: { short: 'Father, I am hopeful this morning. Let peace go with me today and make it even better than I am expecting.\n\nAmen.', medium: 'Lord,\n\nThere is hope in my heart this morning. And I ask You to pair it with peace — the kind that keeps hope steady when things get complicated.\n\nLet me move through this day anchored in both. Hopeful and at peace. What a gift that would be.\n\nAmen.', long: 'Good morning, Father,\n\nSomething feels hopeful today. The morning has a quality to it that makes me think good things are possible.\n\nThank You for that. I receive it fully.\n\nAnd I ask You to pair this hope with peace. Because hope without peace can become anxious striving. But hope held in peace becomes something beautiful — a quiet confidence that whatever today holds, You are in it.\n\nLet me move through this day expectant but not frantic. Hopeful but not fearful. Open to what You have planned but not trying to force outcomes.\n\nGuide me in peace today, Lord. And let the hope in my heart bear fruit.\n\nAmen.' },
+      anxious: { short: 'Lord, I am anxious this morning. Replace it with Your peace, which You promised would guard my heart.\n\nAmen.', medium: 'Father,\n\nAnxiety arrived with the morning. I am asking You to meet it with Your peace — the supernatural kind that does not make sense given the circumstances but arrives anyway.\n\nGuard my heart and mind today, as You promised. I choose to bring everything to You rather than carry it alone.\n\nAmen.', long: 'God,\n\nI was awake in the night with it. And now it is morning and the anxiety is still here.\n\nI do not want this to be the flavour of my whole day. I do not want anxiety to narrate every hour.\n\nSo I come to You with what Your Word tells me to do: I present my requests to You. Every specific fear. Every what-if. Every outcome I am dreading.\n\nHere they are. They are Yours now.\n\nAnd I ask for the peace that Your Word promises — the peace that transcends understanding, that guards my heart and my mind in Christ Jesus.\n\nLet that peace come. Let it settle over me like something solid. Not the absence of difficulty but the presence of You.\n\nI trust You with this day.\n\nAmen.' },
+      peaceful: { short: 'Lord, I am at peace this morning. Keep me here. Let this be the foundation of my whole day.\n\nAmen.', medium: 'Father,\n\nWhat a gift to wake up at peace. I do not take this for granted.\n\nKeep me here throughout the day. When things try to steal this peace, remind me that it comes from You and is not dependent on circumstances.\n\nLet today be built on this foundation.\n\nAmen.', long: 'Lord,\n\nI woke up this morning and the first thing I noticed was peace.\n\nHow rare and how precious that is. I want to acknowledge it, receive it and express gratitude for it.\n\nThank You.\n\nNow I want to ask You to help me hold it. Because days have a way of pressing in on peace. The morning can feel serene and by 10am everything can feel chaotic.\n\nLet the peace that is in my heart right now be deeper than circumstances. Let it be rooted in something that does not change when things get busy or complicated.\n\nLet it be rooted in You.\n\nI commit this day to You from this place of peace. Guide me gently. Lead me well. And let this morning quiet be what I carry into everything else today.\n\nAmen.' },
+      broken: { short: 'Lord, I need Your peace more than I have words for this morning. Just come. Just be here.\n\nAmen.', medium: 'Father,\n\nI woke up broken this morning. And the thing broken people need most is peace.\n\nI am asking You for it. Not because I have earned it or understand how it works — but because You promised it to those who bring their burdens to You.\n\nHere are mine. Give me peace in return.\n\nAmen.', long: 'God,\n\nI need peace this morning and I do not have the capacity to pray beautifully about it.\n\nSo here is the honest version: I am broken. I woke up broken. And the weight of what I am carrying makes the idea of peace feel very far away.\n\nBut Your Word says that when we bring our burdens to You — with prayer, with petition, with thanksgiving — You give peace that does not make logical sense. Peace that should not be possible given the circumstances.\n\nI am asking for that kind of peace this morning. The impossible kind. The kind that settles on a broken heart and tells it that despite everything, it is going to be okay.\n\nYou are close to the brokenhearted. Come close this morning.\n\nAmen.' },
+      determined: { short: 'Lord, I am ready for today. Give me peace to carry with my determination so I act wisely, not just urgently.\n\nAmen.', medium: 'Father,\n\nI am determined this morning and I want to pair that with Your peace. Because determination without peace can become anxious striving.\n\nLet my energy today be steady and purposeful. Let every action come from a place of trust in You rather than fear of outcomes.\n\nAmen.', long: 'Lord,\n\nI am ready for this day. There is fire in me this morning and I intend to use it well.\n\nBut I want to ask You for something important alongside the determination: peace.\n\nBecause I have learned that determination without peace leads to striving. To pushing too hard. To making decisions from urgency rather than wisdom. To achieving things that cost more than they should.\n\nSo today I want both. The fire to pursue what matters and the peace to pursue it wisely. The energy to work hard and the trust to release outcomes to You.\n\nPeace, Lord. Peace that anchors the determination. Peace that keeps me from striving when I should be resting. Peace that lets me do my best and leave the results with You.\n\nAmen.' }
+    }
+  },
+  gratitude: {
+    morning: {
+      grateful: { short: 'Father, thank You for this day. Thank You for breath, for life, for Your love that is new this morning. I am grateful.\n\nAmen.', medium: 'Lord,\n\nI come to You this morning with a full and grateful heart. Thank You for the gift of this day. Thank You for sleep and waking. Thank You for the small ordinary mercies that surround me.\n\nLet gratitude be the lens through which I see everything today.\n\nAmen.', long: 'Good morning, Father,\n\nBefore I ask You for anything this morning, I want to spend this moment saying thank You.\n\nThank You for this day. It is a gift I did nothing to deserve. Thank You for the night that passed safely. Thank You for the breath in my lungs and the warmth of being alive.\n\nThank You for everyone I love. For the people who make my life worth living. For the connections and relationships that are more valuable than anything I could buy.\n\nThank You for Your faithfulness. For the ways You have shown up in my story — sometimes dramatically, sometimes so quietly I almost missed it. But always there. Always faithful.\n\nLet gratitude be the thing that shapes this whole day. Let me notice Your goodness in the small things — the morning light, a kind word, a moment of unexpected joy.\n\nYou are so good, Lord. And I am so grateful.\n\nAmen.' },
+      struggling: { short: 'Lord, today is hard to be grateful in. But I choose it anyway. Thank You for being here even when I cannot feel it.\n\nAmen.', medium: 'Father,\n\nGratitude is not easy this morning. I want to be honest about that.\n\nBut I choose it anyway — not because everything is fine, but because You are still God and You are still good. Let me find even one thing to be grateful for today and let that be enough to start.\n\nAmen.', long: 'God,\n\nI want to pray a prayer of gratitude this morning. But I am going to be honest: gratitude does not come easily today.\n\nI am struggling. And in the middle of the struggle, thankfulness can feel almost impossible.\n\nBut I have been in this place before. And I have learned that gratitude in difficult seasons is not about denying the difficulty — it is about choosing to notice what is still good alongside what is hard.\n\nSo let me try.\n\nThank You that I am here. Thank You that You are here. Thank You that this morning, despite everything, I still have breath and possibility.\n\nThank You that Your mercies are new this morning even when my circumstances are the same.\n\nThank You that You have not left.\n\nThat is my gratitude today, Lord. It is all I have. I offer it honestly.\n\nAmen.' },
+      tired: { short: 'Lord, I am tired but I am grateful. Thank You for being with me even on the hard mornings.\n\nAmen.', medium: 'Father,\n\nI am tired this morning. But even in the tiredness I can find things to be grateful for — and that feels like a kind of miracle.\n\nThank You for being the God who is present even in the grey mornings. That alone is enough to be grateful about.\n\nAmen.', long: 'Lord,\n\nI am tired this morning. I want to name that before I name anything else.\n\nBut I also want to pray a prayer of gratitude. Because I have learned that gratitude is a choice, not just a feeling. And even on tired mornings there are things worth naming.\n\nThank You for rest, imperfect as it was. Thank You for a new day even when I would have preferred more sleep. Thank You for the coffee that is waiting. Thank You for the people in my life. Thank You for a God who never asks me to be impressive before He helps me.\n\nThank You that Your faithfulness does not depend on how I feel.\n\nLet gratitude grow in me today, Lord, even as the tiredness lifts. Let me end this day with more gratitude than I started it with.\n\nAmen.' },
+      hopeful: { short: 'Father, thank You! I am hopeful and grateful and ready for today. Let this be a day of Your goodness.\n\nAmen.', medium: 'Lord,\n\nI am grateful and hopeful this morning — two things that belong together beautifully.\n\nThank You for this feeling. For this combination of quiet thankfulness and forward-looking hope. Let me hold both through the day and let them shape everything I do.\n\nAmen.', long: 'Father,\n\nThis morning I want to shout thank You.\n\nThere is gratitude in my heart that feels almost too big for a quiet morning prayer. I am grateful for life. For this new day. For the people I love. For the work I get to do. For the faith that holds even when things are hard.\n\nAnd there is hope here too. A sense that today is going to be good. That the things I am trusting You for are coming. That You are at work even in the unseen places.\n\nGratitude and hope together — what a gift.\n\nThank You, Lord. Let me carry both through every hour of today. And let that combination be a light to everyone I encounter.\n\nAmen.' },
+      anxious: { short: 'Lord, anxiety is loud today but I choose gratitude louder. Thank You for one good thing I can hold onto.\n\nAmen.', medium: 'Father,\n\nI am anxious this morning but I want to choose gratitude alongside the anxiety. Because gratitude and anxiety cannot fully occupy the same space.\n\nHelp me to notice what is good, what is true and what is still standing. Let those things speak louder than the fear today.\n\nAmen.', long: 'God,\n\nI want to pray a prayer of gratitude this morning even though anxiety is here too. Maybe especially because anxiety is here.\n\nBecause gratitude is one of the things that pushes back against fear. It reminds me of what is real and good and lasting when anxiety is telling me stories about what might go wrong.\n\nSo thank You. Thank You for yesterday, which I survived. Thank You for this morning, which means I get another chance. Thank You for the specific good things in my life that anxiety tries to make me forget.\n\nAnd thank You that You are bigger than the anxiety. That Your goodness is more permanent than my fear. That Your faithfulness does not waver when my peace does.\n\nLet gratitude grow louder than the anxiety today, Lord.\n\nAmen.' },
+      peaceful: { short: 'Father, what a beautiful morning to be grateful. Thank You for peace and for this day.\n\nAmen.', medium: 'Lord,\n\nThis morning is quiet and peaceful and I am genuinely grateful. Thank You for mornings like this.\n\nLet this gratitude and peace carry through the whole day. And let me take nothing for granted that You have given me.\n\nAmen.', long: 'Father,\n\nThis morning is one of those mornings that feels like a gift. Peaceful. Quiet. Full of possibility.\n\nI sit with that for a moment and let gratitude rise.\n\nThank You for this morning. For the light coming through the window. For the quiet before the day begins. For the fact that I am here, that I am safe, that I am loved by the God who made the universe.\n\nThese are not small things. I want to receive them as the profound gifts they actually are.\n\nLet me carry this gratitude through today. Not just as a feeling but as a posture. A way of moving through the world that notices Your goodness everywhere and gives it back to You in thanks.\n\nWhat a gift today is, Lord. Thank You.\n\nAmen.' },
+      broken: { short: 'Lord, I am broken but I can still find gratitude. Thank You that You have not left. That is enough.\n\nAmen.', medium: 'Father,\n\nI am broken this morning. But I want to find something to be grateful for — even one thing — because I believe gratitude is one of the ways You lift broken hearts.\n\nThank You that You are still here. That is my gratitude today. It is the most important one.\n\nAmen.', long: 'God,\n\nThis feels like an impossible prayer to pray this morning. A prayer of gratitude when I am broken.\n\nBut I want to try. Because somewhere I have read that a sacrifice of praise — gratitude offered even when it costs something — is precious to You.\n\nSo here it is.\n\nThank You that I woke up. Thank You that You know exactly how I feel. Thank You that You have not abandoned me even though I feel abandoned by the circumstances. Thank You that this is not the end of my story.\n\nThank You that somewhere on the other side of what I am going through, there will be a day when I look back and see Your hand in all of it.\n\nI am broken, Lord. But I am grateful. And I trust that You can hold both of those things at the same time.\n\nAmen.' },
+      determined: { short: 'Father, I am ready and grateful today. Thank You for the gifts, the calling and the chance to use them.\n\nAmen.', medium: 'Lord,\n\nDetermination and gratitude make a powerful pair. I feel both this morning.\n\nThank You for the abilities You have given me and for the opportunities to use them today. Let gratitude keep my determination humble and let determination make my gratitude active.\n\nAmen.', long: 'Lord,\n\nI am grateful and I am ready. Those two things together feel like a gift.\n\nThank You for the life You have given me. For the gifts, the calling, the relationships, the opportunities. I do not deserve any of it and yet here I am, surrounded by grace.\n\nLet gratitude be the foundation of everything I pursue today. Let it keep me humble when I succeed and steady when I struggle. Let it keep my eyes on the right things — on what You have given me rather than on what I am chasing.\n\nI go into today grateful, Lord. And from that gratitude I go with energy and purpose.\n\nLet me use this day well.\n\nAmen.' }
+    }
+  },
+  joy: {
+    morning: {
+      grateful: { short: 'Lord, I come to this morning joyful and grateful. Let Your joy be my strength today.\n\nAmen.', medium: 'Father,\n\nThank You for the joy in my heart this morning. It is not manufactured — it is from You.\n\nLet it be contagious today. Let the people around me catch something of the joy that comes from knowing I am loved by God.\n\nAmen.', long: 'Good morning, Lord!\n\nWhat a joy it is to be alive. What a joy to have this new day, this new morning, this fresh start that Your mercy provides.\n\nI come to You this morning with a heart that is genuinely glad. Not because everything is perfect but because You are real and You are good and You have given me reasons to rejoice that go deeper than circumstances.\n\nLet Your joy be my strength today. Not a manufactured happiness — but the deep, sustainable joy that comes from knowing I am held by You.\n\nLet me be someone today who radiates something different. Who has joy that people notice and ask about. And let the answer always be that this joy has a source, and His name is Jesus.\n\nAmen.' },
+      struggling: { short: 'Lord, joy feels far today but You said it is my strength. Give me even a small piece of it to hold onto.\n\nAmen.', medium: 'Father,\n\nJoy does not come naturally this morning. But Your Word says the joy of the Lord is my strength — and I need strength.\n\nSo I choose joy. Not a pretend happiness but a deep trust that You are good and that is enough to be glad about.\n\nAmen.', long: 'God,\n\nI am praying for joy this morning even though joy feels quite far from where I am.\n\nAnd I think that is exactly the kind of prayer You love. Choosing joy in the middle of struggle. Claiming what You have promised even when the feelings are not cooperating.\n\nYour Word says the joy of the Lord is my strength. And I need strength. So I am choosing joy as an act of trust rather than a description of how I feel.\n\nLord, let that seed of chosen joy grow into something real today. Let me find moments of genuine delight — in something small and unexpected. Let the heaviness lift a little and let something of Your joy break through.\n\nYou are still good. You are still faithful. You still love me. That is enough to be joyful about.\n\nAmen.' },
+      tired: { short: 'Father, I am tired but I choose joy. You promised to turn mourning into dancing. I am holding that today.\n\nAmen.', medium: 'Lord,\n\nJoy and tiredness do not naturally go together. But You are the God who turns mourning into dancing.\n\nSo I ask You this morning: bring some joy into the tiredness. Let me find something to smile about, something to be glad about, something to lift my heart.\n\nAmen.', long: 'Lord,\n\nI am tired this morning. And tired people do not always feel joyful.\n\nBut I know that joy in the Bible is not usually about feeling exuberant. It is about something deeper — a settled gladness that life in God is good, even when the days are hard.\n\nSo I ask for that kind of joy this morning. Not the jumping-up-and-down kind. The quiet, deep kind that says: even on tired mornings, I am held. Even when I am running low, You never are. Even when the day feels long, You are in it.\n\nBring some joy into my tiredness today, Lord. Even just a moment or two. A laugh I did not expect. A beauty I noticed. A small grace that reminded me You are here.\n\nThat is enough.\n\nAmen.' },
+      hopeful: { short: 'Lord, I am joyful and hopeful today. What a combination! Use both for Your glory.\n\nAmen.', medium: 'Father,\n\nJoy and hope together this morning — I feel both and they are wonderful.\n\nThank You for this. Let me carry both through the day. Let them be a light to the people around me and let them lead me well.\n\nAmen.', long: 'Lord,\n\nThis morning I feel both joyful and hopeful. And the combination makes me want to pray something bold.\n\nThank You for this gift. For the joy that bubbles up for no specific reason except that You are real and You are good. For the hope that says today is going to matter and something good is coming.\n\nI want to use this energy well. I want to carry it into the world and let it touch other people. Let my joy be contagious. Let my hope be encouraging. Let the combination of the two make me someone who lifts the spirits of everyone I encounter today.\n\nYou are the source of both. Keep the source flowing.\n\nAmen.' },
+      anxious: { short: 'Lord, anxiety and joy are fighting for space in me today. Let joy win. Fill me with Your gladness.\n\nAmen.', medium: 'Father,\n\nAnxiety is trying to steal my joy this morning. I refuse to let it.\n\nYou said I can have peace that passes understanding. You said the joy of the Lord is my strength. I claim both right now and I choose joy over anxiety.\n\nAmen.', long: 'God,\n\nThere is a battle in me this morning between anxiety and joy. Both are present. And I am choosing which one I am going to let lead.\n\nI choose joy.\n\nNot because the things I am anxious about are not real. They are. But I am choosing to believe that the joy You give is deeper and more durable than the anxiety that keeps trying to crowd it out.\n\nYour Word says Rejoice in the Lord always. It does not say rejoice when everything is fine. It says always. Even in the hard mornings. Even with the anxiety present.\n\nSo I rejoice. I choose gladness as an act of faith. I declare that You are good and that Your goodness is more solid than my fear.\n\nFill me with joy today, Lord. Let it be louder than the anxiety.\n\nAmen.' },
+      peaceful: { short: 'Father, peace and joy together this morning — it is almost too good. Thank You. Let me share it today.\n\nAmen.', medium: 'Lord,\n\nPeace and joy are both present this morning and I am overwhelmed with gratitude.\n\nLet today be full of moments that deepen both. Let me live from this beautiful place of joyful peace all day long.\n\nAmen.', long: 'Lord,\n\nI do not have words adequate for how I feel this morning. Peaceful and joyful at the same time.\n\nThis must be something of what You have in mind for Your children. Not a frantic happiness but this — this settled, glad, quiet delight in being alive and being loved.\n\nThank You.\n\nI want to honour this morning by carrying it well into the day. By not letting the ordinary pressures of life squander what You have given me at its start.\n\nLet the peace deepen as the day unfolds. Let the joy be steady. Let me be someone today who makes other people wonder what I have — and be ready to tell them.\n\nWhat a morning this is, Lord. Thank You.\n\nAmen.' },
+      broken: { short: 'Lord, I am broken but I have read that joy comes in the morning. I am waiting for it. Help me to wait with hope.\n\nAmen.', medium: 'Father,\n\nYour Word says weeping may stay for the night but joy comes in the morning. I am in the night right now, Lord. But I am choosing to believe that morning is coming.\n\nLet some joy find me today, even in the middle of the breaking.\n\nAmen.', long: 'God,\n\nI am praying for joy this morning from a broken place.\n\nThe Psalms give me permission to do this. They are full of people who were in pieces and yet chose to speak hope and joy into their own hearts — not because they felt it but because they trusted the God who promised it.\n\nYour Word says weeping may stay for the night but joy comes in the morning. I am in the night. But I believe that morning is coming.\n\nUntil it does, sit with me in this. Let Your presence be the thing that keeps my heart from complete despair. Let even the smallest glimmer of joy be a sign that You are here and that this is not the end.\n\nI am waiting for the morning, Lord. And I am trusting You to bring it.\n\nAmen.' },
+      determined: { short: 'Father, I am joyful and determined today. What a force for good that could be. Use me.\n\nAmen.', medium: 'Lord,\n\nJoy and determination together make something powerful. And I feel both this morning.\n\nUse them, Lord. Let me go into today with joyful purpose and let everything I do today be infused with the gladness that comes from knowing I am working alongside You.\n\nAmen.', long: 'Lord,\n\nI am joyful. I am determined. And I am Yours.\n\nThat is an extraordinary combination this morning.\n\nJoy gives me energy that does not drain the people around me. Determination gives me focus that actually produces something. And belonging to You gives it all meaning.\n\nLet me use today well. Let me work with joy, pursue with determination and give everything I do the quality that comes from doing it for an audience of One.\n\nLet others be drawn to the joy they see in me and let that joy point them to its source.\n\nI am ready, Lord. Let us make this a good one.\n\nAmen.' }
+    }
+  }
+};
+
+var DECLARATIONS = {
+  strength:    'I am strong in the Lord and in His mighty power. He is my source, not my circumstances.',
+  peace:       'The peace of God, which passes all understanding, is guarding my heart and mind right now.',
+  healing:     'By His wounds I am healed. Restoration is already at work in me.',
+  guidance:    'The Lord is ordering my steps. His Word is a lamp to my feet.',
+  gratitude:   'I have so much to be grateful for. My life is full of Gods goodness.',
+  love:        'Nothing can separate me from the love of God. I am fully known and deeply loved.',
+  anxiety:     'I have not been given a spirit of fear. I operate in power, love and a sound mind.',
+  grief:       'The Lord is close to the brokenhearted. I am not alone in this.',
+  faith:       'I live by faith and not by sight. What I cannot see, I trust to God.',
+  work:        'I am Gods handiwork. My work today has eternal significance.',
+  family:      'My family is held in Gods hands. His love covers us all.',
+  forgiveness: 'I am forgiven completely. And I choose to forgive as I have been forgiven.',
+  purpose:     'My life has purpose. God prepared good works for me to walk in.',
+  joy:         'The joy of the Lord is my strength. Nothing can steal what He has given me.'
+};
+
+var FOCUSES = {
+  strength:    'Today I will not rely on my own strength. I will ask God for His before each challenge.',
+  peace:       'Today I will choose peace over panic. Before I react, I will breathe and trust.',
+  healing:     'Today I will be gentle with myself. I am healing and that takes time and grace.',
+  guidance:    'Today I will pause before deciding. I will ask God first and listen before acting.',
+  gratitude:   'Today I will notice three specific things to be grateful for and name them.',
+  love:        'Today I will love well. I will put others first in at least one significant way.',
+  anxiety:     'Today when anxiety rises, I will pray instead of worrying. Every single time.',
+  grief:       'Today I will give myself permission to feel without guilt and to heal without rushing.',
+  faith:       'Today I will act on what I believe even when I cannot see the outcome.',
+  work:        'Today I will work as if I am working for God directly. Because I am.',
+  family:      'Today I will be fully present with the people I love. Phones down, eyes up.',
+  forgiveness: 'Today I will release one thing I have been holding onto. Let it go.',
+  purpose:     'Today I will do one thing that aligns with who God made me to be.',
+  joy:         'Today I will choose joy deliberately at least three times, regardless of how I feel.'
+};
+
+/* ── STATE HELPERS ── */
+function setTime(t) {
+  selTime = t;
+  document.querySelectorAll('.time-group .opt-pill').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('time-' + t).classList.add('active');
+}
+function setNeed(n) {
+  selNeed = n;
+  document.querySelectorAll('.need-group .opt-pill').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('need-' + n).classList.add('active');
+}
+function setMood(m) {
+  selMood = m;
+  document.querySelectorAll('.mood-group .opt-pill').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('mood-' + m).classList.add('active');
+}
+function setLen(l) {
+  selLen = l;
+  document.querySelectorAll('.length-group .opt-pill').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('len-' + l).classList.add('active');
+}
+
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function generate() {
+  /* ── defaults if nothing selected ── */
+  var h = new Date().getHours();
+  var t = selTime || (h < 12 ? 'morning' : h < 17 ? 'afternoon' : h < 21 ? 'evening' : 'night');
+  var n = selNeed || 'peace';
+  var m = selMood || 'hopeful';
+  var l = selLen  || 'medium';
+
+  /* ── pick verse (prefer need, fallback to time) ── */
+  var vArr = (VERSES[n] || VERSES[t]);
+  var verse = rnd(vArr);
+
+  /* ── pick prayer ── */
+  var prayerText = '';
+  var pBank = PRAYERS[n] && PRAYERS[n][t] && PRAYERS[n][t][m];
+  if (!pBank) {
+    /* fallback chain */
+    var fallbackNeeds = ['strength','peace','gratitude','joy'];
+    for (var fi = 0; fi < fallbackNeeds.length; fi++) {
+      var fn = fallbackNeeds[fi];
+      if (PRAYERS[fn] && PRAYERS[fn][t] && PRAYERS[fn][t][m]) { pBank = PRAYERS[fn][t][m]; break; }
+    }
+  }
+  if (!pBank) { pBank = PRAYERS.peace.morning.hopeful; }
+  prayerText = pBank[l] || pBank.medium || pBank.short;
+
+  var title = (TITLES[t] && TITLES[t][n]) ? TITLES[t][n] : 'A Prayer for Today';
+  var declaration = DECLARATIONS[n] || DECLARATIONS.peace;
+  var focus = FOCUSES[n] || FOCUSES.peace;
+
+  currentPrayer = { time: t, need: n, mood: m, len: l, prayer: prayerText, title: title, verse: verse };
+
+  /* ── update card ── */
+  var card = document.getElementById('prayerCard');
+  card.className = 'prayer-card need-' + n + ' show';
+
+  document.getElementById('pcTimeBadge').textContent = t.toUpperCase();
+  document.getElementById('pcNeedBadge').textContent = n.toUpperCase();
+  document.getElementById('pcMoodBadge').textContent = m.toUpperCase();
+  document.getElementById('pcTitle').textContent = title;
+  document.getElementById('pcVerse').textContent = '\u201c' + verse.v + '\u201d';
+  document.getElementById('pcRef').textContent = '\u2014 ' + verse.r;
+  document.getElementById('pcPrayer').textContent = prayerText;
+  document.getElementById('pcDeclare').textContent = declaration;
+  document.getElementById('pcFocus').textContent = focus;
+  document.getElementById('heartIcon').textContent = '🤍';
+
+  document.getElementById('actionsRow').style.display = 'grid';
+  setTimeout(function(){ card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 80);
+}
+
+/* ── ACTIONS ── */
+function copyPrayer() {
+  if (!currentPrayer) return;
+  var text = currentPrayer.prayer + '\n\n\u201c' + currentPrayer.verse.v + '\u201d\n' + currentPrayer.verse.r + '\n\ndailyprayersandblessings.com';
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.readOnly = true;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0,99999);
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).catch(function(){}); }
+  var lbl = document.getElementById('copyLabel');
+  lbl.textContent = 'Copied!';
+  setTimeout(function(){ lbl.textContent = 'Copy'; }, 2500);
+}
+
+function shareWhatsApp() {
+  if (!currentPrayer) return;
+  var msg = encodeURIComponent('A prayer for today:\n\n' + currentPrayer.prayer.substring(0,280) + '...\n\ndailyprayersandblessings.com');
+  window.open('https://wa.me/?text=' + msg, '_blank');
+}
+
+function savePrayer() {
+  if (!currentPrayer) return;
+  var already = savedPrayers.find(function(s){ return s.prayer === currentPrayer.prayer; });
+  if (!already) {
+    savedPrayers.unshift({ need: currentPrayer.need, title: currentPrayer.title, prayer: currentPrayer.prayer });
+    document.getElementById('heartIcon').textContent = '❤️';
+    renderSaved();
+  }
+}
+
+function renderSaved() {
+  var sec = document.getElementById('savedSection');
+  if (savedPrayers.length === 0) { sec.className = 'saved-section'; return; }
+  sec.className = 'saved-section show';
+  document.getElementById('savedList').innerHTML = savedPrayers.map(function(s){
+    return '<div class="saved-item"><div class="saved-need">' + s.need.toUpperCase() + '</div><div class="saved-preview">' + s.prayer.substring(0,120) + '...</div></div>';
+  }).join('');
+}
+
+function clearSaved() {
+  savedPrayers = [];
+  renderSaved();
+  var h = document.getElementById('heartIcon');
+  if (h) h.textContent = '🤍';
+}
+
+/* ── INIT ── */
+(function(){
+  var days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var now    = new Date();
+  var h      = now.getHours();
+  var greet  = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : h < 21 ? 'Good evening' : 'Good night';
+  var tod    = h < 12 ? 'morning' : h < 17 ? 'afternoon' : h < 21 ? 'evening' : 'night';
+
+  document.getElementById('dayPill').textContent  = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate();
+  document.getElementById('timePill').textContent = greet;
+
+  var dayVerses = [
+    '"This is the day the Lord has made; let us rejoice and be glad in it." — Ps 118:24',
+    '"His mercies begin afresh each morning." — Lam 3:23',
+    '"In the morning I lay my requests before you." — Ps 5:3',
+    '"The Lord is my shepherd; I lack nothing." — Ps 23:1',
+    '"I can do all this through him who gives me strength." — Phil 4:13',
+    '"The joy of the Lord is your strength." — Neh 8:10',
+    '"Cast all your anxiety on him, for he cares for you." — 1 Pet 5:7'
+  ];
+  document.getElementById('versePill').textContent = dayVerses[now.getDay()];
+
+  /* Auto-select time of day */
+  setTime(tod);
+})();
+</script>
+</body>
+</html>
