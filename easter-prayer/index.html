@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easter Prayer & Reflection – He Is Risen! | Daily Prayers & Blessings</title>
+<meta name="description" content="Celebrate Easter with a beautiful personalised prayer and reflection. Choose your Easter theme and receive an uplifting prayer, scripture and devotional thought.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:    #f59e0b;
+  --gold-dk: #d97706;
+  --rose:    #f43f5e;
+  --rose-lt: #fff1f2;
+  --purple:  #7c3aed;
+  --purple-lt: #f5f3ff;
+  --green:   #10b981;
+  --green-lt:#ecfdf5;
+  --sky:     #0ea5e9;
+  --sky-lt:  #f0f9ff;
+  --orange:  #f97316;
+  --orange-lt:#fff7ed;
+  --ink:     #1a0a2e;
+  --muted:   #6b7280;
+  --white:   #ffffff;
+  --border:  rgba(245,158,11,0.25);
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #fffbf0;
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Festive background */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(245,158,11,0.18), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 88% 8%,   rgba(244,63,94,0.14), transparent 52%),
+    radial-gradient(ellipse 50% 40% at 5%  90%,  rgba(16,185,129,0.12), transparent 58%),
+    radial-gradient(ellipse 60% 45% at 92% 88%,  rgba(124,58,237,0.13), transparent 55%),
+    radial-gradient(ellipse 45% 35% at 50% 50%,  rgba(14,165,233,0.07), transparent 65%);
+}
+
+/* Floating egg decorations */
+body::after {
+  content: '🥚';
+  position: fixed;
+  top: 20px; right: 20px;
+  font-size: 40px;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+  animation: floatEgg 6s ease-in-out infinite;
+}
+
+@keyframes floatEgg {
+  0%,100% { transform: translateY(0) rotate(-10deg); }
+  50% { transform: translateY(-12px) rotate(10deg); }
+}
+
+.wrapper {
+  position: relative; z-index: 1;
+  max-width: 760px; margin: 0 auto;
+  padding: 44px 20px 80px;
+}
+
+/* ── HEADER ── */
+header {
+  text-align: center;
+  margin-bottom: 36px;
+  animation: fadeDown 0.8s ease both;
+}
+
+.cross-risen {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 88px; height: 88px;
+  background: linear-gradient(135deg, #f59e0b, #f97316, #f43f5e);
+  border-radius: 50%;
+  font-size: 42px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 32px rgba(245,158,11,0.45), 0 0 0 12px rgba(245,158,11,0.1);
+  animation: sunPulse 4s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+  0%,100% { box-shadow: 0 6px 32px rgba(245,158,11,0.45), 0 0 0 12px rgba(245,158,11,0.10); }
+  50%      { box-shadow: 0 8px 48px rgba(245,158,11,0.60), 0 0 0 20px rgba(245,158,11,0.06); }
+}
+
+.eyebrow {
+  font-size: 11px; font-weight: 900; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--gold-dk);
+  margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+}
+.eyebrow::before, .eyebrow::after {
+  content: '✦'; font-size: 10px; opacity: 0.6;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 7vw, 58px);
+  font-weight: 800; line-height: 1.1;
+  margin-bottom: 10px; color: var(--ink);
+}
+h1 em { font-style: italic; color: var(--rose); }
+h1 span { color: var(--gold-dk); }
+
+.tagline {
+  font-size: 17px; font-weight: 400;
+  color: var(--muted); line-height: 1.65;
+  max-width: 520px; margin: 0 auto;
+}
+
+/* ── RESURRECTION BANNER ── */
+.risen-banner {
+  background: linear-gradient(135deg, #7c3aed, #a855f7, #f43f5e);
+  border-radius: 24px;
+  padding: 28px 32px;
+  text-align: center;
+  margin-bottom: 32px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 8px 36px rgba(124,58,237,0.3);
+  animation: fadeUp 0.7s ease 0.1s both;
+}
+.risen-banner::before {
+  content: '✝';
+  position: absolute; top: -20px; left: 14px;
+  font-size: 150px; color: rgba(255,255,255,0.06);
+  line-height: 1; font-family: serif;
+  pointer-events: none;
+}
+.risen-label {
+  font-size: 10px; font-weight: 900; letter-spacing: 0.28em;
+  text-transform: uppercase; color: rgba(255,220,100,0.9);
+  margin-bottom: 12px;
+}
+.risen-verse {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(17px, 3.5vw, 23px);
+  font-style: italic; color: #fff;
+  line-height: 1.7; margin-bottom: 10px;
+}
+.risen-ref {
+  font-size: 14px; font-weight: 800;
+  color: #fde68a; letter-spacing: 0.06em;
+}
+
+/* ── DAY SELECTOR ── */
+.section-label {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+  text-align: center; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-label::before, .section-label::after {
+  content: ''; flex: 1; height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.3));
+}
+.section-label::after {
+  background: linear-gradient(90deg, rgba(245,158,11,0.3), transparent);
+}
+
+/* ── THEME GRID ── */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px; margin-bottom: 28px;
+  animation: fadeUp 0.7s ease 0.15s both;
+}
+@media(min-width:560px){ .theme-grid { grid-template-columns: repeat(3, 1fr); } }
+@media(min-width:720px){ .theme-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.theme-btn {
+  padding: 18px 10px 16px;
+  border: 2.5px solid var(--border);
+  border-radius: 20px;
+  background: var(--white);
+  cursor: pointer; transition: all 0.22s;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 2px 10px rgba(245,158,11,0.08);
+}
+.theme-btn .t-icon { font-size: 28px; display: block; margin-bottom: 7px; }
+.theme-btn .t-name { font-size: 13px; font-weight: 800; color: var(--muted); line-height: 1.3; }
+.theme-btn:hover {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, #fffbeb, #fef9c3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(245,158,11,0.2);
+}
+.theme-btn.active {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  box-shadow: 0 0 0 4px rgba(245,158,11,0.15), 0 8px 24px rgba(245,158,11,0.2);
+  transform: translateY(-3px);
+}
+.theme-btn.active .t-name { color: var(--gold-dk); }
+
+/* ── WHO IS PRAYING ── */
+.who-wrap {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 20px; padding: 22px 26px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(245,158,11,0.08);
+  animation: fadeUp 0.7s ease 0.2s both;
+}
+.who-label {
+  font-size: 14px; font-weight: 800; color: var(--ink);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.who-options { display: flex; gap: 10px; flex-wrap: wrap; }
+.who-btn {
+  padding: 10px 18px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--white);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 800;
+  color: var(--muted); cursor: pointer;
+  transition: all 0.2s;
+}
+.who-btn:hover { border-color: var(--rose); color: var(--rose); background: var(--rose-lt); }
+.who-btn.active {
+  background: linear-gradient(135deg, var(--rose), #fb7185);
+  color: white; border-color: var(--rose);
+  box-shadow: 0 4px 16px rgba(244,63,94,0.3);
+}
+
+/* ── GENERATE BUTTON ── */
+.gen-btn {
+  width: 100%; padding: 22px;
+  background: linear-gradient(135deg, #f59e0b, #f97316, #f43f5e);
+  color: #fff; border: none;
+  border-radius: 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 21px; font-weight: 900;
+  cursor: pointer; letter-spacing: 0.02em;
+  box-shadow: 0 6px 32px rgba(245,158,11,0.45);
+  transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+  margin-bottom: 32px;
+  animation: fadeUp 0.7s ease 0.25s both;
+  position: relative; overflow: hidden;
+}
+.gen-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  pointer-events: none;
+}
+.gen-btn:hover { opacity: 0.93; transform: translateY(-3px); box-shadow: 0 10px 40px rgba(245,158,11,0.55); }
+.gen-btn:active { transform: translateY(0); }
+
+/* ── PRAYER CARD ── */
+.prayer-card {
+  display: none;
+  border-radius: 28px; overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 52px rgba(0,0,0,0.12);
+  animation: riseUp 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.prayer-card.show { display: block; }
+
+@keyframes riseUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Card header - colour by theme */
+.pc-header {
+  padding: 40px 36px 32px;
+  text-align: center; position: relative; overflow: hidden;
+}
+@media(max-width:480px){ .pc-header { padding: 28px 20px 24px; } }
+
+.pc-header::before {
+  content: attr(data-emoji);
+  position: absolute; top: -10px; right: 10px;
+  font-size: 100px; opacity: 0.12; line-height: 1;
+  pointer-events: none;
+}
+
+/* Theme colour overrides */
+.theme-resurrection .pc-header { background: linear-gradient(135deg, #7c3aed, #a855f7, #c084fc); color: white; }
+.theme-resurrection .pc-tag,
+.theme-resurrection .pc-who { color: rgba(255,220,100,0.9); }
+.theme-resurrection .pc-title,
+.theme-resurrection .pc-verse { color: white; }
+.theme-resurrection .pc-ref { color: #fde68a; }
+
+.theme-hope .pc-header { background: linear-gradient(135deg, #f59e0b, #fbbf24, #fef08a); }
+.theme-joy .pc-header { background: linear-gradient(135deg, #f43f5e, #fb7185, #fda4af); }
+.theme-renewal .pc-header { background: linear-gradient(135deg, #10b981, #34d399, #a7f3d0); }
+.theme-gratitude .pc-header { background: linear-gradient(135deg, #f97316, #fb923c, #fed7aa); }
+.theme-family .pc-header { background: linear-gradient(135deg, #0ea5e9, #38bdf8, #bae6fd); }
+.theme-children .pc-header { background: linear-gradient(135deg, #a855f7, #c084fc, #e9d5ff); }
+.theme-forgiveness .pc-header { background: linear-gradient(135deg, #ec4899, #f472b6, #fbcfe8); }
+.theme-morning .pc-header { background: linear-gradient(135deg, #f59e0b, #fcd34d, #fffbeb); }
+.theme-sunday .pc-header { background: linear-gradient(135deg, #7c3aed, #8b5cf6, #ddd6fe); }
+.theme-lent .pc-header { background: linear-gradient(135deg, #64748b, #94a3b8, #e2e8f0); }
+.theme-cross .pc-header { background: linear-gradient(135deg, #1e293b, #334155, #64748b); color: white; }
+.theme-cross .pc-tag, .theme-cross .pc-who { color: rgba(255,220,100,0.9); }
+.theme-cross .pc-title, .theme-cross .pc-verse { color: #f1f5f9; }
+.theme-cross .pc-ref { color: #fde68a; }
+
+.pc-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 900;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 6px 18px; border-radius: 999px;
+  margin-bottom: 16px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(6px);
+  color: rgba(30,10,46,0.8);
+}
+.pc-who {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  opacity: 0.7; margin-bottom: 6px;
+}
+.pc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 800; line-height: 1.2;
+  margin-bottom: 20px; color: var(--ink);
+}
+
+/* Scripture in header */
+.pc-scripture-box {
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 16px 20px; text-align: left;
+}
+.pc-verse {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-style: italic;
+  line-height: 1.7; margin-bottom: 8px;
+  color: var(--ink);
+}
+.pc-ref {
+  font-size: 12px; font-weight: 900;
+  letter-spacing: 0.08em; color: var(--gold-dk);
+}
+
+/* Prayer body */
+.pc-prayer {
+  background: var(--white);
+  padding: 32px 36px;
+  border-top: 4px solid rgba(245,158,11,0.2);
+}
+@media(max-width:480px){ .pc-prayer { padding: 24px 20px; } }
+
+.pc-prayer-label {
+  font-size: 10px; font-weight: 900;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--gold-dk); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.pc-prayer-label::after {
+  content: ''; flex: 1; height: 2px;
+  background: linear-gradient(90deg, rgba(245,158,11,0.4), transparent);
+  border-radius: 2px;
+}
+.pc-prayer-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(16px, 2.6vw, 20px);
+  font-weight: 500; line-height: 1.95;
+  color: var(--ink);
+}
+
+/* Reflection */
+.pc-reflection {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  padding: 24px 36px;
+  border-top: 2px solid rgba(245,158,11,0.2);
+}
+@media(max-width:480px){ .pc-reflection { padding: 20px; } }
+.pc-reflection-label {
+  font-size: 10px; font-weight: 900;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--gold-dk); margin-bottom: 12px;
+}
+.pc-reflection-text {
+  font-size: 16px; font-weight: 600;
+  color: #92400e; line-height: 1.7;
+  font-style: italic;
+}
+
+/* Easter truth */
+.pc-truth {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  padding: 24px 36px;
+  border-top: 2px solid rgba(16,185,129,0.2);
+}
+@media(max-width:480px){ .pc-truth { padding: 20px; } }
+.pc-truth-label {
+  font-size: 10px; font-weight: 900;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 12px;
+}
+.pc-truth-text {
+  font-size: 17px; font-weight: 800;
+  color: #065f46; line-height: 1.6;
+}
+
+/* ── ACTIONS ── */
+.actions-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px; margin-bottom: 28px;
+}
+@media(min-width:480px){ .actions-row { grid-template-columns: repeat(4, 1fr); } }
+
+.act-btn {
+  padding: 16px 8px;
+  border: 2.5px solid var(--border);
+  border-radius: 16px;
+  background: var(--white);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 800;
+  color: var(--muted); cursor: pointer;
+  transition: all 0.2s; text-align: center;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  box-shadow: 0 2px 8px rgba(245,158,11,0.08);
+}
+.act-btn .ab-icon { font-size: 22px; }
+.act-btn:hover {
+  border-color: var(--gold); color: var(--gold-dk);
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(245,158,11,0.18);
+}
+.act-btn.saved {
+  border-color: var(--green); color: var(--green);
+  background: var(--green-lt);
+}
+
+/* ── SAVED PRAYERS ── */
+.saved-section { display: none; margin-bottom: 28px; }
+.saved-section.show { display: block; animation: fadeUp 0.4s ease both; }
+.saved-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.saved-title {
+  font-size: 12px; font-weight: 900;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+}
+.clear-saved { font-size: 12px; font-weight: 800; color: var(--rose); cursor: pointer; }
+.saved-item {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border: 1.5px solid var(--border); border-radius: 14px;
+  padding: 16px 18px; margin-bottom: 10px;
+}
+.saved-theme { font-size: 12px; font-weight: 900; color: var(--gold-dk); margin-bottom: 5px; }
+.saved-preview {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; font-style: italic; color: var(--muted); line-height: 1.6;
+}
+
+/* ── EASTER EGGS DECORATION ── */
+.egg-row {
+  display: flex; justify-content: center; gap: 16px;
+  margin-bottom: 28px; flex-wrap: wrap;
+  animation: fadeUp 0.7s ease 0.05s both;
+}
+.egg-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 0.04em;
+  border: 2px solid transparent;
+  cursor: default;
+}
+.egg-pill.e1 { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+.egg-pill.e2 { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+.egg-pill.e3 { background: #f5f3ff; color: #5b21b6; border-color: #ddd6fe; }
+.egg-pill.e4 { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+.egg-pill.e5 { background: #f0f9ff; color: #0c4a6e; border-color: #bae6fd; }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; font-size: 14px;
+  color: var(--muted); margin-top: 36px;
+  padding-top: 24px;
+  border-top: 2px solid var(--border);
+}
+footer a { color: var(--gold-dk); text-decoration: none; font-weight: 800; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="cross-risen">✝️</div>
+    <div class="eyebrow">He Is Risen · Hallelujah</div>
+    <h1><em>Easter</em> Prayer<br>&amp; <span>Reflection</span></h1>
+    <p class="tagline">Celebrate the resurrection with a beautiful personalised prayer. Choose your Easter theme and receive an uplifting prayer, scripture and devotional thought.</p>
+  </header>
+
+  <!-- EASTER PILL TAGS -->
+  <div class="egg-row">
+    <span class="egg-pill e1">🌸 He is Risen</span>
+    <span class="egg-pill e2">🌿 New Life</span>
+    <span class="egg-pill e3">✝️ The Cross</span>
+    <span class="egg-pill e4">☀️ Easter Morning</span>
+    <span class="egg-pill e5">🕊️ Hope & Peace</span>
+  </div>
+
+  <!-- RESURRECTION BANNER -->
+  <div class="risen-banner">
+    <div class="risen-label">✦ The Easter Promise ✦</div>
+    <div class="risen-verse" id="bannerVerse">"I am the resurrection and the life. The one who believes in me will live, even though they die."</div>
+    <div class="risen-ref" id="bannerRef">John 11:25 (NIV)</div>
+  </div>
+
+  <!-- THEME SELECTOR -->
+  <div class="section-label">Choose Your Easter Theme</div>
+  <div class="theme-grid">
+    <button class="theme-btn active" id="theme-resurrection" onclick="setTheme('resurrection')">
+      <span class="t-icon">✝️</span><span class="t-name">He Is Risen</span>
+    </button>
+    <button class="theme-btn" id="theme-hope" onclick="setTheme('hope')">
+      <span class="t-icon">🌅</span><span class="t-name">Easter Hope</span>
+    </button>
+    <button class="theme-btn" id="theme-joy" onclick="setTheme('joy')">
+      <span class="t-icon">🌸</span><span class="t-name">Easter Joy</span>
+    </button>
+    <button class="theme-btn" id="theme-renewal" onclick="setTheme('renewal')">
+      <span class="t-icon">🌿</span><span class="t-name">New Life</span>
+    </button>
+    <button class="theme-btn" id="theme-gratitude" onclick="setTheme('gratitude')">
+      <span class="t-icon">🙏</span><span class="t-name">Gratitude</span>
+    </button>
+    <button class="theme-btn" id="theme-family" onclick="setTheme('family')">
+      <span class="t-icon">👨‍👩‍👧</span><span class="t-name">Family Easter</span>
+    </button>
+    <button class="theme-btn" id="theme-children" onclick="setTheme('children')">
+      <span class="t-icon">🐣</span><span class="t-name">Children</span>
+    </button>
+    <button class="theme-btn" id="theme-forgiveness" onclick="setTheme('forgiveness')">
+      <span class="t-icon">🕊️</span><span class="t-name">Forgiveness</span>
+    </button>
+    <button class="theme-btn" id="theme-morning" onclick="setTheme('morning')">
+      <span class="t-icon">☀️</span><span class="t-name">Easter Morning</span>
+    </button>
+    <button class="theme-btn" id="theme-sunday" onclick="setTheme('sunday')">
+      <span class="t-icon">🎺</span><span class="t-name">Easter Sunday</span>
+    </button>
+    <button class="theme-btn" id="theme-lent" onclick="setTheme('lent')">
+      <span class="t-icon">🕯️</span><span class="t-name">End of Lent</span>
+    </button>
+    <button class="theme-btn" id="theme-cross" onclick="setTheme('cross')">
+      <span class="t-icon">💜</span><span class="t-name">The Cross</span>
+    </button>
+  </div>
+
+  <!-- WHO IS PRAYING -->
+  <div class="who-wrap">
+    <div class="who-label">🙋 Who is praying?</div>
+    <div class="who-options">
+      <button class="who-btn active" id="who-individual" onclick="setWho('individual')">Just Me</button>
+      <button class="who-btn" id="who-family" onclick="setWho('family')">My Family</button>
+      <button class="who-btn" id="who-church" onclick="setWho('church')">Our Church</button>
+      <button class="who-btn" id="who-children" onclick="setWho('children')">With Children</button>
+    </div>
+  </div>
+
+  <!-- GENERATE -->
+  <button class="gen-btn" onclick="generate()">🌅 Receive My Easter Prayer</button>
+
+  <!-- PRAYER CARD -->
+  <div class="prayer-card" id="prayerCard">
+    <div class="pc-header" id="pcHeader" data-emoji="✝️">
+      <div class="pc-tag" id="pcTag">✝️ HE IS RISEN</div>
+      <div class="pc-who" id="pcWho">A PERSONAL PRAYER</div>
+      <div class="pc-title" id="pcTitle">An Easter Prayer</div>
+      <div class="pc-scripture-box">
+        <div class="pc-verse" id="pcVerse">—</div>
+        <div class="pc-ref" id="pcRef">—</div>
+      </div>
+    </div>
+    <div class="pc-prayer">
+      <div class="pc-prayer-label">🙏 Your Easter Prayer</div>
+      <div class="pc-prayer-text" id="pcPrayer">—</div>
+    </div>
+    <div class="pc-reflection">
+      <div class="pc-reflection-label">✦ Easter Reflection</div>
+      <div class="pc-reflection-text" id="pcReflection">—</div>
+    </div>
+    <div class="pc-truth">
+      <div class="pc-truth-label">🌿 Declare This Truth</div>
+      <div class="pc-truth-text" id="pcTruth">—</div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions-row" id="actionsRow" style="display:none">
+    <button class="act-btn" onclick="copyPrayer()">
+      <span class="ab-icon">📋</span>
+      <span id="copyLabel">Copy Prayer</span>
+    </button>
+    <button class="act-btn" onclick="shareWhatsApp()">
+      <span class="ab-icon">💬</span>
+      <span>WhatsApp</span>
+    </button>
+    <button class="act-btn" onclick="savePrayer()">
+      <span class="ab-icon" id="heartIcon">🤍</span>
+      <span>Save</span>
+    </button>
+    <button class="act-btn" onclick="generate()">
+      <span class="ab-icon">🔄</span>
+      <span>New Prayer</span>
+    </button>
+  </div>
+
+  <!-- SAVED -->
+  <div class="saved-section" id="savedSection">
+    <div class="saved-header">
+      <span class="saved-title">❤️ Saved Prayers</span>
+      <span class="clear-saved" onclick="clearSaved()">Clear all</span>
+    </div>
+    <div id="savedList"></div>
+  </div>
+
+  <footer>
+    <p>🌸 <a href="https://dailyprayersandblessings.com">dailyprayersandblessings.com</a> · He is risen — and that changes everything 🌅</p>
+  </footer>
+
+</div>
+
+<script>
+var currentTheme = 'resurrection';
+var currentWho = 'individual';
+var currentPrayer = null;
+var savedPrayers = [];
+var usedPrayers = {};
+
+var WHO_LABELS = {
+  individual: 'A PERSONAL PRAYER',
+  family: 'A FAMILY PRAYER',
+  church: 'A CHURCH PRAYER',
+  children: 'A PRAYER WITH CHILDREN'
+};
+
+var DATA = {
+  resurrection: {
+    tag: 'HE IS RISEN',
+    emoji: 'RES',
+    title: { individual: 'A Prayer of Resurrection Joy', family: 'A Family Resurrection Prayer', church: 'A Church Easter Prayer', children: 'An Easter Prayer for Little Hearts },
+    scriptures: [
+      { v: 'He is not here; he has risen, just as he said. Come and see the place where he lay.', r: 'Matthew 28:6 (NIV)' },
+      { v: 'I am the resurrection and the life. The one who believes in me will live, even though they die.', r: 'John 11:25 (NIV)' },
+      { v: 'But Christ has indeed been raised from the dead, the firstfruits of those who have fallen asleep.', r: '1 Corinthians 15:20 (NIV)' },
+      { v: 'He was delivered over to death for our sins and was raised to life for our justification.', r: 'Romans 4:25 (NIV)' }
+    ],
+    prayers: {
+      individual: [
+        'Lord Jesus,\n\nToday I stand at the empty tomb and I am undone by what happened here.\n\nYou died. You were buried. And then — on the third day — You rose. Death could not hold You. The grave could not keep You. And because of that one staggering truth, everything about my life and my future has changed.\n\nOn this Easter day I celebrate not just an event in history but a living reality. You are alive right now. You are risen. And that means sin is defeated, death is conquered, and the door that was closed between me and the Father has been thrown wide open.\n\nThank You for the empty tomb. Thank You for the folded grave clothes. Thank You for the women who ran with trembling and great joy. Thank You that I am among those who have come to believe.\n\nLet the reality of Your resurrection change how I live today — with confidence, with hope and with a joy that no circumstance can touch.\n\nHe is risen. He is risen indeed.\n\nAmen.',
+        'Risen Lord,\n\nThree days. That is how long it took for the greatest reversal in the history of the universe. Friday was darkness. Saturday was silence. But Sunday changed everything.\n\nI come to You this Easter with a heart that needs reminding of what the resurrection means. It means my past is forgiven. It means my present has purpose. It means my future is secured. Death has lost its sting. The grave has lost its victory.\n\nLet me carry the resurrection with me today — not as theology but as reality. You are not a memory to be honoured. You are a living Lord to be followed.\n\nBecause You rose, I too will rise. Because You live, I live also.\n\nHallelujah.\n\nAmen.'
+      ],
+      family: [
+        'Heavenly Father,\n\nWe gather as a family today on the most important morning of the year. We come to the empty tomb together and we declare with one voice: He is risen!\n\nThank You for giving us this family to celebrate Easter with. Thank You that we can tell the story to our children and our children\s children. The resurrection is not just history. It is our inheritance.\n\nBless our family today. Let the joy of Easter fill every room of our home. Let the love of Christ that was demonstrated at the cross and confirmed at the empty tomb be the foundation of everything we build together.\n\nAs we celebrate with food and laughter and togetherness today, let us never forget what we are really celebrating: that Jesus is alive, and because He lives, so do we.\n\nHappy Easter to every heart in this family.\n\nAmen.'
+      ],
+      church: [
+        'Lord of the Church,\n\nWe gather today as Your body to celebrate the day that defines us. The resurrection is not one of many Christian beliefs. It is the belief upon which all the others rest.\n\nAs we worship together this Easter Sunday, let every song be genuine praise, every prayer be heartfelt communication and every word spoken be anchored in the truth that You are alive.\n\nSend Your Spirit into this gathering. Let those who are hearing the Easter message for the first time hear it with ears of faith. Let those who have heard it many times be moved by it as though hearing it fresh.\n\nChurch, He is risen. Let us act like it.\n\nAmen.'
+      ],
+      children: [
+        'Dear Jesus,\n\nThank You for Easter! Thank You for dying on the cross for us and for coming back to life. That is the most amazing thing that has ever happened!\n\nHelp us to remember that Easter is not just about eggs and chocolate. It is about You. You are alive! You love us! And because of You we never have to be afraid of anything.\n\nBless these little ones today. Let them grow up knowing that You are real, that You love them and that You rose from the dead so they could be Your friends forever.\n\nHappy Easter Jesus!\n\nAmen.'
+      ]
+    },
+    reflection: { individual: 'The tomb is still empty. That is not past tense — it is present reality. Jesus is alive right now, at this very moment. How does that change the next 24 hours of your life?', family: 'What story from the resurrection would you share with your children today that they might carry with them for the rest of their lives?', church: 'As you gather with fellow believers today, what does the resurrection mean for your churchs mission in the world?', children: 'Jesus is alive! If Jesus is your friend and He is alive, you can talk to Him any time you want. What would you like to say to Him right now?' },
+    truth: 'Because Jesus rose from the dead, death is not the end. My story does not finish at the grave — it continues into eternity with a risen Saviour.'
+  },
+
+  hope: {
+    tag: 'EASTER HOPE',
+    emoji: 'HOPE',
+    title: { individual: 'A Prayer of Easter Hope', family: 'An Easter Hope Prayer for Our Family', church: 'A Prayer of Living Hope', children: 'A Hopeful Easter Prayer' },
+    scriptures: [
+      { v: 'Praise be to the God and Father of our Lord Jesus Christ! In his great mercy he has given us new birth into a living hope through the resurrection of Jesus Christ from the dead.', r: '1 Peter 1:3 (NIV)' },
+      { v: 'May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.', r: 'Romans 15:13 (NIV)' },
+      { v: 'For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.', r: 'Jeremiah 29:11 (NIV)' }
+    ],
+    prayers: {
+      individual: ['Father of Hope,\n\nEaster is the proof that hope is not wishful thinking. Hope is not a feeling that depends on circumstances. Hope is a Person — and He has risen from the dead.\n\nOn this Easter day I receive the living hope that the resurrection has won for me. My hope is not in my situation changing. My hope is in a God who overcame the worst that the world could throw at Him and came out the other side alive.\n\nWhatever I am facing right now — let Easter hope flood into it. Not the shallow optimism that says things might get better. The deep, resurrection-rooted certainty that says my future is in the hands of a God who conquers death.\n\nFill me with joy and peace as I trust You, Lord. Let me overflow with hope today.\n\nAmen.', 'Living God,\n\nToday reminds me that hope has a name. It is Jesus. And He is alive.\n\nI have been carrying some heavy things into this Easter. Uncertainties. Disappointments. Fears about what lies ahead. But the empty tomb speaks louder than all of them.\n\nIf God can raise the dead, He can certainly handle what I am facing. If death could not hold Jesus, then the thing I am afraid of has already met its match.\n\nI plant my hope firmly in the resurrection today. Let it grow and flourish and fill every anxious corner of my heart.\n\nHe is risen. And that is enough.\n\nAmen.'],
+      family: ['God of Hope,\n\nWe bring our family to You this Easter and we say together: our hope is in You.\n\nThrough every season — the easy ones and the hard ones — the resurrection is our anchor. What happened on Easter Sunday is the guarantee that Your promises are true and Your plans for us are good.\n\nLet Easter hope settle over our family today like morning light. Let it chase away every fear, every worry and every shadow that has crept in.\n\nWe are a family that believes. And because we believe in a risen Christ, we have a hope that cannot be shaken.\n\nAmen.'],
+      church: ['Lord of Hope,\n\nSend hope into this congregation today. Let every weary soul be reminded that the resurrection changes everything. Let every doubter be confronted by the evidence of an empty tomb. Let every grieving heart be comforted by the promise of reunion.\n\nWe are a people of hope because we serve a risen God. Let that hope overflow from this gathering into our city.\n\nAmen.'],
+      children: ['Dear God,\n\nThank You for Easter hope! That means no matter what happens, everything is going to be okay because Jesus is alive. Help us to be hopeful and happy today because we have the best news in the whole world.\n\nAmen.']
+    },
+    reflection: { individual: 'Easter hope is different from ordinary hope because it is rooted in an actual event. How does the fact of the resurrection ground your hope in something more solid than feelings or circumstances?', family: 'What is one area of your family life where you need Easter hope to break in right now?', church: 'How can your church be a community of hope to the people around you this Easter season?', children: 'What is one thing you are hoping for that you can tell God about today?' },
+    truth: 'My hope is alive because my Saviour is alive. The resurrection is not a story. It is a reality that changes everything about my present and my future.'
+  },
+
+  joy: {
+    tag: 'EASTER JOY',
+    emoji: 'JOY',
+    title: { individual: 'A Prayer of Easter Joy', family: 'A Family Prayer of Celebration', church: 'A Prayer of Resurrection Joy', children: 'A Joyful Easter Prayer' },
+    scriptures: [
+      { v: 'They departed quickly from the tomb with fear and great joy, and ran to tell his disciples.', r: 'Matthew 28:8 (ESV)' },
+      { v: 'You have turned my mourning into dancing; you have loosed my sackcloth and clothed me with gladness.', r: 'Psalm 30:11 (ESV)' },
+      { v: 'Shout for joy to the Lord, all the earth. Worship the Lord with gladness; come before him with joyful songs.', r: 'Psalm 100:1-2 (NIV)' }
+    ],
+    prayers: {
+      individual: ['Joyful Lord,\n\nI want to run like Mary Magdalene today. To run with trembling and great joy because the news is too good to walk calmly about.\n\nJesus is alive! The tomb is empty! Death has been defeated! These are not slogans. They are the most world-altering facts in human history.\n\nFill me with Easter joy today — the kind that does not depend on what is going right in my life but flows from what went right at the empty tomb. Unstoppable joy. Unreasonable joy. The joy that made the disciples think the women had lost their minds until they saw for themselves.\n\nLet me be someone who carries that joy into every room I enter today.\n\nHe is risen. Hallelujah!\n\nAmen.', 'Father,\n\nToday is a day for joy. Pure, uncomplicated, resurrection joy.\n\nI sometimes let the complications of life crowd out the simplicity of the gospel. But Easter strips it all back. Jesus died. Jesus rose. That is enough to be overwhelmed with joy for the rest of my life.\n\nGive me a childlike joy today. The kind that does not need everything to be figured out or sorted. The kind that simply believes and simply rejoices.\n\nI rejoice today, Lord. You have turned mourning into dancing and I am grateful beyond words.\n\nAmen.'],
+      family: ['Heavenly Father,\n\nOur home is full of laughter and celebration today and it is all because of You.\n\nThank You for Easter. Thank You for the joy that the resurrection brings into our family. Let the happiness we feel today be rooted in something deeper than a holiday. Let it be rooted in the truth that Jesus is alive and that changes everything for us.\n\nBless this celebration. Bless the food, the laughter, the togetherness. And in the middle of all of it, let us stop and say: this joy has a source, and His name is Jesus.\n\nAmen.'],
+      church: ['Lord,\n\nWe refuse to let Easter be ordinary. Today we shout. Today we sing. Today we celebrate with everything we have because the tomb is empty and our God is alive.\n\nLet this worship service be marked by joy that is real and deep and contagious. Let visitors catch it. Let the long-time believers be renewed in it.\n\nJoy to the world, the Lord is risen!\n\nAmen.'],
+      children: ['Jesus,\n\nWe are SO happy today because You are alive! That is the best thing ever! Help us to laugh and sing and celebrate today because Easter is the happiest day of the whole year. We love You!\n\nAmen.']
+    },
+    reflection: { individual: 'The women at the tomb felt fear AND great joy at the same time. Joy does not mean the absence of all difficult feelings. What would Easter joy look like in your life right alongside the hard things you are carrying?', family: 'How can your family make space in today\s celebration to deliberately give thanks for the resurrection?', church: 'Joy is meant to be contagious. Who might catch Easter joy from the way your congregation worships today?', children: 'What makes you feel most happy about Easter? Tell Jesus about it!' },
+    truth: 'Easter joy is not dependent on my circumstances. It is rooted in the resurrection. Because Jesus rose, I have a reason to rejoice that nothing can take away.'
+  },
+
+  renewal: {
+    tag: 'NEW LIFE',
+    emoji: 'NEW',
+    title: { individual: 'A Prayer for New Life', family: 'A Family Prayer of Renewal', church: 'A Prayer for Spiritual Renewal', children: 'A New Life Easter Prayer' },
+    scriptures: [
+      { v: 'Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!', r: '2 Corinthians 5:17 (NIV)' },
+      { v: 'He who was seated on the throne said, I am making everything new!', r: 'Revelation 21:5 (NIV)' },
+      { v: 'Very truly I tell you, unless a kernel of wheat falls to the ground and dies, it remains only a single seed. But if it dies, it produces many seeds.', r: 'John 12:24 (NIV)' }
+    ],
+    prayers: {
+      individual: ['God of New Things,\n\nEaster is Your declaration that death is not the final word. New life is.\n\nI come to You today carrying some things that feel dead. Dreams that did not work out. Relationships that broke. Hopes that were buried. Seasons that felt like the silence of Holy Saturday with no end in sight.\n\nBut Easter says: Sunday always comes.\n\nSpeak Your resurrection power into the dead places in my life today. Where things have been buried, let new growth emerge. Where winter has lasted too long, let spring break through. You are the God who makes everything new, and I am asking You to make things new in me.\n\nJust as the seed must die to produce much fruit, may the things I have surrendered bring forth a harvest I could not have imagined.\n\nLet Easter be new life for me today — not just historically but personally.\n\nAmen.', 'Father of New Beginnings,\n\nSpring and Easter arrive together every year as if creation itself is celebrating the resurrection.\n\nNew flowers. New warmth. New light. And for those who believe: a new creation in Christ.\n\nToday I receive the new life You offer. I am not who I was. I am not defined by what has happened to me or what I have done. In Christ I am new. And because He is risen, that newness is not just positional — it is real, living and growing.\n\nThank You for Easter. Thank You for new life. Thank You that it is never too late for a resurrection.\n\nAmen.'],
+      family: ['Lord of New Life,\n\nAs spring arrives and Easter comes, we pray for new life in our family. Let this be the season of a fresh start. Fresh forgiveness between us where there has been tension. Fresh connection where busyness has created distance. Fresh faith where doubt has crept in.\n\nYou make all things new. Make something new in our family this Easter.\n\nAmen.'],
+      church: ['God of Renewal,\n\nLet this Easter Sunday mark a renewal in our church. Renew our vision. Renew our passion. Renew our love for You and for each other. Let the same power that raised Jesus from the dead breathe life into every sleeping area of our congregation.\n\nRevive us, Lord.\n\nAmen.'],
+      children: ['Dear God,\n\nEaster is about new life! Just like flowers bloom in spring and caterpillars turn into butterflies, You make new things. You made Jesus alive again. You can make new things in us too. Help us to grow and change and become more like Jesus every day.\n\nAmen.']
+    },
+    reflection: { individual: 'What dead area of your life most needs Easter resurrection power right now? Can you bring it specifically to God and ask Him to breathe new life into it?', family: 'What is one new thing your family could start this Easter season that would draw you closer to God and to each other?', church: 'What areas of your churchs life and mission most need the renewal that Easter represents?', children: 'Easter means new life! What is one new thing you would like to do or learn that you can ask God to help you with?' },
+    truth: 'I am a new creation in Christ. The old has gone. The new is here. Because of Easter, I am never trapped by my past and my future is always full of possibility.'
+  },
+
+  gratitude: {
+    tag: 'EASTER GRATITUDE',
+    emoji: 'THX',
+    title: { individual: 'A Prayer of Easter Thanksgiving', family: 'A Grateful Easter Family Prayer', church: 'A Prayer of Resurrection Gratitude', children: 'A Thank You Easter Prayer' },
+    scriptures: [
+      { v: 'Thanks be to God! He gives us the victory through our Lord Jesus Christ.', r: '1 Corinthians 15:57 (NIV)' },
+      { v: 'Give thanks to the Lord, for he is good; his love endures forever.', r: 'Psalm 107:1 (NIV)' },
+      { v: 'How can I repay the Lord for all his goodness to me?', r: 'Psalm 116:12 (NIV)' }
+    ],
+    prayers: {
+      individual: ['Father of Every Good Gift,\n\nHow do I begin to say thank You for Easter?\n\nThank You for loving the world enough to send Your Son. Thank You that He willingly came. Thank You for the cross that took everything against me and nailed it there. Thank You for the empty tomb that proved the payment was accepted. Thank You for the resurrection that secured my future.\n\nThank You that because of Easter, I am forgiven. I am adopted. I am sealed by the Holy Spirit. I am an heir of God and co-heir with Christ. I have a living hope and an inheritance that cannot perish or fade.\n\nThank You, Father. Thank You, Jesus. Thank You, Holy Spirit.\n\nThis Easter, I am simply and profoundly grateful.\n\nAmen.', 'Lord Jesus,\n\nI stop today to count what You have done.\n\nYou left the glory of heaven. You took on flesh. You lived a life I should have lived. You died a death I deserved to die. You descended into the grave and on the third day You rose again, victorious over sin and death and hell.\n\nAll of that was for me. For the people I love. For the world.\n\nI can spend a lifetime thanking You and still not run out of reasons. But today I start. And I start simply, with the most honest prayer I know: thank You. Thank You. Thank You.\n\nAmen.'],
+      family: ['Gracious Father,\n\nBefore we eat, before we celebrate, before we do anything else today, we stop as a family and we say: thank You.\n\nThank You for Easter. Thank You for Jesus. Thank You for each person around this table and in this home. Thank You that we are alive to celebrate this day.\n\nLet gratitude be the spirit of our celebration today. Not just for the food and the family — but for the resurrection that gives it all meaning.\n\nAmen.'],
+      church: ['Lord of All,\n\nFrom the depths of our hearts, we thank You for Easter. We thank You for the cross. We thank You for the empty tomb. We thank You for the gift of faith that lets us believe it.\n\nLet this congregation rise to its feet in gratitude today. You have given us everything. The least we can do is say so.\n\nAmen.'],
+      children: ['Dear Jesus,\n\nThank You for Easter! Thank You for dying on the cross for me. Thank You for coming back to life. Thank You for loving me so so much. I am so happy today because of You. I love You!\n\nAmen.']
+    },
+    reflection: { individual: 'Take one minute right now to simply list everything you are grateful to God for because of Easter. Let the list surprise you.', family: 'Go around the table and let each person share one thing they are most grateful to God for this Easter.', church: 'Corporate gratitude is powerful. How can your congregation express its Easter thanksgiving in a tangible way this week?', children: 'What is the thing you are most thankful for about Easter? Tell Jesus right now!' },
+    truth: 'Because of Easter, I have been given everything I could never earn. Today I receive it all with a grateful heart and a life offered back to the One who gave it.'
+  },
+
+  family: {
+    tag: 'FAMILY EASTER',
+    emoji: 'FAM',
+    title: { individual: 'An Easter Prayer for My Family', family: 'Our Family Easter Prayer', church: 'A Prayer for Families This Easter', children: 'A Family Easter Prayer' },
+    scriptures: [
+      { v: 'As for me and my household, we will serve the Lord.', r: 'Joshua 24:15 (NIV)' },
+      { v: 'One generation commends your works to another; they tell of your mighty acts.', r: 'Psalm 145:4 (NIV)' },
+      { v: 'The Lord bless you and keep you; the Lord make his face shine on you and be gracious to you.', r: 'Numbers 6:24-25 (NIV)' }
+    ],
+    prayers: {
+      individual: ['Father God,\n\nOn this Easter day I bring my whole family before You.\n\nBless every person I love who is celebrating today. Bless those who are with me and those who are far away. Bless the ones who share my faith and the ones who are still searching. Bless the children and the grandchildren and the grandparents.\n\nLet Easter truth flow through our family — from generation to generation. Let the story of the resurrection be passed down as the most precious inheritance we can leave.\n\nProtect my family. Unite my family. And let the love of Christ that was poured out at the cross be the foundation of everything we share.\n\nHappy Easter to every heart I love.\n\nAmen.', 'Lord,\n\nFamily makes Easter richer. The noise and the laughter and the fullness of a table surrounded by people I love — it all points back to You.\n\nBless my family today. Bless the relationships, the conversations, the moments of connection. Where there has been distance, let this Easter bring warmth. Where there has been hurt, let the forgiveness that the cross offers flow freely.\n\nLet today be a day our family remembers. Not just for the food and the celebration, but for the sense of Your presence among us.\n\nAmen.'],
+      family: ['Heavenly Father,\n\nWe are Your family and this is Your day.\n\nThank You for the family You have placed us in. Thank You for each face around us today. We do not take any of them for granted.\n\nBless our home this Easter. Let it be a place where faith is talked about naturally and freely. Where the resurrection is not just a Sunday topic but the story that runs underneath all of our lives.\n\nWe commit our family to You today — every member, every relationship, every future that is yet to unfold. We are Yours.\n\nAmen.'],
+      church: ['Lord,\n\nBless the families represented in this congregation today. Bless the complete ones and the broken ones. Bless the lonely ones and the overflowing ones. Bless the young families just starting out and the elderly ones who are celebrating together for perhaps the last time.\n\nEaster is for all of them. Let them all feel Your love today.\n\nAmen.'],
+      children: ['Dear God,\n\nThank You for our family! Thank You that we get to celebrate Easter together. Bless every person in our family today. Keep them safe and happy and help us all to love each other really well. We love You!\n\nAmen.']
+    },
+    reflection: { individual: 'Is there a family member with whom Easter could be an opportunity to rebuild or deepen your relationship? What small step could you take today?', family: 'What Easter tradition could you start this year that would become a meaningful story you tell for decades?', church: 'How can your church family reach out to and include people who are spending Easter alone this year?', children: 'Who in your family are you most thankful for today? Tell them! And tell God too.' },
+    truth: 'My family is a gift from God. This Easter I recommit to being a person who loves well, forgives freely and passes the story of the resurrection on to those who come after me.'
+  },
+
+  children: {
+    tag: 'FOR CHILDREN',
+    emoji: 'KIDS',
+    title: { individual: 'A Simple Easter Prayer', family: 'An Easter Prayer for Our Children', church: 'A Prayer for the Children This Easter', children: 'Our Easter Prayer Together' },
+    scriptures: [
+      { v: 'Jesus said, Let the little children come to me, and do not hinder them, for the kingdom of heaven belongs to such as these.', r: 'Matthew 19:14 (NIV)' },
+      { v: 'He is not here; he has risen!', r: 'Luke 24:6 (NIV)' },
+      { v: 'This is the day that the Lord has made; let us rejoice and be glad in it.', r: 'Psalm 118:24 (ESV)' }
+    ],
+    prayers: {
+      individual: ['Dear Jesus,\n\nToday is the happiest day of the whole year because You came back to life!\n\nThank You for Easter. Thank You for dying on the cross so that all the wrong things I do can be forgiven. And thank You for coming back to life so that I know You are always alive and always with me.\n\nEaster eggs remind us of new life, and that is what You give us. A brand new start. A brand new life. A brand new friendship with You that lasts forever.\n\nHelp me to remember what Easter is really about. Not just the chocolate and the eggs — but You. You are alive and You love me. That is the best news ever.\n\nI love You Jesus.\n\nAmen.', 'Father God,\n\nWow! Easter is so amazing!\n\nYou had a plan to save us all along. Jesus came and lived and died and rose again and the whole story is for us. For me. For all the children who believe.\n\nHelp me to be brave enough to tell my friends about Easter. Help me to know the story so well that I can explain it: Jesus died and He came back to life. That is the most important thing that has ever happened. Ever.\n\nThank You for loving children. Thank You that Your kingdom belongs to us too.\n\nAmen.'],
+      family: ['Lord Jesus,\n\nWe pray for the children in our family today.\n\nLet Easter come alive for them in a way they will never forget. Let the story of the resurrection be planted deep in their hearts while they are young. Let them grow up knowing that what happened on Easter Sunday is real — You are real, the resurrection is real, and the love that sent You to the cross is real.\n\nProtect their faith as they grow. Nurture it. Let it be their most precious possession.\n\nBless our children this Easter, Lord. They are our greatest joy.\n\nAmen.'],
+      church: ['Lord,\n\nWe pray for every child in our church today. Let Easter make sense to them. Let it be exciting and real and personal. Let them leave today knowing that Jesus is alive and that He loves them.\n\nBless our childrens ministry. Let it be a place where little hearts encounter the living God.\n\nAmen.'],
+      children: ['Dear Jesus,\n\nHappy Easter! You are alive and we are SO happy! We love You and we know You love us. Help us to always remember what Easter means: You died for us and You came back to life for us. That is how much You love us. We want to love You back.\n\nAmen.']
+    },
+    reflection: { individual: 'Children remind us to be simple and sincere in our faith. What childlike quality of faith do you want to recapture this Easter?', family: 'How will you explain the Easter story to the children in your family today in a way that is honest, simple and memorable?', church: 'What are you doing as a church to ensure the children in your community hear and encounter the Easter story?', children: 'Jesus loves children so much! Can you draw a picture of the Easter story to share with someone today?' },
+    truth: 'Jesus said the kingdom of heaven belongs to the childlike. This Easter I choose to come to God with the simple, sincere, wide-eyed faith of a child.'
+  },
+
+  forgiveness: {
+    tag: 'EASTER FORGIVENESS',
+    emoji: 'FORG',
+    title: { individual: 'A Prayer of Easter Forgiveness', family: 'A Family Prayer for Forgiveness', church: 'A Prayer of Receiving Forgiveness', children: 'A Forgiveness Easter Prayer' },
+    scriptures: [
+      { v: 'In him we have redemption through his blood, the forgiveness of sins, in accordance with the riches of Gods grace.', r: 'Ephesians 1:7 (NIV)' },
+      { v: 'As far as the east is from the west, so far has he removed our transgressions from us.', r: 'Psalm 103:12 (NIV)' },
+      { v: 'If we confess our sins, he is faithful and just and will forgive us our sins and purify us from all unrighteousness.', r: '1 John 1:9 (NIV)' }
+    ],
+    prayers: {
+      individual: ['Forgiving Father,\n\nEaster is the proof that forgiveness is possible.\n\nAt the cross, everything that stood between You and me was dealt with. Every failure. Every wrong thought. Every broken promise. Every thing I am ashamed of. Jesus took all of it and nailed it to the cross with Him.\n\nAnd then He rose — and the empty tomb declared that the price had been paid in full.\n\nI receive that forgiveness today. Not as a concept but as a reality. I am forgiven. Completely. Finally. Freely.\n\nAnd because I have been forgiven so much, help me to forgive freely in return. Where I have been holding something against another person, let the spirit of Easter — the spirit of grace freely given — soften my heart.\n\nThank You for the cross. Thank You for the empty tomb. Thank You for the forgiveness that both together have made possible.\n\nAmen.', 'Lord Jesus,\n\nYou died so I could be forgiven.\n\nLet me never get over that. Let Easter never become so familiar that this staggering truth no longer moves me.\n\nToday I bring to the cross every sin, every shame, every regret that I have been carrying. I lay it there. It belongs there. It is why You went there.\n\nAnd I walk away from the cross and toward the empty tomb knowing that the debt has been paid. I am free. I am forgiven. I am clean.\n\nLet that freedom change how I live today and every day.\n\nAmen.'],
+      family: ['Gracious God,\n\nAs we celebrate Easter together as a family, we also open our hearts to the forgiveness You offer.\n\nWhere we have hurt each other within this family, let the forgiveness of the cross flow freely between us. Where we carry guilt, let the empty tomb declare us free. Where we have been holding grudges, let Easter grace melt them.\n\nForgiven families forgive. Let that be us today.\n\nAmen.'],
+      church: ['Lord of Grace,\n\nAs a church we gather knowing that every person in this room is here because of forgiveness. None of us deserve to stand in Your presence. All of us have been invited anyway.\n\nLet the weight of that grace overwhelm us today. And let it spill out from us into the world around us.\n\nAmen.'],
+      children: ['Dear Jesus,\n\nThank You for forgiving all the wrong things I do. The cross means You took the blame for me and that means I can always start fresh. Easter is a fresh start day! Help me to say sorry when I do wrong and to forgive others when they do wrong. Thank You Jesus.\n\nAmen.']
+    },
+    reflection: { individual: 'Is there something specific you have been struggling to receive Gods forgiveness for? Easter declares it is paid. Can you receive that today?', family: 'Is there an unresolved hurt within your family that Easter could be the occasion to address and heal?', church: 'How does the corporate experience of receiving forgiveness together shape the way a church community relates to the world?', children: 'Is there something you did that you feel sorry about? You can tell God right now and He will forgive you. Easter is all about forgiveness!' },
+    truth: 'The cross paid for everything. The empty tomb confirmed it. I am forgiven — completely, freely, permanently. There is nothing left on my account because Jesus settled it all.'
+  },
+
+  morning: {
+    tag: 'EASTER MORNING',
+    emoji: 'MORN',
+    title: { individual: 'An Easter Morning Prayer', family: 'Our Easter Morning Prayer', church: 'An Easter Sunrise Prayer', children: 'A Good Morning Easter Prayer' },
+    scriptures: [
+      { v: 'Early on the first day of the week, while it was still dark, Mary Magdalene went to the tomb and saw that the stone had been removed from the entrance.', r: 'John 20:1 (NIV)' },
+      { v: 'Weeping may stay for the night, but rejoicing comes in the morning.', r: 'Psalm 30:5 (NIV)' },
+      { v: 'This is the day that the Lord has made; let us rejoice and be glad in it.', r: 'Psalm 118:24 (ESV)' }
+    ],
+    prayers: {
+      individual: ['Lord of the Easter Morning,\n\nIt was still dark when Mary went to the tomb. She went in grief, expecting to find the stone still sealed and the body still inside. She had no idea what was waiting for her.\n\nSometimes I go into my mornings the same way — carrying Fridays grief into Sundays light. Not expecting anything to have changed. Weighed down by what did not go the way I hoped.\n\nBut Easter morning announces: things are different now.\n\nLet me greet this morning the way the disciples greeted the news of the resurrection. With disbelief at first, perhaps. But then — with joy. Joy that erupts when the impossible becomes undeniably real.\n\nThis is the day You have made. I will rejoice and be glad in it.\n\nAmen.', 'Father,\n\nEvery Easter morning is a small re-enactment of that first one. The sun rises. A new day begins. And somewhere underneath all of it is the news that will never grow old: He is risen.\n\nLet me begin this day with that truth at the forefront. Not the to-do list. Not the worries. Not what I watched last night or read this morning.\n\nHe is risen. Let that be the first and most important fact of this morning.\n\nBless this Easter day from its very first moments. Let it be full of joy, full of presence and full of You.\n\nAmen.'],
+      family: ['Gracious God,\n\nGood morning! And what a morning it is!\n\nWe wake up together as a family on the most significant morning of the year. Let us greet it the way the first disciples greeted the news of the resurrection. With wonder. With gratitude. With a joy that spills over before we can contain it.\n\nBless our Easter morning. Let it be full of love and warmth and the knowledge that Jesus is alive.\n\nAmen.'],
+      church: ['Lord,\n\nFor the sunrise service, for the early risers, for the ones who came because something drew them here this morning — we give You thanks.\n\nLet every heart that has walked through these doors this morning encounter the risen Christ. Let no one leave unchanged.\n\nThis is the morning everything changed. Let it be a morning of change for us too.\n\nAmen.'],
+      children: ['Good morning Jesus!\n\nToday is Easter! You came back to life on a morning just like this one. The first Easter morning must have been the most amazing morning ever! Help us to have a wonderful day today and to remember that every single morning is special because You are alive. Good morning, Jesus!\n\nAmen.']
+    },
+    reflection: { individual: 'Mary went to the tomb before sunrise, not knowing what she would find. She found more than she could have imagined. What might God have waiting for you this morning that you are not expecting?', family: 'How can your family mark this Easter morning as different and special — apart from the usual routines?', church: 'The first people who knew about the resurrection were women who got up early and went to look. What does their example say about how we approach God?', children: 'What is the first thing you thought about when you woke up this Easter morning? Tell God about it right now!' },
+    truth: 'Every morning is a resurrection. The sun rises. New mercies arrive. And underneath it all is the greatest morning news ever announced: He is risen. This day belongs to Him.'
+  },
+
+  sunday: {
+    tag: 'EASTER SUNDAY',
+    emoji: 'SUN',
+    title: { individual: 'An Easter Sunday Prayer', family: 'Our Easter Sunday Prayer', church: 'A Prayer for Easter Sunday Worship', children: 'Happy Easter Sunday Prayer' },
+    scriptures: [
+      { v: 'On the evening of that first day of the week, when the disciples were together... Jesus came and stood among them and said, Peace be with you!', r: 'John 20:19 (NIV)' },
+      { v: 'Christ has indeed been raised from the dead, the firstfruits of those who have fallen asleep.', r: '1 Corinthians 15:20 (NIV)' },
+      { v: 'They found the stone rolled away from the tomb, but when they entered, they did not find the body of the Lord Jesus.', r: 'Luke 24:2-3 (NIV)' }
+    ],
+    prayers: {
+      individual: ['Lord of Easter Sunday,\n\nThe disciples were locked in a room, afraid, when You appeared.\n\nPeace be with you, You said. Not condemnation. Not even the question: where were you when I needed you? Just peace. Just Your presence. Just the wounds in Your hands and side as proof that what they had hoped was really true.\n\nCome into whatever room I am locked in today. Whatever fear has me behind closed doors. Whatever failure has made me hide. Stand in the middle of it and say those same words: Peace be with you.\n\nEaster Sunday is the day You show up in locked rooms. So here is mine, Lord. Come in.\n\nAmen.', 'Risen Christ,\n\nThis is the day. The crown jewel of the Christian calendar. The Sunday of all Sundays.\n\nLet me not sleepwalk through it. Let this Easter Sunday mark something real in my life. Let it be the day I chose to believe more fully, love more freely and live more boldly for You.\n\nYou are alive. I am Yours. And today I celebrate both of those truths with everything I have.\n\nAmen.'],
+      family: ['Jesus,\n\nWe gather on this Easter Sunday and we declare together: You are Lord. You are risen. You are everything.\n\nLet this Sunday be different from all the other Sundays. Let it be marked with worship and joy and the kind of family memory that gets told for years.\n\nWe are Yours, Lord. And on this Sunday we are glad of it.\n\nAmen.'],
+      church: ['Lord Jesus,\n\nThis is Easter Sunday. The day we have been building toward through Lent and Holy Week. The day that gives all the other days their meaning.\n\nWe are here because You rose. We worship because You live. We gather because the Spirit You promised came and now dwells in us.\n\nLet this service be worthy of the day. Let every word, every song, every prayer rise to You as an offering. And let every person leave knowing they have encountered the living God.\n\nHallelujah!\n\nAmen.'],
+      children: ['Happy Easter Sunday Jesus!\n\nThis is the best Sunday ever because it is Easter Sunday! You are alive and we are celebrating! We love coming to worship You today. Help us to sing loudly and pray honestly and really really mean it when we say: He is risen! He is risen indeed!\n\nAmen.']
+    },
+    reflection: { individual: 'Jesus appeared to the frightened disciples on Easter Sunday evening and brought peace. What locked room of yours does He want to walk into today?', family: 'This Easter Sunday, how will your family make the worship and celebration feel truly special rather than just routine?', church: 'Easter Sunday comes once a year. What will you do this week — the week after Easter — to keep the resurrection alive in your daily life?', children: 'At Easter Sunday church we sing and celebrate because Jesus is alive. What is your favourite Easter song and why do you love it?' },
+    truth: 'Easter Sunday comes once a year but the resurrection is for every day. Because Jesus rose on a Sunday, every day of the week carries the possibility of resurrection power.'
+  },
+
+  lent: {
+    tag: 'END OF LENT',
+    emoji: 'LENT',
+    title: { individual: 'A Prayer at the End of Lent', family: 'Our Lenten Journey Ends in Easter', church: 'A Prayer at Lents Conclusion', children: 'Easter After Lent' },
+    scriptures: [
+      { v: 'For everything there is a season, and a time for every matter under heaven.', r: 'Ecclesiastes 3:1 (ESV)' },
+      { v: 'Now is the time of Gods favour, now is the day of salvation.', r: '2 Corinthians 6:2 (NIV)' },
+      { v: 'But those who hope in the Lord will renew their strength. They will soar on wings like eagles.', r: 'Isaiah 40:31 (NIV)' }
+    ],
+    prayers: {
+      individual: ['Father,\n\nForty days of Lent. Forty days of reflection, fasting, prayer and drawing closer to You. And now it ends where it was always going to end: at the empty tomb.\n\nThank You for the season of Lent. For what it taught me about sacrifice. About dependence. About what I truly value and what I am willing to let go of to follow You more closely.\n\nThe fast is over. The waiting is done. Saturdays silence has given way to Sundays shout.\n\nHe is risen.\n\nLet everything I have carried and processed through Lent come to its fulfilment in Easter. Let the resurrection be the payoff of the preparation. Let the celebration be richer because of the journey.\n\nAnd Lord, let me carry what I have learned through Lent into the fifty days of Easter and beyond.\n\nAmen.', 'Lord,\n\nLent is a school. And today we graduate.\n\nThe curriculum has been the cross and everything that leads to it. But Easter is the commencement. The moment when all the learning is applied to the most glorious truth in the universe.\n\nYou are risen. Everything we sacrificed during Lent, every prayer we prayed, every practice we took on — all of it was pointing here. To this empty tomb. To this living Lord.\n\nLet me carry the disciplines of Lent into a life shaped by the resurrection. Not forty days of changed behaviour, but a lifetime of transformed living.\n\nAmen.'],
+      family: ['Lord,\n\nOur family has journeyed through Lent together and now we arrive at Easter.\n\nThank You for what this season has taught us. Let the resurrection be the destination that makes the journey make sense. And let the joy of Easter be sweeter because we walked the way of the cross to get here.\n\nAmen.'],
+      church: ['God,\n\nWe have walked through Lent together as a congregation. We have fasted and prayed and confessed and prepared. And now we stand at the tomb.\n\nLet everything this season has produced in us bear fruit in how we worship today and how we live in the weeks ahead.\n\nAmen.'],
+      children: ['Dear God,\n\nLent is over and Easter is here! We are so happy! All the quiet and the waiting and the preparing was worth it because today Jesus is RISEN! Let us celebrate as loudly as we want to because today is the happiest day!\n\nAmen.']
+    },
+    reflection: { individual: 'As Lent ends and Easter begins, what is the most significant thing this season has taught you about yourself, your faith or your relationship with God?', family: 'What Lenten practice or discipline could your family carry forward even after Easter to keep the lessons of the season alive?', church: 'How has your community changed through this Lenten season? What will you carry from Lent into the fifty days of Easter?', children: 'Lent helps us get ready for Easter. What did you learn or do during Lent that helped you appreciate Easter more?' },
+    truth: 'The disciplines of Lent were always preparing me for the joy of Easter. Every season of sacrifice leads to resurrection. Every Good Friday is followed by an Easter Sunday.'
+  },
+
+  cross: {
+    tag: 'THE CROSS',
+    emoji: 'CROSS',
+    title: { individual: 'A Prayer at the Cross This Easter', family: 'A Family Prayer for the Cross', church: 'A Prayer of the Crucified and Risen Lord', children: 'A Prayer About the Cross },
+    scriptures: [
+      { v: 'But God demonstrates his own love for us in this: While we were still sinners, Christ died for us.', r: 'Romans 5:8 (NIV)' },
+      { v: 'For the message of the cross is foolishness to those who are perishing, but to us who are being saved it is the power of God.', r: '1 Corinthians 1:18 (NIV)' },
+      { v: 'And when Jesus had cried out again in a loud voice, he gave up his spirit.', r: 'Matthew 27:50 (NIV)' }
+    ],
+    prayers: {
+      individual: ['Lord Jesus,\n\nI cannot arrive at Easter Sunday without stopping at the cross.\n\nYou did not have to do it. You chose to. The same hands that formed the universe willingly accepted the nails. The same voice that spoke light into existence cried out My God, my God, why have you forsaken me? The same Lord who commanded the seas to be still was silenced by death.\n\nAnd He did all of it for me.\n\nI stand at the cross today and I look at what it cost. I do not want to rush past it to get to the empty tomb. I want to feel the weight of what happened here. Because it is only when I understand the depth of the cross that I understand the magnitude of the resurrection.\n\nThank You, Lord Jesus. There are no adequate words. Just this broken, grateful heart.\n\nAmen.', 'Crucified and Risen Lord,\n\nThe cross is not the end of the story. But it is the heart of it.\n\nWithout the cross there is no resurrection. Without the death there is no new life. Without Good Friday there is no Easter Sunday. The two belong together and I must hold them together.\n\nToday I remember the cross. I remember what it looked like. What it sounded like. What it cost. And I remember that every bit of it was love. Love poured out. Love given away. Love that would not be stopped even by death.\n\nBecause of the cross, I am free. Because of the resurrection, I am alive. I am grateful for both.\n\nAmen.'],
+      family: ['Father,\n\nAs we celebrate Easter as a family, we stop to remember the cross.\n\nHelp us to explain to the children in our family what happened and why it matters. The cross is not a comfortable story. But it is a true one. And the truth of it leads to the greatest joy imaginable.\n\nLet us hold the cross and the empty tomb together today. And let both shape who we are as a family.\n\nAmen.'],
+      church: ['Lord Jesus,\n\nWe never graduate from the cross. No matter how long we have been believers, we never move beyond its shadow or beyond its grace.\n\nLet the cross be at the centre of our Easter worship today. Not just as the prelude to resurrection but as the heart of everything.\n\nYou were crucified for us. You rose for us. We worship You for both.\n\nAmen.'],
+      children: ['Dear Jesus,\n\nThe cross is a hard story. You were hurt a lot. But You did it because You love us so much that You wanted to take all the wrong things we do and carry them so we do not have to.\n\nThat is the most loving thing anyone has ever done. Thank You Jesus. And thank You even more that after the cross came Easter. You are alive. The cross was not the end. It was the beginning.\n\nAmen.']
+    },
+    reflection: { individual: 'Good Friday and Easter Sunday belong together. Can you hold the weight of the cross and the joy of the resurrection at the same time today? What does that do to your worship?', family: 'How will you help the younger members of your family understand both the sadness of the cross and the joy of the resurrection?', church: 'The cross is central to Christian faith but easy to take for granted. How can your church ensure that the cost of grace never becomes routine or familiar?', children: 'The cross shows us how much Jesus loves us. Can you think of someone you love very much? Jesus loves you even MORE than that.' },
+    truth: 'The cross and the empty tomb belong together. One without the other is incomplete. The price was paid at the cross. The receipt was the empty tomb. Both are mine.'
+  }
+};
+
+function setTheme(t) {
+  currentTheme = t;
+  document.querySelectorAll('.theme-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('theme-' + t).classList.add('active');
+}
+
+function setWho(w) {
+  currentWho = w;
+  document.querySelectorAll('.who-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('who-' + w).classList.add('active');
+}
+
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generate() {
+  var d = DATA[currentTheme];
+  var key = currentTheme + '_' + currentWho;
+  if (!usedPrayers[key]) usedPrayers[key] = [];
+
+  var prayers = d.prayers[currentWho] || d.prayers['individual'];
+  var available = prayers.filter(function(p, i) { return usedPrayers[key].indexOf(i) === -1; });
+  if (available.length === 0) { usedPrayers[key] = []; available = prayers; }
+  var idx = Math.floor(Math.random() * available.length);
+  usedPrayers[key].push(prayers.indexOf(available[idx]));
+
+  var scripture = getRandom(d.scriptures);
+  var prayer = available[idx];
+  var reflection = d.reflection[currentWho] || d.reflection['individual'];
+  var title = d.title[currentWho] || d.title['individual'];
+
+  currentPrayer = {
+    theme: currentTheme,
+    who: currentWho,
+    prayer: prayer,
+    tag: d.tag,
+    title: title,
+    scripture: scripture
+  };
+
+  var card = document.getElementById('prayerCard');
+  var header = document.getElementById('pcHeader');
+
+  // Remove all theme classes
+  card.className = 'prayer-card theme-' + currentTheme;
+
+  document.getElementById('pcTag').textContent = '✦ ' + d.tag + ' ✦';
+  document.getElementById('pcWho').textContent = WHO_LABELS[currentWho];
+  document.getElementById('pcTitle').textContent = title;
+  document.getElementById('pcVerse').textContent = '\u201c' + scripture.v + '\u201d';
+  document.getElementById('pcRef').textContent = '\u2014 ' + scripture.r;
+  document.getElementById('pcPrayer').textContent = prayer;
+  document.getElementById('pcReflection').textContent = reflection;
+  document.getElementById('pcTruth').textContent = d.truth;
+  document.getElementById('heartIcon').textContent = '🤍';
+
+  card.classList.add('show');
+  document.getElementById('actionsRow').style.display = 'grid';
+  setTimeout(function() { card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 80);
+}
+
+function copyPrayer() {
+  if (!currentPrayer) return;
+  var text = currentPrayer.prayer + '\n\n' + currentPrayer.scripture.v + '\n' + currentPrayer.scripture.r + '\n\nFrom dailyprayersandblessings.com';
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.readOnly = true;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, 99999);
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).catch(function(){}); }
+  var lbl = document.getElementById('copyLabel');
+  lbl.textContent = 'Copied!';
+  setTimeout(function() { lbl.textContent = 'Copy Prayer'; }, 2500);
+}
+
+function shareWhatsApp() {
+  if (!currentPrayer) return;
+  var msg = encodeURIComponent('An Easter prayer for you:\n\n' + currentPrayer.prayer.substring(0, 300) + '...\n\nHe is risen! From dailyprayersandblessings.com');
+  window.open('https://wa.me/?text=' + msg, '_blank');
+}
+
+function savePrayer() {
+  if (!currentPrayer) return;
+  var already = savedPrayers.find(function(s) { return s.prayer === currentPrayer.prayer; });
+  if (!already) {
+    savedPrayers.unshift({ tag: currentPrayer.tag, title: currentPrayer.title, prayer: currentPrayer.prayer });
+    document.getElementById('heartIcon').textContent = '\u2764\uFE0F';
+    renderSaved();
+  }
+}
+
+function renderSaved() {
+  var sec = document.getElementById('savedSection');
+  if (savedPrayers.length === 0) { sec.className = 'saved-section'; return; }
+  sec.className = 'saved-section show';
+  document.getElementById('savedList').innerHTML = savedPrayers.map(function(s) {
+    return '<div class="saved-item"><div class="saved-theme">' + s.tag + '</div><div class="saved-preview">' + s.prayer.substring(0, 130) + '...</div></div>';
+  }).join('');
+}
+
+function clearSaved() {
+  savedPrayers = [];
+  renderSaved();
+  if (document.getElementById('heartIcon')) document.getElementById('heartIcon').textContent = '🤍';
+}
+
+// Rotate the banner verse by day of week
+var BANNER_VERSES = [
+  { v: 'I am the resurrection and the life. The one who believes in me will live, even though they die.', r: 'John 11:25 (NIV)' },
+  { v: 'He is not here; he has risen, just as he said!', r: 'Matthew 28:6 (NIV)' },
+  { v: 'Christ has indeed been raised from the dead, the firstfruits of those who have fallen asleep.', r: '1 Corinthians 15:20 (NIV)' },
+  { v: 'Thanks be to God! He gives us the victory through our Lord Jesus Christ.', r: '1 Corinthians 15:57 (NIV)' },
+  { v: 'He was delivered over to death for our sins and was raised to life for our justification.', r: 'Romans 4:25 (NIV)' },
+  { v: 'For we know that since Christ was raised from the dead, he cannot die again; death no longer has mastery over him.', r: 'Romans 6:9 (NIV)' },
+  { v: 'Praise be to the God and Father of our Lord Jesus Christ! In his great mercy he has given us new birth into a living hope through the resurrection of Jesus Christ from the dead.', r: '1 Peter 1:3 (NIV)' }
+];
+
+var bv = BANNER_VERSES[new Date().getDay()];
+document.getElementById('bannerVerse').textContent = '\u201c' + bv.v + '\u201d';
+document.getElementById('bannerRef').textContent = '\u2014 ' + bv.r;
+</script>
+</body>
+</html>
