@@ -1,137 +1,339 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grace Before Meals – Prayer Generator | Daily Prayers & Blessings</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font-sans); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .wrap { padding: 1.5rem 1rem 2rem; max-width: 600px; margin: 0 auto; }
+  :root {
+    --cream: #fdf8f2;
+    --warm-white: #fff9f4;
+    --brown-deep: #3b1f0e;
+    --brown-mid: #7a4f2e;
+    --brown-light: #b07d52;
+    --brown-pale: #e8d5c0;
+    --brown-faint: #f3e9de;
+    --accent: #8b4513;
+    --accent-hover: #6f3610;
+    --green-soft: #2d6a4f;
+    --border: #dcc9b2;
+    --text-primary: #2c1a0e;
+    --text-secondary: #6b4c35;
+    --text-muted: #a07855;
+  }
 
-  .site-label { font-size: 12px; letter-spacing: 0.08em; color: var(--color-text-tertiary); text-transform: uppercase; text-align: center; margin-bottom: 6px; }
-  .hero-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); text-align: center; margin-bottom: 4px; }
-  .hero-sub { font-size: 14px; color: var(--color-text-secondary); text-align: center; margin-bottom: 1.75rem; }
+  html { font-size: 16px; }
 
-  .section-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
 
-  .occasion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+  .page-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 3rem;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 2.25rem;
+  }
+  .site-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown-light);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .main-title {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--brown-deep);
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .main-sub {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.75rem 0;
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Occasion grid */
+  .occasion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
   .occasion-btn {
-    background: var(--color-background-primary);
-    border: 0.5px solid var(--color-border-secondary);
-    border-radius: var(--border-radius-lg);
-    padding: 14px 12px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 14px 14px;
     cursor: pointer;
     text-align: left;
-    transition: border-color 0.15s, background 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.18s, background 0.18s, transform 0.1s;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
   }
-  .occasion-btn:hover { background: var(--color-background-secondary); }
+  .occasion-btn:hover {
+    border-color: var(--brown-light);
+    background: var(--brown-faint);
+  }
+  .occasion-btn:active { transform: scale(0.98); }
   .occasion-btn.selected {
-    border: 2px solid #8B5E3C;
-    background: #FDF6EF;
+    border: 2px solid var(--accent);
+    background: var(--brown-faint);
   }
-  .occasion-btn .occ-icon { font-size: 20px; display: block; margin-bottom: 6px; }
-  .occasion-btn .occ-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); display: block; }
-  .occasion-btn .occ-desc { font-size: 12px; color: var(--color-text-secondary); display: block; margin-top: 2px; }
-  .occasion-btn.selected .occ-name { color: #5C3A1E; }
-  .occasion-btn.selected .occ-desc { color: #7A5030; }
+  .occ-icon {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .occ-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .occ-desc {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .occasion-btn.selected .occ-name { color: var(--accent); }
+  .occasion-btn.selected .occ-desc { color: var(--brown-mid); }
 
-  .tone-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  /* Tone chips */
+  .tone-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
   .tone-chip {
-    background: var(--color-background-primary);
-    border: 0.5px solid var(--color-border-secondary);
+    background: #fff;
+    border: 1.5px solid var(--border);
     border-radius: 999px;
-    padding: 6px 14px;
+    padding: 8px 16px;
     font-size: 13px;
-    color: var(--color-text-secondary);
+    font-weight: 500;
+    color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.18s;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    line-height: 1.3;
   }
-  .tone-chip:hover { background: var(--color-background-secondary); }
-  .tone-chip.selected { background: #8B5E3C; color: #fff; border-color: #8B5E3C; font-weight: 500; }
+  .tone-chip:hover {
+    border-color: var(--brown-light);
+    background: var(--brown-faint);
+  }
+  .tone-chip.selected {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
 
+  /* Generate button */
   .gen-btn {
     width: 100%;
-    padding: 13px;
-    background: #8B5E3C;
+    padding: 15px;
+    background: var(--accent);
     color: #fff;
     border: none;
-    border-radius: var(--border-radius-lg);
-    font-size: 15px;
+    border-radius: 14px;
+    font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
-    margin-bottom: 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.18s, transform 0.1s;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    letter-spacing: 0.01em;
   }
-  .gen-btn:hover { background: #7A5030; }
-  .gen-btn:active { transform: scale(0.98); }
-  .gen-btn:disabled { background: var(--color-background-secondary); color: var(--color-text-tertiary); cursor: default; }
+  .gen-btn:hover:not(:disabled) { background: var(--accent-hover); }
+  .gen-btn:active:not(:disabled) { transform: scale(0.99); }
+  .gen-btn:disabled {
+    background: var(--brown-pale);
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
 
+  /* Result card */
   .result-card {
-    background: #FDF6EF;
-    border: 0.5px solid #D4A97A;
-    border-radius: var(--border-radius-lg);
-    padding: 1.25rem 1.25rem 1rem;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem 1.5rem 1.25rem;
     display: none;
+    margin-top: 1.5rem;
   }
   .result-card.visible { display: block; }
 
-  .result-occasion-tag {
+  .result-tag {
     display: inline-block;
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8B5E3C;
-    background: #F3E4D2;
+    color: var(--accent);
+    background: var(--brown-faint);
     border-radius: 999px;
-    padding: 3px 10px;
-    margin-bottom: 14px;
+    padding: 4px 12px;
+    margin-bottom: 1rem;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .cross-row {
+    text-align: center;
+    font-size: 20px;
+    color: var(--brown-pale);
+    margin-bottom: 1rem;
+    letter-spacing: 4px;
   }
 
   .prayer-text {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #3B2710;
-    margin-bottom: 1rem;
-    font-family: var(--font-serif);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
   }
 
-  .verse-row {
-    border-top: 0.5px solid #D4A97A;
-    padding-top: 12px;
-    margin-bottom: 14px;
+  .verse-block {
+    background: var(--brown-faint);
+    border-left: 3px solid var(--brown-light);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 14px;
+    margin-bottom: 1.25rem;
   }
-  .verse-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #A07040; font-weight: 500; margin-bottom: 5px; }
-  .verse-text { font-size: 13px; color: #5C3A1E; line-height: 1.6; font-style: italic; }
-  .verse-ref { font-size: 12px; color: #A07040; margin-top: 3px; }
+  .verse-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .verse-text {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .verse-ref {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-family: 'DM Sans', sans-serif;
+  }
 
-  .action-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .action-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
   .action-btn {
     flex: 1;
-    min-width: 100px;
-    padding: 9px 12px;
-    background: var(--color-background-primary);
-    border: 0.5px solid #D4A97A;
-    border-radius: var(--border-radius-md);
+    min-width: 90px;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
     font-size: 13px;
-    color: #7A5030;
-    cursor: pointer;
     font-weight: 500;
-    transition: background 0.15s;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.15s, border-color 0.15s;
     text-align: center;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
   }
-  .action-btn:hover { background: #F3E4D2; }
-  .action-btn.copied { color: #2D7A4F; border-color: #2D7A4F; }
+  .action-btn:hover {
+    background: var(--brown-faint);
+    border-color: var(--brown-light);
+  }
+  .action-btn.copied {
+    color: var(--green-soft);
+    border-color: var(--green-soft);
+    background: #f0faf6;
+  }
 
-  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.25rem 0; }
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 2.5rem;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .footer a { color: var(--brown-light); text-decoration: none; }
+
+  @media (max-width: 420px) {
+    .main-title { font-size: 1.65rem; }
+    .occasion-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .action-row { flex-direction: column; }
+    .action-btn { flex: none; width: 100%; }
+  }
 </style>
+</head>
+<body>
+<div class="page-wrap">
 
-<div class="wrap">
-  <h2 class="sr-only">Prayer before meals generator — pick your occasion and tone to receive a blessing</h2>
-
-  <p class="site-label">Daily Prayers & Blessings</p>
-  <h1 class="hero-title">Grace Before Meals</h1>
-  <p class="hero-sub">Choose your occasion and receive a heartfelt blessing for your table.</p>
+  <div class="header">
+    <span class="site-badge">Daily Prayers &amp; Blessings</span>
+    <h1 class="main-title">Grace Before Meals</h1>
+    <p class="main-sub">Choose your occasion and receive a heartfelt blessing for your table.</p>
+  </div>
 
   <p class="section-label">Choose your occasion</p>
-  <div class="occasion-grid" id="occasionGrid">
+  <div class="occasion-grid">
     <button class="occasion-btn" data-occasion="everyday" onclick="selectOccasion(this)">
       <span class="occ-icon">🍽️</span>
       <span class="occ-name">Everyday meal</span>
@@ -150,17 +352,17 @@
     <button class="occasion-btn" data-occasion="holiday" onclick="selectOccasion(this)">
       <span class="occ-icon">✨</span>
       <span class="occ-name">Holiday gathering</span>
-      <span class="occ-desc">Christmas, Easter & more</span>
+      <span class="occ-desc">Christmas, Easter &amp; more</span>
     </button>
   </div>
 
   <hr class="divider">
 
   <p class="section-label">Tone of the blessing</p>
-  <div class="tone-row" id="toneRow">
-    <button class="tone-chip" data-tone="warm" onclick="selectTone(this)">Warm & personal</button>
-    <button class="tone-chip" data-tone="reverent" onclick="selectTone(this)">Reverent & traditional</button>
-    <button class="tone-chip" data-tone="short" onclick="selectTone(this)">Short & simple</button>
+  <div class="tone-row">
+    <button class="tone-chip" data-tone="warm" onclick="selectTone(this)">Warm &amp; personal</button>
+    <button class="tone-chip" data-tone="reverent" onclick="selectTone(this)">Reverent &amp; traditional</button>
+    <button class="tone-chip" data-tone="short" onclick="selectTone(this)">Short &amp; simple</button>
     <button class="tone-chip" data-tone="family" onclick="selectTone(this)">For the whole family</button>
   </div>
 
@@ -169,9 +371,10 @@
   <button class="gen-btn" id="genBtn" onclick="generatePrayer()" disabled>Receive your blessing</button>
 
   <div class="result-card" id="resultCard">
-    <span class="result-occasion-tag" id="resultTag"></span>
+    <span class="result-tag" id="resultTag"></span>
+    <div class="cross-row">✦ ✦ ✦</div>
     <p class="prayer-text" id="prayerText"></p>
-    <div class="verse-row">
+    <div class="verse-block">
       <p class="verse-label">Scripture</p>
       <p class="verse-text" id="verseText"></p>
       <p class="verse-ref" id="verseRef"></p>
@@ -182,15 +385,19 @@
       <button class="action-btn" onclick="generatePrayer()">New blessing</button>
     </div>
   </div>
-</div>
 
+  <div class="footer">
+    <p>A free tool by <a href="https://dailyprayersandblessings.com" target="_blank">DailyPrayersAndBlessings.com</a></p>
+  </div>
+
+</div>
 <script>
 const prayers = {
   everyday: {
     warm: [
       { prayer: "Lord, thank You for this meal before us and for the hands that prepared it. You provide for us day after day, and we do not take a single bite for granted. May this food nourish our bodies and may this table be a place of love and laughter. In Jesus name, Amen.", verse: "Give us this day our daily bread.", ref: "Matthew 6:11 (ESV)" },
       { prayer: "Heavenly Father, we pause before this meal to remember that every good gift comes from You. Thank You for filling our table and for filling our lives with Your goodness. Bless this food and bless everyone seated here. Amen.", verse: "Every good gift and every perfect gift is from above, coming down from the Father of lights.", ref: "James 1:17 (ESV)" },
-      { prayer: "Father, we thank You for Your faithfulness — seen in every meal, in every provision, in every ordinary day. Bless this food we are about to receive. Let it strengthen us to love You and to love others well. Amen.", verse: "His mercies are new every morning; great is his faithfulness.", ref: "Lamentations 3:23 (NLT)" },
+      { prayer: "Father, we thank You for Your faithfulness seen in every meal, in every provision, in every ordinary day. Bless this food we are about to receive. Let it strengthen us to love You and to love others well. Amen.", verse: "His mercies are new every morning; great is his faithfulness.", ref: "Lamentations 3:23 (NLT)" },
     ],
     reverent: [
       { prayer: "Almighty God, we bow before You in gratitude as we receive this gift of food. You are the source of all life and all provision. May we eat with thankful hearts, mindful of Your mercy that sustains us each day. Through Christ our Lord, Amen.", verse: "Oh give thanks to the Lord, for he is good, for his steadfast love endures forever!", ref: "Psalm 107:1 (ESV)" },
@@ -213,40 +420,40 @@ const prayers = {
     ],
     reverent: [
       { prayer: "Lord of the Sabbath, we thank You for the day You have set apart for rest, worship, and renewal. As we receive this meal, we carry the hymns and Your Word still in our hearts. Sanctify this table as You have sanctified this day. Through Christ, Amen.", verse: "Remember the Sabbath day, to keep it holy.", ref: "Exodus 20:8 (ESV)" },
-      { prayer: "Heavenly Father, this Sunday table is an extension of Your sanctuary. We ate of Your Word this morning; now we eat of Your provision at noon. You are faithful to nourish us body and soul. We receive this meal with gratitude and reverence. Amen.", verse: "Man shall not live by bread alone, but by every word that comes from the mouth of God.", ref: "Matthew 4:4 (ESV)" },
+      { prayer: "Heavenly Father, this Sunday table is an extension of Your sanctuary. We ate of Your Word this morning; now we eat of Your provision. You are faithful to nourish us body and soul. We receive this meal with gratitude and reverence. Amen.", verse: "Man shall not live by bread alone, but by every word that comes from the mouth of God.", ref: "Matthew 4:4 (ESV)" },
     ],
     short: [
-      { prayer: "Lord, thank You for this Sunday and for this meal. You have blessed us richly — body and soul. Amen.", verse: "This is the day that the Lord has made; let us rejoice.", ref: "Psalm 118:24 (ESV)" },
+      { prayer: "Lord, thank You for this Sunday and for this meal. You have blessed us richly, body and soul. Amen.", verse: "This is the day that the Lord has made; let us rejoice.", ref: "Psalm 118:24 (ESV)" },
     ],
     family: [
-      { prayer: "Father, Sunday belongs to You, and so do we. We have worshipped together and now we eat together — grateful for both gifts. Bless this family meal and let Your peace rest over our home for the rest of this day. Amen.", verse: "Blessed is everyone who fears the Lord, who walks in his ways! You shall eat the fruit of the labor of your hands; you shall be blessed, and it shall be well with you.", ref: "Psalm 128:1-2 (ESV)" },
+      { prayer: "Father, Sunday belongs to You, and so do we. We have worshipped together and now we eat together, grateful for both gifts. Bless this family meal and let Your peace rest over our home for the rest of this day. Amen.", verse: "Blessed is everyone who fears the Lord, who walks in his ways!", ref: "Psalm 128:1 (ESV)" },
     ],
   },
   birthday: {
     warm: [
-      { prayer: "Lord, today we celebrate the gift of [Name]'s life. You formed them, You love them, and You have plans for them greater than we can imagine. Bless this meal and bless this moment of celebration. May this year ahead be full of Your goodness and surprises. In Jesus name, Amen.", verse: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.", ref: "Jeremiah 29:11 (NIV)" },
+      { prayer: "Lord, today we celebrate the gift of this special life. You formed them, You love them, and You have plans for them greater than we can imagine. Bless this meal and bless this moment of celebration. May this year ahead be full of Your goodness and surprises. In Jesus name, Amen.", verse: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.", ref: "Jeremiah 29:11 (NIV)" },
       { prayer: "Father, thank You for placing this person in our lives. Every birthday is a reminder of Your faithfulness through another year. Bless this celebration, bless this food, and bless the one we are honouring today. May they feel Your love deeply. Amen.", verse: "The Lord bless you and keep you; the Lord make his face shine on you and be gracious to you.", ref: "Numbers 6:24-25 (NIV)" },
-      { prayer: "Heavenly Father, we gather today to celebrate a life that is a gift from You. Thank You for every year You have given, for every blessing poured out, and for the year ahead. Bless this table, bless this cake, and bless the one we love. Amen.", verse: "This is the day that the Lord has made; let us rejoice and be glad in it.", ref: "Psalm 118:24 (ESV)" },
+      { prayer: "Heavenly Father, we gather today to celebrate a life that is a gift from You. Thank You for every year You have given, for every blessing poured out, and for the year ahead. Bless this table and bless the one we love. Amen.", verse: "This is the day that the Lord has made; let us rejoice and be glad in it.", ref: "Psalm 118:24 (ESV)" },
     ],
     reverent: [
-      { prayer: "Lord God, birthdays are a holy reminder that every life is Your design. We thank You for the years You have given and for the faithfulness You have shown. As we celebrate, we invite Your continued blessing over this life and over this meal. Amen.", verse: "Your eyes saw my unformed substance; in your book were written, every one of them, the days that were formed for me.", ref: "Psalm 139:16 (ESV)" },
+      { prayer: "Lord God, birthdays are a holy reminder that every life is Your design. We thank You for the years You have given and for the faithfulness You have shown. As we celebrate, we invite Your continued blessing over this life and over this meal. Amen.", verse: "Your eyes saw my unformed substance; in your book were written every one of the days that were formed for me.", ref: "Psalm 139:16 (ESV)" },
     ],
     short: [
       { prayer: "Lord, thank You for this birthday and for the beautiful life we are celebrating. Bless this meal and bless the year ahead. Amen.", verse: "May the Lord bless you and keep you.", ref: "Numbers 6:24 (NIV)" },
     ],
     family: [
       { prayer: "Father, what a joy to celebrate one of our own today. You knit them together with love and purpose, and we are better because they are in our family. Bless this celebration meal and let laughter and love fill every moment around this table. Amen.", verse: "Children are a heritage from the Lord, the fruit of the womb a reward.", ref: "Psalm 127:3 (ESV)" },
-      { prayer: "Lord, today our family circles around someone very special. Thank You for the gift of another year and for all the memories shared. May this birthday meal be a foretaste of Your goodness still to come in their life. Amen.", verse: "I will pour out my Spirit on all people. Your sons and daughters will prophesy.", ref: "Joel 2:28 (NIV)" },
+      { prayer: "Lord, today our family gathers around someone very special. Thank You for the gift of another year and for all the memories shared. May this birthday meal be a foretaste of Your goodness still to come in their life. Amen.", verse: "I will pour out my Spirit on all people. Your sons and daughters will prophesy.", ref: "Joel 2:28 (NIV)" },
     ],
   },
   holiday: {
     warm: [
       { prayer: "Lord, this gathering is one of Your greatest gifts to us. Thank You for the season, for those who have travelled to be here, and for the love that fills this room. Bless the food on this table and the hearts around it. May this holiday meal be a memory we carry for years. Amen.", verse: "Give thanks to the Lord, for he is good; his love endures forever.", ref: "Psalm 107:1 (NIV)" },
-      { prayer: "Father, the holidays remind us that You gave the greatest gift of all — Your Son. As we gather and give gifts to one another, help us to receive the gift of this moment with gratitude. Bless this meal and bless every person at this table. Amen.", verse: "For God so loved the world, that he gave his only Son.", ref: "John 3:16 (ESV)" },
+      { prayer: "Father, the holidays remind us that You gave the greatest gift of all, Your Son. As we gather and give gifts to one another, help us to receive the gift of this moment with gratitude. Bless this meal and bless every person at this table. Amen.", verse: "For God so loved the world, that he gave his only Son.", ref: "John 3:16 (ESV)" },
       { prayer: "Lord, this is the season of Your faithfulness made visible. Thank You for family, for friends, and for the food before us. Bless this holiday table and help us to be truly present with one another today. Amen.", verse: "Great is his faithfulness; his mercies begin afresh each morning.", ref: "Lamentations 3:23 (NLT)" },
     ],
     reverent: [
-      { prayer: "Heavenly Father, we pause before this holiday feast to acknowledge that all of this — every gift, every person, every blessing of the season — comes from You. We receive this meal with hearts full of gratitude. May Christ be the centre of this celebration and of every day. Amen.", verse: "Thanks be to God for his inexpressible gift!", ref: "2 Corinthians 9:15 (ESV)" },
+      { prayer: "Heavenly Father, we pause before this holiday feast to acknowledge that all of this, every gift, every person, every blessing of the season, comes from You. We receive this meal with hearts full of gratitude. May Christ be the centre of this celebration and of every day. Amen.", verse: "Thanks be to God for his inexpressible gift!", ref: "2 Corinthians 9:15 (ESV)" },
       { prayer: "Lord of all seasons, we come before You at this holiday table in worship and thanksgiving. You have been faithful through all our years. Receive our gratitude and bless this meal as a symbol of Your endless provision. Through Christ our Lord, Amen.", verse: "Every good gift and every perfect gift is from above.", ref: "James 1:17 (ESV)" },
     ],
     short: [
@@ -260,7 +467,12 @@ const prayers = {
   },
 };
 
-const occasionLabels = { everyday: "Everyday meal", sunday: "Sunday meal", birthday: "Birthday", holiday: "Holiday gathering" };
+const occasionLabels = {
+  everyday: "Everyday meal",
+  sunday: "Sunday meal",
+  birthday: "Birthday celebration",
+  holiday: "Holiday gathering"
+};
 
 let selectedOccasion = null;
 let selectedTone = null;
@@ -288,34 +500,41 @@ function generatePrayer() {
   const item = pool[Math.floor(Math.random() * pool.length)];
   document.getElementById('resultTag').textContent = occasionLabels[selectedOccasion];
   document.getElementById('prayerText').textContent = item.prayer;
-  document.getElementById('verseText').textContent = "\u201C" + item.verse + "\u201D";
-  document.getElementById('verseRef').textContent = "\u2014 " + item.ref;
+  document.getElementById('verseText').textContent = '\u201C' + item.verse + '\u201D';
+  document.getElementById('verseRef').textContent = '\u2014 ' + item.ref;
   const card = document.getElementById('resultCard');
   card.classList.add('visible');
   const copyBtn = document.getElementById('copyBtn');
   copyBtn.textContent = 'Copy blessing';
   copyBtn.classList.remove('copied');
-  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  setTimeout(function() {
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
 }
 
 function copyPrayer() {
   const prayer = document.getElementById('prayerText').textContent;
   const verse = document.getElementById('verseText').textContent;
   const ref = document.getElementById('verseRef').textContent;
-  const full = prayer + "\n\n" + verse + "\n" + ref + "\n\n— DailyPrayersAndBlessings.com";
-  navigator.clipboard.writeText(full).then(() => {
-    const btn = document.getElementById('copyBtn');
+  const full = prayer + '\n\n' + verse + '\n' + ref + '\n\nFrom DailyPrayersAndBlessings.com';
+  navigator.clipboard.writeText(full).then(function() {
+    var btn = document.getElementById('copyBtn');
     btn.textContent = 'Copied!';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy blessing'; btn.classList.remove('copied'); }, 2500);
+    setTimeout(function() {
+      btn.textContent = 'Copy blessing';
+      btn.classList.remove('copied');
+    }, 2500);
   });
 }
 
 function shareWhatsApp() {
-  const prayer = document.getElementById('prayerText').textContent;
-  const verse = document.getElementById('verseText').textContent;
-  const ref = document.getElementById('verseRef').textContent;
-  const msg = encodeURIComponent("A blessing before our meal:\n\n" + prayer + "\n\n" + verse + "\n" + ref + "\n\n— DailyPrayersAndBlessings.com");
-  window.open("https://wa.me/?text=" + msg, '_blank');
+  var prayer = document.getElementById('prayerText').textContent;
+  var verse = document.getElementById('verseText').textContent;
+  var ref = document.getElementById('verseRef').textContent;
+  var msg = encodeURIComponent('A blessing before our meal:\n\n' + prayer + '\n\n' + verse + '\n' + ref + '\n\nFrom DailyPrayersAndBlessings.com');
+  window.open('https://wa.me/?text=' + msg, '_blank');
 }
 </script>
+</body>
+</html>
