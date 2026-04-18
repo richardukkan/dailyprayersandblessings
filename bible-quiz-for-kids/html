@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible Quiz for Kids | Daily Prayers & Blessings</title>
+<meta name="description" content="A fun and easy Bible quiz for kids ages 4-8. Learn about Noah's Ark, Baby Jesus, David & Goliath and more through simple questions and colorful fun!">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #e8f4f8;
+    --sky-mid: #c8e6f0;
+    --blue: #4a90b8;
+    --blue-dark: #2d6a8f;
+    --gold: #f5c842;
+    --gold-dark: #d4a820;
+    --white: #ffffff;
+    --text: #1a3a4a;
+    --text-light: #4a7a90;
+    --correct: #5cb85c;
+    --wrong: #e05a5a;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(74,144,184,0.15);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Nunito',sans-serif; background:var(--sky); color:var(--text); min-height:100vh; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image: radial-gradient(circle at 15% 20%,rgba(255,255,255,0.7) 0%,transparent 25%), radial-gradient(circle at 85% 15%,rgba(255,255,255,0.5) 0%,transparent 20%), radial-gradient(circle at 50% 80%,rgba(255,255,255,0.4) 0%,transparent 22%); pointer-events:none; z-index:0; }
+  .wrap { position:relative; z-index:1; max-width:680px; margin:0 auto; padding:24px 16px 48px; }
+
+  /* Header */
+  .header { text-align:center; margin-bottom:28px; }
+  .header-badge { display:inline-block; background:var(--blue); color:var(--white); font-family:'Baloo 2',cursive; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:10px; }
+  .header h1 { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,5vw,2.6rem); font-weight:800; color:var(--blue-dark); line-height:1.15; margin-bottom:6px; }
+  .header p { font-size:15px; color:var(--text-light); font-weight:600; }
+
+  /* Stars bar */
+  .stars-bar { display:flex; align-items:center; justify-content:space-between; background:var(--white); border-radius:var(--radius); padding:12px 20px; margin-bottom:14px; box-shadow:var(--shadow); flex-wrap:wrap; gap:8px; }
+  .stars-bar-left { display:flex; align-items:center; gap:8px; }
+  .stars-count { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:700; color:var(--blue-dark); }
+  .stars-label { font-size:13px; color:var(--text-light); font-weight:600; }
+  .star-icons { display:flex; gap:3px; flex-wrap:wrap; max-width:200px; }
+  .star-icon { font-size:17px; }
+  .star-icon.earned { animation:starPop 0.4s ease; }
+  @keyframes starPop { 0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.3) rotate(10deg)}100%{transform:scale(1) rotate(0)} }
+  .progress-pill { font-family:'Baloo 2',cursive; font-size:13px; font-weight:700; color:var(--text-light); background:var(--sky); padding:4px 12px; border-radius:20px; }
+
+  /* Nav row */
+  .nav-row { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .nav-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:10px; border:2px solid var(--sky-mid); background:var(--white); font-family:'Nunito',sans-serif; font-size:13px; font-weight:700; color:var(--text-light); cursor:pointer; transition:all 0.2s ease; white-space:nowrap; }
+  .nav-btn:hover:not(:disabled) { border-color:var(--blue); color:var(--blue); }
+  .nav-btn:disabled { opacity:0.35; cursor:default; }
+  .nav-btn.danger:hover { border-color:var(--wrong); color:var(--wrong); }
+  .nav-btn.pdf-btn { border-color:var(--gold-dark); color:var(--gold-dark); }
+  .nav-btn.pdf-btn:hover { background:var(--gold); border-color:var(--gold-dark); color:var(--text); }
+
+  /* Progress bar */
+  .prog-bar-wrap { background:var(--sky-mid); border-radius:20px; height:8px; margin-bottom:18px; overflow:hidden; }
+  .prog-bar-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--blue-dark)); border-radius:20px; transition:width 0.4s ease; }
+
+  /* Question card */
+  .question-card { background:var(--white); border-radius:var(--radius); padding:28px 28px 24px; box-shadow:var(--shadow); margin-bottom:16px; animation:cardIn 0.35s ease both; }
+  @keyframes cardIn { from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)} }
+  .question-topic { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--blue); margin-bottom:14px; background:var(--sky); padding:4px 12px; border-radius:20px; }
+  .question-text { font-family:'Baloo 2',cursive; font-size:clamp(1.1rem,3vw,1.35rem); font-weight:700; color:var(--text); line-height:1.4; margin-bottom:22px; }
+
+  /* Options */
+  .options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .option-btn { display:flex; align-items:center; gap:10px; padding:14px 16px; background:var(--sky); border:2.5px solid var(--sky-mid); border-radius:12px; cursor:pointer; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; color:var(--text); text-align:left; transition:all 0.2s ease; line-height:1.3; }
+  .option-btn:hover:not(:disabled) { border-color:var(--blue); background:rgba(74,144,184,0.08); transform:translateY(-2px); }
+  .option-btn .emoji { font-size:22px; min-width:28px; text-align:center; }
+  .option-btn.correct { background:rgba(92,184,92,0.12); border-color:var(--correct); color:#2d7a2d; }
+  .option-btn.wrong { background:rgba(224,90,90,0.10); border-color:var(--wrong); color:#a03030; }
+  .option-btn:disabled { cursor:default; }
+
+  /* Feedback */
+  .feedback { display:none; align-items:center; gap:10px; margin-top:14px; padding:12px 18px; border-radius:10px; font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; animation:feedIn 0.3s ease both; }
+  @keyframes feedIn { from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)} }
+  .feedback.correct { background:rgba(92,184,92,0.12); color:#2d7a2d; display:flex; }
+  .feedback.wrong { background:rgba(224,90,90,0.10); color:#a03030; display:flex; }
+  .feedback.review { background:var(--sky); color:var(--text-light); display:flex; }
+  .feedback-icon { font-size:1.4rem; }
+
+  /* Action row */
+  .action-row { display:flex; gap:10px; margin-top:16px; }
+  .action-btn { flex:1; padding:14px; font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; border:none; border-radius:12px; cursor:pointer; transition:all 0.2s ease; letter-spacing:0.03em; }
+  .action-btn.primary { background:var(--blue); color:var(--white); }
+  .action-btn.primary:hover { background:var(--blue-dark); transform:translateY(-2px); }
+  .action-btn.secondary { background:var(--sky); color:var(--blue-dark); border:2px solid var(--sky-mid); }
+  .action-btn.secondary:hover { background:var(--sky-mid); }
+
+  /* Exit modal */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(26,58,74,0.5); z-index:500; align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.show { display:flex; }
+  .modal { background:var(--white); border-radius:var(--radius); padding:32px 28px; max-width:360px; width:100%; text-align:center; box-shadow:0 8px 40px rgba(26,58,74,0.2); animation:cardIn 0.3s ease both; }
+  .modal-emoji { font-size:3rem; margin-bottom:12px; display:block; }
+  .modal h3 { font-family:'Baloo 2',cursive; font-size:1.4rem; font-weight:800; color:var(--blue-dark); margin-bottom:8px; }
+  .modal p { font-size:14px; color:var(--text-light); font-weight:600; margin-bottom:20px; line-height:1.5; }
+  .modal-btns { display:flex; gap:10px; }
+  .modal-btn { flex:1; padding:12px; font-family:'Baloo 2',cursive; font-size:14px; font-weight:700; border:none; border-radius:10px; cursor:pointer; transition:all 0.2s ease; }
+  .modal-btn.primary { background:var(--wrong); color:var(--white); }
+  .modal-btn.primary:hover { opacity:0.85; }
+  .modal-btn.secondary { background:var(--sky); color:var(--blue-dark); border:2px solid var(--sky-mid); }
+  .modal-btn.secondary:hover { background:var(--sky-mid); }
+
+  /* Results */
+  .results { display:none; background:var(--white); border-radius:var(--radius); padding:40px 28px; box-shadow:var(--shadow); text-align:center; animation:cardIn 0.4s ease both; }
+  .results-emoji { font-size:4rem; margin-bottom:12px; display:block; }
+  .results-title { font-family:'Baloo 2',cursive; font-size:clamp(1.6rem,4vw,2.2rem); font-weight:800; color:var(--blue-dark); margin-bottom:8px; }
+  .results-score { font-family:'Baloo 2',cursive; font-size:3.5rem; font-weight:800; color:var(--blue); line-height:1; margin:16px 0 8px; }
+  .results-label { font-size:15px; color:var(--text-light); font-weight:700; margin-bottom:20px; }
+  .results-stars { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; margin:16px 0 24px; font-size:1.8rem; }
+  .results-badge { display:inline-block; background:var(--sky); border:2px solid var(--sky-mid); border-radius:12px; padding:10px 22px; font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; color:var(--blue-dark); margin-bottom:24px; }
+  .results-btns { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:24px; }
+  .results-btn { padding:13px 20px; font-family:'Baloo 2',cursive; font-size:14px; font-weight:700; border:none; border-radius:12px; cursor:pointer; transition:all 0.2s ease; }
+  .results-btn.primary { background:var(--blue); color:var(--white); }
+  .results-btn.primary:hover { background:var(--blue-dark); }
+  .results-btn.secondary { background:var(--sky); color:var(--blue-dark); border:2px solid var(--sky-mid); }
+  .results-btn.secondary:hover { background:var(--sky-mid); }
+  .results-btn.pdf { background:var(--gold); color:var(--text); border:2px solid var(--gold-dark); }
+  .results-btn.pdf:hover { background:var(--gold-dark); color:var(--white); }
+
+  /* Answer review */
+  .answer-review { margin-top:12px; text-align:left; }
+  .answer-review-title { font-family:'Baloo 2',cursive; font-size:1.1rem; font-weight:700; color:var(--blue-dark); margin-bottom:14px; text-align:center; }
+  .answer-item { background:var(--sky); border-radius:10px; padding:12px 16px; margin-bottom:10px; border-left:4px solid var(--sky-mid); }
+  .answer-item.correct-item { border-left-color:var(--correct); background:rgba(92,184,92,0.07); }
+  .answer-item.wrong-item { border-left-color:var(--wrong); background:rgba(224,90,90,0.06); }
+  .answer-item-q { font-weight:700; font-size:14px; color:var(--text); margin-bottom:6px; }
+  .answer-item-detail { font-size:13px; font-weight:600; }
+  .correct-ans { color:#2d7a2d; }
+  .wrong-ans { color:#a03030; }
+
+  /* Start screen */
+  .start-screen { background:var(--white); border-radius:var(--radius); padding:40px 28px; box-shadow:var(--shadow); text-align:center; }
+  .start-screen-emoji { font-size:3.5rem; margin-bottom:12px; display:block; }
+  .start-screen h2 { font-family:'Baloo 2',cursive; font-size:1.6rem; font-weight:800; color:var(--blue-dark); margin-bottom:10px; }
+  .start-screen p { font-size:15px; color:var(--text-light); font-weight:600; margin-bottom:24px; line-height:1.6; }
+  .start-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px; }
+  .start-topic-card { background:var(--sky); border:2px solid var(--sky-mid); border-radius:12px; padding:16px 10px; cursor:pointer; transition:all 0.2s ease; text-align:center; }
+  .start-topic-card:hover { border-color:var(--blue); transform:translateY(-2px); }
+  .start-topic-card.selected { border-color:var(--blue); background:rgba(74,144,184,0.1); }
+  .start-topic-card .t-emoji { font-size:2rem; margin-bottom:6px; display:block; }
+  .start-topic-card .t-name { font-family:'Baloo 2',cursive; font-size:13px; font-weight:700; color:var(--text); }
+  .q-count-row { display:flex; justify-content:center; gap:10px; margin-bottom:24px; flex-wrap:wrap; }
+  .q-count-btn { padding:8px 20px; border-radius:20px; border:2px solid var(--sky-mid); background:var(--white); font-family:'Baloo 2',cursive; font-size:14px; font-weight:700; color:var(--text-light); cursor:pointer; transition:all 0.2s ease; }
+  .q-count-btn.active,.q-count-btn:hover { background:var(--blue); color:var(--white); border-color:var(--blue); }
+  .start-btn { width:100%; padding:18px; background:var(--blue); color:var(--white); font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:800; border:none; border-radius:12px; cursor:pointer; transition:all 0.2s ease; }
+  .start-btn:hover { background:var(--blue-dark); transform:translateY(-2px); }
+
+  /* Confetti */
+  .confetti-piece { position:fixed; pointer-events:none; z-index:9999; border-radius:2px; animation:confettiFall linear forwards; }
+  @keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+  @media (max-width:480px) {
+    .options { grid-template-columns:1fr; }
+    .action-row { flex-direction:column; }
+    .question-card { padding:20px 16px; }
+    .results { padding:28px 16px; }
+    .nav-row { gap:6px; }
+    .nav-btn { font-size:12px; padding:7px 11px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="header-badge">✝ Daily Prayers &amp; Blessings</div>
+    <h1>⭐ Bible Quiz for Kids</h1>
+    <p>Fun questions for little Bible explorers! Ages 4–8</p>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <span class="start-screen-emoji">📖</span>
+    <h2>Ready to Play?</h2>
+    <p>Choose a Bible topic and how many questions you want. Collect stars for every right answer!</p>
+    <div class="start-options">
+      <div class="start-topic-card selected" data-topic="all" onclick="selectTopic(this)"><span class="t-emoji">🌟</span><div class="t-name">All Topics</div></div>
+      <div class="start-topic-card" data-topic="creation" onclick="selectTopic(this)"><span class="t-emoji">🌍</span><div class="t-name">Creation</div></div>
+      <div class="start-topic-card" data-topic="noahsark" onclick="selectTopic(this)"><span class="t-emoji">🚢</span><div class="t-name">Noah's Ark</div></div>
+      <div class="start-topic-card" data-topic="babyjesus" onclick="selectTopic(this)"><span class="t-emoji">⭐</span><div class="t-name">Baby Jesus</div></div>
+      <div class="start-topic-card" data-topic="davidgoliath" onclick="selectTopic(this)"><span class="t-emoji">🪨</span><div class="t-name">David &amp; Goliath</div></div>
+      <div class="start-topic-card" data-topic="miracles" onclick="selectTopic(this)"><span class="t-emoji">✨</span><div class="t-name">Miracles</div></div>
+      <div class="start-topic-card" data-topic="prayer" onclick="selectTopic(this)"><span class="t-emoji">🙏</span><div class="t-name">Prayer &amp; Faith</div></div>
+      <div class="start-topic-card" data-topic="animals" onclick="selectTopic(this)"><span class="t-emoji">🦁</span><div class="t-name">Bible Animals</div></div>
+    </div>
+    <div class="q-count-row">
+      <button class="q-count-btn active" onclick="selectCount(this,10)">10 Questions</button>
+      <button class="q-count-btn" onclick="selectCount(this,20)">20 Questions</button>
+      <button class="q-count-btn" onclick="selectCount(this,30)">30 Questions</button>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">🚀 Start Quiz!</button>
+  </div>
+
+  <!-- Quiz Area -->
+  <div id="quizArea" style="display:none;">
+    <div class="stars-bar">
+      <div class="stars-bar-left">
+        <div class="stars-count" id="starCount">0</div>
+        <div class="stars-label">⭐ Stars</div>
+      </div>
+      <div class="star-icons" id="starIcons"></div>
+      <div class="progress-pill" id="progressPill">1 / 10</div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>⬅️ Previous</button>
+      <button class="nav-btn danger" onclick="showExitModal()">🚪 Exit Quiz</button>
+      <button class="nav-btn pdf-btn" onclick="downloadQuestionsPDF()">📄 Download Questions</button>
+    </div>
+
+    <div class="prog-bar-wrap">
+      <div class="prog-bar-fill" id="progBar" style="width:0%"></div>
+    </div>
+
+    <div class="question-card" id="questionCard">
+      <div class="question-topic" id="questionTopic">📖 Bible</div>
+      <div class="question-text" id="questionText">Loading...</div>
+      <div class="options" id="optionsGrid"></div>
+      <div class="feedback" id="feedback">
+        <span class="feedback-icon" id="feedbackIcon"></span>
+        <span id="feedbackText"></span>
+      </div>
+      <div class="action-row">
+        <button class="action-btn secondary" id="prevBtn" style="display:none;" onclick="goBack()">⬅️ Previous</button>
+        <button class="action-btn primary" id="nextBtn" style="display:none;" onclick="nextQuestion()">Next ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <span class="results-emoji" id="resultsEmoji">🎉</span>
+    <div class="results-title" id="resultsTitle">Amazing Job!</div>
+    <div class="results-score" id="resultsScore">0/0</div>
+    <div class="results-label">stars collected</div>
+    <div class="results-stars" id="resultsStars"></div>
+    <div class="results-badge" id="resultsBadge">🏅 Bible Explorer</div>
+    <div class="results-btns">
+      <button class="results-btn primary" onclick="restartSame()">🔄 Play Again</button>
+      <button class="results-btn secondary" onclick="goHome()">🏠 New Topic</button>
+      <button class="results-btn pdf" onclick="downloadAnswersPDF()">📄 Download Answers PDF</button>
+    </div>
+    <div class="answer-review" id="answerReview"></div>
+  </div>
+</div>
+
+<!-- Exit Modal -->
+<div class="modal-overlay" id="exitModal">
+  <div class="modal">
+    <span class="modal-emoji">🚪</span>
+    <h3>Exit the Quiz?</h3>
+    <p>You have answered <strong id="exitProgress">0</strong> questions so far. Your progress will be lost.</p>
+    <div class="modal-btns">
+      <button class="modal-btn secondary" onclick="hideExitModal()">Keep Playing</button>
+      <button class="modal-btn primary" onclick="confirmExit()">Yes, Exit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ALL_QUESTIONS = [
+  {topic:"creation",emoji:"🌍",q:"Who made the whole world?",opts:["🐻 A bear","🧙 A wizard","🙏 God","👑 A king"],ans:2},
+  {topic:"creation",emoji:"🌍",q:"How many days did God take to make the world?",opts:["🌙 3 days","☀️ 6 days","🌟 10 days","🌈 1 day"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"What did God make on the very first day?",opts:["🐠 Fish","💡 Light","🌳 Trees","🌙 The moon"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"What did God make on Day 6?",opts:["🌊 The sea","⭐ Stars","👨 People","🐦 Birds"],ans:2},
+  {topic:"creation",emoji:"🌍",q:"What did God do on Day 7?",opts:["🌊 Made oceans","😴 Rested","🌳 Made trees","🐘 Made elephants"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"What was the name of the first man God made?",opts:["🧔 Noah","👦 David","🧑 Adam","👨 Moses"],ans:2},
+  {topic:"creation",emoji:"🌍",q:"What was the name of the first woman?",opts:["🌸 Mary","🌺 Eve","🌼 Sarah","🌻 Ruth"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"Where did God put Adam and Eve to live?",opts:["🏔️ A mountain","🌳 The Garden of Eden","🏜️ A desert","🏠 A house"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"What did God make on Day 2?",opts:["☁️ The sky","🐠 Fish","🌹 Flowers","🌙 The moon"],ans:0},
+  {topic:"creation",emoji:"🌍",q:"What did God make on Day 3?",opts:["☀️ The sun","🌊 Dry land and plants","⭐ Stars","🐓 Birds"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"What did God make on Day 4?",opts:["🐳 Whales","☀️ Sun moon and stars","🦁 Lions","👨 People"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"What did God make on Day 5?",opts:["🐟 Fish and birds","🌳 Trees","💡 Light","👩 Women"],ans:0},
+  {topic:"creation",emoji:"🌍",q:"What did God make Eve from?",opts:["🌊 Water","🌱 A plant","🦴 Adam's rib","⭐ A star"],ans:2},
+  {topic:"creation",emoji:"🌍",q:"What did Adam and Eve eat that they should not have?",opts:["🍌 Banana","🍎 Fruit from the forbidden tree","🍇 Grapes","🍊 Orange"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"What animal tricked Eve in the garden?",opts:["🦁 Lion","🐍 Snake","🐻 Bear","🦊 Fox"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"God said His creation was very...?",opts:["🎈 Big","⚡ Scary","✅ Good","💧 Wet"],ans:2},
+  {topic:"creation",emoji:"🌍",q:"What did God breathe into Adam to make him alive?",opts:["💨 The breath of life","🌊 Water","🔥 Fire","💡 Light"],ans:0},
+  {topic:"creation",emoji:"🌍",q:"What did God plant in the Garden of Eden?",opts:["🏠 A house","🌳 All kinds of trees","🌊 A river","⭐ Stars"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"Who named all the animals in the Bible?",opts:["🌸 Eve","🧑 Adam","🐍 The snake","🙏 God"],ans:1},
+  {topic:"creation",emoji:"🌍",q:"What were the names of Adam and Eve's first two sons?",opts:["🧒 Noah and Shem","🧒 Cain and Abel","🧒 Peter and Paul","🧒 James and John"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"What did God tell Noah to build?",opts:["🏠 A house","🌉 A bridge","🚢 A big boat (ark)","🗼 A tower"],ans:2},
+  {topic:"noahsark",emoji:"🚢",q:"How many of each animal went on the ark?",opts:["🐾 1","🐾 2","🐾 5","🐾 10"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"What covered the whole earth during the flood?",opts:["❄️ Snow","🔥 Fire","🌊 Water","🌫️ Clouds"],ans:2},
+  {topic:"noahsark",emoji:"🚢",q:"What bird did Noah send out first?",opts:["🦅 An eagle","🕊️ A dove","🐦 A crow","🦜 A parrot"],ans:2},
+  {topic:"noahsark",emoji:"🚢",q:"What did the dove bring back?",opts:["🌸 A flower","🍎 An apple","🫒 An olive branch","🌾 Wheat"],ans:2},
+  {topic:"noahsark",emoji:"🚢",q:"What did God put in the sky as a promise?",opts:["⭐ A star","🌈 A rainbow","☀️ The sun","🌙 The moon"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"How many sons did Noah have?",opts:["🧒 1","🧒 2","🧒 3","🧒 4"],ans:2},
+  {topic:"noahsark",emoji:"🚢",q:"Why did God choose Noah?",opts:["💪 He was strongest","🧠 He was smartest","✅ He was good and obeyed God","🏆 He was richest"],ans:2},
+  {topic:"noahsark",emoji:"🚢",q:"How long did it rain during the flood?",opts:["🌧️ 7 days","🌧️ 40 days and nights","🌧️ 10 days","🌧️ 1 year"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"What is the big boat Noah built called?",opts:["🚢 The Titanic","🚢 The Ark","🚢 The Ship","🚢 The Vessel"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"What did Noah's ark land on?",opts:["🌊 The ocean","🏔️ Mount Ararat","🌳 A forest","🏜️ A desert"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"What did Noah do first off the ark?",opts:["🍽️ Ate lunch","🙏 Built an altar and thanked God","🏠 Built a house","😴 Went to sleep"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"Who helped Noah build the ark?",opts:["👫 His neighbours","👨‍👩‍👦 His family","🧙 Wizards","🐘 Elephants"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"What material was the ark made from?",opts:["🪨 Stone","🌊 Reeds","🪵 Wood","🧱 Bricks"],ans:2},
+  {topic:"noahsark",emoji:"🚢",q:"How many floors did Noah's ark have?",opts:["🏢 1","🏢 2","🏢 3","🏢 4"],ans:2},
+  {topic:"noahsark",emoji:"🚢",q:"Who told Noah about the coming flood?",opts:["🌧️ The clouds","🙏 God","👨 An angel","⭐ A star"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"What were Noah's three sons named?",opts:["🧒 John Paul George","🧒 Shem Ham Japheth","🧒 Peter James John","🧒 Abel Cain Seth"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"How many people were on the ark?",opts:["👨‍👩‍👦 4","👨‍👩‍👦 8","👨‍👩‍👦 12","👨‍👩‍👦 2"],ans:1},
+  {topic:"noahsark",emoji:"🚢",q:"What did God promise after the flood?",opts:["🌊 Never to flood the earth again","☀️ Always sunshine","🌱 Grow more food","🦁 Gentle lions"],ans:0},
+  {topic:"babyjesus",emoji:"⭐",q:"Where was baby Jesus born?",opts:["🏠 A house","🏰 A palace","🐄 A stable in Bethlehem","⛺ A tent"],ans:2},
+  {topic:"babyjesus",emoji:"⭐",q:"What was baby Jesus laid in?",opts:["🛏️ A bed","🧺 A basket","🌿 A manger","🪑 A chair"],ans:2},
+  {topic:"babyjesus",emoji:"⭐",q:"What was Jesus's mother's name?",opts:["🌸 Martha","🌺 Mary","🌼 Elizabeth","🌻 Sarah"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"What was Jesus's father's name on earth?",opts:["🧔 Moses","👨 Joseph","🧑 David","👴 Abraham"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"What was in the sky when Jesus was born?",opts:["🌙 A big moon","⭐ A bright star","🌈 A rainbow","☁️ A big cloud"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"Who came to visit baby Jesus first?",opts:["🤴 Kings","🧙 Wise men","🐑 Shepherds","👼 Angels"],ans:2},
+  {topic:"babyjesus",emoji:"⭐",q:"Who told the shepherds about baby Jesus?",opts:["⭐ A star","📜 A letter","👼 Angels","🐦 A bird"],ans:2},
+  {topic:"babyjesus",emoji:"⭐",q:"What gifts did the Wise Men bring?",opts:["🍎 Fruits","👑 Gold frankincense and myrrh","🎁 Toys","🌸 Flowers"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"What did the Wise Men follow to find Jesus?",opts:["🗺️ A map","🐫 A camel trail","⭐ A star","🌈 A rainbow"],ans:2},
+  {topic:"babyjesus",emoji:"⭐",q:"What is Jesus's birthday celebration called?",opts:["🐣 Easter","🎄 Christmas","🎉 Pentecost","🙏 Lent"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"Why was there no room for Mary and Joseph?",opts:["💰 No money","🌊 A flood","🏨 The inn was full","⚡ A storm"],ans:2},
+  {topic:"babyjesus",emoji:"⭐",q:"What did the angel tell Joseph to name the baby?",opts:["🧔 Moses","👶 Jesus","👑 King","🌟 Emmanuel"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"Which town was Jesus born in?",opts:["🏙️ Jerusalem","🏘️ Nazareth","🌟 Bethlehem","🏔️ Galilee"],ans:2},
+  {topic:"babyjesus",emoji:"⭐",q:"Which king wanted to hurt baby Jesus?",opts:["👑 King Solomon","👑 King Herod","👑 King David","👑 King Saul"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"Where did Mary and Joseph take Jesus to escape King Herod?",opts:["🏔️ The mountains","🌍 Egypt","🏜️ The desert","🌊 By the sea"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"What did the shepherds do after seeing baby Jesus?",opts:["😴 Went to sleep","🙏 Praised God and told everyone","🎁 Gave gifts","🌸 Planted flowers"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"What animals were in the stable with baby Jesus?",opts:["🐯 Tigers","🦁 Lions","🐮🐑 Farm animals","🐬 Dolphins"],ans:2},
+  {topic:"babyjesus",emoji:"⭐",q:"Jesus grew up in which town?",opts:["🌟 Bethlehem","🏘️ Nazareth","🏙️ Jerusalem","🏔️ Jericho"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"How many disciples did Jesus have?",opts:["10","12","7","15"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"What does the name Jesus mean?",opts:["👑 King","🙏 God saves","🌟 Star","🕊️ Peace"],ans:1},
+  {topic:"babyjesus",emoji:"⭐",q:"Where did the Wise Men come from?",opts:["🏙️ Bethlehem","🌍 The East","🏔️ Mountains","🌊 The sea"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"What was the name of the big soldier David fought?",opts:["🐉 Dragon","👹 Goliath","🦁 The Giant","💪 Samson"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"What did David use to defeat Goliath?",opts:["🗡️ A sword","🏹 A bow and arrow","🪨 A sling and stone","🛡️ A shield"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"Before being king what was David's job?",opts:["🐟 Fisherman","🌾 Farmer","🐑 Shepherd","🏹 Soldier"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"How tall was Goliath?",opts:["🏀 Normal height","🦒 As tall as a giraffe","🏗️ Over 9 feet tall","🌳 As tall as a tree"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"Why was David not afraid of Goliath?",opts:["💪 He was very strong","🛡️ He had armour","🙏 He trusted God","⚔️ He had a big sword"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"What did David play music on?",opts:["🥁 A drum","🎸 A guitar","🎺 A trumpet","🎵 A harp"],ans:3},
+  {topic:"davidgoliath",emoji:"🪨",q:"Who was David's best friend?",opts:["🧔 Goliath","👑 Saul","🤝 Jonathan","🧒 Samuel"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"Which army was Goliath in?",opts:["🇮🇱 Israel","⚔️ The Philistines","🐉 A dragon army","👑 The king's guard"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"Where did David's stone hit Goliath?",opts:["🦵 His leg","💪 His arm","🧠 His forehead","🛡️ His armour"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"What did David become later in life?",opts:["🐑 A shepherd","⛵ A sailor","👑 The King of Israel","🏛️ A priest"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"How many brothers did David have?",opts:["🧒 2","🧒 5","🧒 7","🧒 10"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"Who was king before David?",opts:["👑 Solomon","👑 Saul","👑 Moses","👑 Abraham"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"What did David pick from the stream?",opts:["🌿 Leaves","🪨 5 smooth stones","💧 Water","🐟 A fish"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"Who chose David to be future king?",opts:["👑 King Saul","👨 David himself","🙏 God through Samuel","🧒 His brothers"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"What did David write many of in the Bible?",opts:["📖 Stories","🙏 Psalms","📜 Laws","📝 Letters"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"David was a man after God's own...?",opts:["💪 Strength","❤️ Heart","🧠 Mind","🙌 Hands"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"What animals did David fight to protect his sheep?",opts:["🐺 Wolves","🐊 Crocodiles","🦁 A lion and a bear","🐍 Snakes"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"David's psalm starts 'The Lord is my...'",opts:["🌟 Star","🛡️ Shield","🐑 Shepherd","🏠 Home"],ans:2},
+  {topic:"davidgoliath",emoji:"🪨",q:"What was David's father's name?",opts:["👨 Abraham","👨 Jesse","👨 Boaz","👨 Samuel"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"In which town was David born?",opts:["🏙️ Jerusalem","🌟 Bethlehem","🏘️ Nazareth","🏔️ Hebron"],ans:1},
+  {topic:"davidgoliath",emoji:"🪨",q:"Who was the wisest king in the Bible?",opts:["👑 David","👑 Saul","👑 Solomon","👑 Hezekiah"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"What did Jesus turn water into at a wedding?",opts:["🍹 Juice","🍷 Wine","🥛 Milk","☕ Tea"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"How many loaves fed 5000 people?",opts:["🍞 10","🍞 2","🍞 5","🍞 12"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"How many fish were there when Jesus fed 5000?",opts:["🐟 5","🐟 3","🐟 2","🐟 7"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"What did Jesus do when a storm scared His friends?",opts:["🏊 Swam away","😴 Slept","🌊 Calmed the storm","🚣 Rowed faster"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"What did Jesus do on the water?",opts:["🏄 Surfed","🚣 Rowed","🚶 Walked on water","🤿 Swam underwater"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"Who did Jesus raise from the dead?",opts:["🧔 Moses","👴 Abraham","🧑 Lazarus","👑 David"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"How long had Lazarus been dead?",opts:["⏰ 1 day","⏰ 2 days","⏰ 4 days","⏰ 1 week"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"What did Jesus heal that a blind man had trouble with?",opts:["👂 Hearing","👁️ Sight","🦵 Walking","🤚 His hands"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"Jesus healed ten men who had what sickness?",opts:["🤧 A cold","🤒 Leprosy","😷 Fever","🤕 Broken bones"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"Where was Jesus's first miracle?",opts:["🌊 By the sea","🎉 At a wedding","🏔️ On a mountain","🌟 In a field"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"Peter started to sink because he felt...?",opts:["😴 Sleepy","😨 Afraid","🤢 Sick","😂 Laughing"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"What miracle did Moses do to help Israel escape Egypt?",opts:["🏔️ Moved a mountain","🌊 Parted the Red Sea","🔥 Made fire rain","⭐ Made new stars"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"What did Elijah call down from heaven?",opts:["❄️ Snow","🌧️ Rain","🔥 Fire","⭐ Stars"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"What happened when Israel marched around Jericho?",opts:["🏃 They ran faster","🌊 A river appeared","🧱 The walls fell down","🌈 A rainbow appeared"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"What helped Daniel in the lion's den?",opts:["🔒 The door locked","😴 Lions fell asleep","🦁 God shut the lions' mouths","🛡️ He had armour"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"What happened to the three friends in the fiery furnace?",opts:["❄️ Fire became cold","🔥 Fire didn't hurt them","💧 Water appeared","🌬️ Wind blew it out"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"God spoke to Moses through a burning...?",opts:["🌊 River","🌳 Bush","⭐ Star","🏔️ Mountain"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"Jesus turned how many water jars into wine?",opts:["🫙 2","🫙 4","🫙 6","🫙 8"],ans:2},
+  {topic:"miracles",emoji:"✨",q:"What miracle helped Joseph know what dreams meant?",opts:["📖 He read books","🙏 God gave him wisdom","🧙 He was a wizard","💡 He had a lamp"],ans:1},
+  {topic:"miracles",emoji:"✨",q:"Jesus healed a man who could not walk for how many years?",opts:["5 years","20 years","38 years","10 years"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"What is prayer?",opts:["😴 Falling asleep","🗣️ Talking to God","🎵 Singing a song","📖 Reading a book"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"What is the special prayer Jesus taught called?",opts:["🌸 The Flower Prayer","🕊️ The Peace Prayer","🙏 The Lord's Prayer","⭐ The Star Prayer"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"How does the Lord's Prayer start?",opts:["🌟 Our star in heaven","🌙 Dear moon","🙏 Our Father in heaven","🌊 Our ocean above"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"The Lord's Prayer says 'Give us this day our daily...'?",opts:["🎁 Gift","🍞 Bread","💰 Money","📖 Book"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"What does 'Amen' mean at the end of a prayer?",opts:["😴 Go to sleep","✅ So be it","👋 Goodbye","📖 Read more"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"Who went to a quiet place alone to pray?",opts:["🐑 The shepherds","👑 King Herod","🙏 Jesus","🎵 David"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"Daniel prayed how many times a day?",opts:["1","2","3","4"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"What happened to Daniel because he prayed to God?",opts:["🏆 Won a race","🦁 He was put in a lion's den","📖 Given a book","👑 Became king"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"What does faith mean?",opts:["😴 Sleeping well","🙏 Trusting God even when we can't see Him","📖 Reading the Bible only","🎵 Singing loudly"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"How big does faith need to be?",opts:["🏔️ Mountain-sized","🐘 Elephant-sized","🌱 Tiny as a mustard seed","🌊 Ocean-sized"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"When two or three gather in Jesus's name He is...?",opts:["📖 Reading along","🌟 In heaven","✅ There with them","😴 Resting"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"What did Hannah pray for?",opts:["💰 Money","👶 A baby","🏠 A big house","🌳 A garden"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"God answered Hannah with a son. His name?",opts:["🧒 David","🧒 Moses","🧒 Samuel","🧒 John"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"What should we thank God for when we pray?",opts:["💰 Money only","🌟 Everything He has given us","🎁 Presents only","😴 Nothing"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"God knows what we need before we even...?",opts:["🙏 Ask Him","😴 Sleep","📖 Read","🎵 Sing"],ans:0},
+  {topic:"prayer",emoji:"🙏",q:"We should pray for those who are...?",opts:["🏆 Winners","🎉 Celebrating","💔 Being unkind to us","😄 Happy"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"Saying sorry to God in prayer is called...?",opts:["🎁 Thanksgiving","🙏 Confession","🎵 Praise","📖 Reading"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"Elijah prayed and fire came to burn the...?",opts:["🌊 Water","🌳 Forest","🪵 Altar","🏠 House"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"Jesus prayed in which garden before His arrest?",opts:["🌺 The Rose Garden","🌳 Garden of Eden","🫒 Gethsemane","🌸 The Flower Garden"],ans:2},
+  {topic:"prayer",emoji:"🙏",q:"The Bible says to pray without...?",opts:["😴 Sleeping","🗣️ Stopping (ceasing)","📢 Being loud","😄 Smiling"],ans:1},
+  {topic:"prayer",emoji:"🙏",q:"What is the shortest verse in the Bible?",opts:["🙏 Pray always","😢 Jesus wept","🌟 God is love","🙌 Praise God"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"What animal spoke to Eve in the garden?",opts:["🐦 A bird","🦁 A lion","🐍 A snake","🐻 A bear"],ans:2},
+  {topic:"animals",emoji:"🦁",q:"What animal did God provide for Abraham instead of Isaac?",opts:["🐂 A bull","🦌 A deer","🐑 A ram","🕊️ A dove"],ans:2},
+  {topic:"animals",emoji:"🦁",q:"What big fish swallowed Jonah?",opts:["🦈 A shark","🐋 A great big fish","🐬 A dolphin","🐊 A crocodile"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"How many days was Jonah inside the fish?",opts:["⏰ 1 day","⏰ 3 days","⏰ 7 days","⏰ 40 days"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"Daniel was thrown into a den of which animals?",opts:["🐻 Bears","🐯 Tigers","🦁 Lions","🐍 Snakes"],ans:2},
+  {topic:"animals",emoji:"🦁",q:"Samson killed a lion with his...?",opts:["🗡️ Sword","🪨 A stone","💪 Bare hands","🏹 Bow and arrow"],ans:2},
+  {topic:"animals",emoji:"🦁",q:"What animal carried Jesus into Jerusalem?",opts:["🐎 A horse","🐪 A camel","🫏 A donkey","🐂 An ox"],ans:2},
+  {topic:"animals",emoji:"🦁",q:"What bird came to feed Elijah in the desert?",opts:["🦅 Eagles","🐦 Ravens","🕊️ Doves","🦜 Parrots"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"What bird did Noah send out first from the ark?",opts:["🕊️ Dove","🐦 Raven","🦅 Eagle","🦜 Parrot"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"God sent frogs as a plague on which country?",opts:["🇮🇱 Israel","🌍 Egypt","🌊 Babylon","🏔️ Persia"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"What animal did Jesus say was lost and found?",opts:["🐄 A cow","🐑 A sheep","🐟 A fish","🐪 A camel"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"Jesus said He is the Good...?",opts:["🐑 Shepherd","🌳 Tree","🍞 Bread","🌟 Star"],ans:0},
+  {topic:"animals",emoji:"🦁",q:"What small birds fed Israel in the desert?",opts:["🐓 Chickens","🕊️ Quail birds","🐟 Fish","🐝 Bees"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"Psalm 23 describes us as what with God?",opts:["🐟 Fish with a fisherman","🐑 Sheep with a shepherd","🐦 Birds in a nest","🌱 Plants in a garden"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"What animal represents the Holy Spirit?",opts:["🦁 A lion","🕊️ A dove","🐑 A lamb","🦅 An eagle"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"Jesus is called the Lamb of...?",opts:["🌍 Earth","🌟 Heaven","🙏 God","🐑 Wool"],ans:2},
+  {topic:"animals",emoji:"🦁",q:"Jesus called followers to be fishers of...?",opts:["🐟 Fish","🦐 Shrimp","👨 People","💰 Coins"],ans:2},
+  {topic:"animals",emoji:"🦁",q:"What did Moses's staff turn into?",opts:["🌳 A tree","🐍 A snake","🗡️ A sword","💡 A torch"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"Which animal carried the Wise Men?",opts:["🐎 Horses","🐪 Camels","🫏 Donkeys","🐘 Elephants"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"What is the first book of the Bible called?",opts:["📖 Exodus","📖 Genesis","📖 Matthew","📖 Psalms"],ans:1},
+  {topic:"animals",emoji:"🦁",q:"What is the last book of the Bible called?",opts:["📖 John","📖 Romans","📖 Revelation","📖 Acts"],ans:2}
+];
+
+// STATE
+let selectedTopic="all",selectedCount=10,currentQuestions=[],currentIndex=0,score=0,answered=false,userAnswers=[];
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function topicLabel(t){return{creation:"Creation",noahsark:"Noah's Ark",babyjesus:"Baby Jesus",davidgoliath:"David & Goliath",miracles:"Miracles",prayer:"Prayer & Faith",animals:"Bible Animals"}[t]||"Bible";}
+function selectTopic(el){document.querySelectorAll('.start-topic-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');selectedTopic=el.dataset.topic;}
+function selectCount(el,n){document.querySelectorAll('.q-count-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');selectedCount=n;}
+
+function startQuiz(){
+  let pool=selectedTopic==="all"?ALL_QUESTIONS:ALL_QUESTIONS.filter(q=>q.topic===selectedTopic);
+  if(!pool.length)pool=ALL_QUESTIONS;
+  currentQuestions=shuffle(pool).slice(0,Math.min(selectedCount,pool.length));
+  currentIndex=0;score=0;userAnswers=[];
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('results').style.display='none';
+  document.getElementById('quizArea').style.display='block';
+  updateStars();showQuestion();
+}
+
+function showQuestion(){
+  answered=false;
+  const q=currentQuestions[currentIndex];
+  const total=currentQuestions.length;
+  const prev=userAnswers[currentIndex];
+  document.getElementById('progressPill').textContent=`${currentIndex+1} / ${total}`;
+  document.getElementById('progBar').style.width=`${(currentIndex/total)*100}%`;
+  document.getElementById('questionTopic').innerHTML=`${q.emoji} ${topicLabel(q.topic)}`;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('backBtn').disabled=currentIndex===0;
+  document.getElementById('prevBtn').style.display=currentIndex===0?'none':'block';
+  const emojis=['🐶','🐱','🐸','🐺'];
+  const grid=document.getElementById('optionsGrid');grid.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.innerHTML=`<span class="emoji">${emojis[i]}</span><span>${opt}</span>`;
+    if(prev!==undefined){
+      btn.disabled=true;
+      if(i===q.ans)btn.classList.add('correct');
+      if(i===prev.chosen&&prev.chosen!==q.ans)btn.classList.add('wrong');
+    } else {
+      btn.onclick=()=>selectAnswer(i,btn,q.ans);
+    }
+    grid.appendChild(btn);
+  });
+  const fb=document.getElementById('feedback');
+  if(prev!==undefined){
+    fb.className='feedback review';fb.style.display='flex';
+    document.getElementById('feedbackIcon').textContent='👀';
+    document.getElementById('feedbackText').textContent=prev.wasCorrect?`You got this right! ⭐ Answer: ${q.opts[q.ans]}`:`Correct answer: ${q.opts[q.ans]}`;
+    document.getElementById('nextBtn').style.display='block';answered=true;
+  } else {
+    fb.className='feedback';fb.style.display='none';
+    document.getElementById('nextBtn').style.display='none';
+  }
+  const card=document.getElementById('questionCard');card.style.animation='none';card.offsetHeight;card.style.animation='cardIn 0.35s ease both';
+}
+
+function selectAnswer(idx,btn,correct){
+  if(answered)return;answered=true;
+  document.querySelectorAll('.option-btn').forEach(b=>b.disabled=true);
+  const wasCorrect=idx===correct;
+  userAnswers[currentIndex]={chosen:idx,correct,wasCorrect};
+  if(wasCorrect){score++;btn.classList.add('correct');showFeedback(true);updateStars();launchConfetti();}
+  else{btn.classList.add('wrong');document.querySelectorAll('.option-btn')[correct].classList.add('correct');showFeedback(false);}
+  document.getElementById('nextBtn').style.display='block';
+}
+
+function showFeedback(ok){
+  const fb=document.getElementById('feedback');
+  const okMsgs=["That's right! 🎉","Amazing!","Wonderful! ⭐","Yes! You got it!","Super! Keep going!","Brilliant! 🌟","Correct!","Fantastic! 🎊"];
+  const noMsgs=["Not quite — keep trying!","Almost!","Good try!","Learning is fun!","You'll remember next time! 💙","Keep going!"];
+  fb.className=`feedback ${ok?'correct':'wrong'}`;fb.style.display='flex';
+  document.getElementById('feedbackIcon').textContent=ok?'🌟':'💙';
+  document.getElementById('feedbackText').textContent=ok?okMsgs[Math.floor(Math.random()*okMsgs.length)]:noMsgs[Math.floor(Math.random()*noMsgs.length)];
+}
+
+function nextQuestion(){currentIndex++;if(currentIndex>=currentQuestions.length)showResults();else showQuestion();}
+function goBack(){if(currentIndex===0)return;currentIndex--;showQuestion();}
+function showExitModal(){document.getElementById('exitProgress').textContent=userAnswers.filter(Boolean).length;document.getElementById('exitModal').classList.add('show');}
+function hideExitModal(){document.getElementById('exitModal').classList.remove('show');}
+function confirmExit(){hideExitModal();document.getElementById('quizArea').style.display='none';document.getElementById('results').style.display='none';document.getElementById('startScreen').style.display='block';score=0;currentIndex=0;userAnswers=[];updateStars();}
+
+function updateStars(){
+  document.getElementById('starCount').textContent=score;
+  const icons=document.getElementById('starIcons');icons.innerHTML='';
+  const show=Math.min(score,12);
+  for(let i=0;i<show;i++){const s=document.createElement('span');s.className='star-icon'+(i===score-1?' earned':'');s.textContent='⭐';icons.appendChild(s);}
+  if(score>12){const m=document.createElement('span');m.style.cssText='font-size:12px;color:var(--text-light);font-weight:700;';m.textContent=`+${score-12}`;icons.appendChild(m);}
+}
+
+function launchConfetti(){
+  const colors=['#4a90b8','#f5c842','#c8e6f0','#ffffff','#2d6a8f'];
+  for(let i=0;i<24;i++){const c=document.createElement('div');c.className='confetti-piece';c.style.cssText=`left:${Math.random()*100}vw;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${0.9+Math.random()*0.8}s;animation-delay:${Math.random()*0.3}s;width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;document.body.appendChild(c);setTimeout(()=>c.remove(),2200);}
+}
+
+function showResults(){
+  document.getElementById('progBar').style.width='100%';
+  document.getElementById('quizArea').style.display='none';
+  const res=document.getElementById('results');res.style.display='block';
+  const total=currentQuestions.length,pct=score/total;
+  let emoji='🌟',title='',badge='';
+  if(pct===1){emoji='🏆';title='Perfect Score!';badge='🏆 Bible Champion!';}
+  else if(pct>=0.8){emoji='🌟';title='Amazing Job!';badge='⭐ Bible Star!';}
+  else if(pct>=0.6){emoji='😊';title='Well Done!';badge='📖 Bible Explorer!';}
+  else if(pct>=0.4){emoji='💙';title='Good Try!';badge='🌱 Bible Learner!';}
+  else{emoji='🤗';title='Keep Practising!';badge='🙏 Bible Friend!';}
+  document.getElementById('resultsEmoji').textContent=emoji;
+  document.getElementById('resultsTitle').textContent=title;
+  document.getElementById('resultsScore').textContent=`${score}/${total}`;
+  document.getElementById('resultsBadge').textContent=badge;
+  const sd=document.getElementById('resultsStars');sd.innerHTML='';
+  for(let i=0;i<Math.min(score,20);i++){const s=document.createElement('span');s.textContent='⭐';sd.appendChild(s);}
+  // Answer review
+  const rev=document.getElementById('answerReview');
+  rev.innerHTML=`<div class="answer-review-title">📋 Your Answers</div>`;
+  currentQuestions.forEach((q,i)=>{
+    const ua=userAnswers[i];
+    const item=document.createElement('div');
+    item.className='answer-item '+(ua?(ua.wasCorrect?'correct-item':'wrong-item'):'');
+    item.innerHTML=`<div class="answer-item-q">${i+1}. ${q.q}</div>
+    <div class="answer-item-detail">${ua&&ua.wasCorrect?`<span class="correct-ans">✅ Correct: ${q.opts[q.ans]}</span>`:`${ua?`<span class="wrong-ans">❌ Your answer: ${q.opts[ua.chosen]}</span> &nbsp; `:'<span class="wrong-ans">— Not answered</span> &nbsp; '}<span class="correct-ans">✅ Answer: ${q.opts[q.ans]}</span>`}</div>`;
+    rev.appendChild(item);
+  });
+  if(pct>=0.8){for(let i=0;i<3;i++)setTimeout(()=>launchConfetti(),i*400);}
+}
+
+function restartSame(){startQuiz();}
+function goHome(){document.getElementById('results').style.display='none';document.getElementById('quizArea').style.display='none';document.getElementById('startScreen').style.display='block';score=0;currentIndex=0;userAnswers=[];updateStars();}
+
+// PDF HELPERS
+function openPrintWindow(html){
+  const w=window.open('','_blank');
+  if(!w){alert('Please allow pop-ups to download the PDF.');return;}
+  w.document.write(html);w.document.close();w.focus();
+  setTimeout(()=>w.print(),700);
+}
+
+function downloadQuestionsPDF(){
+  if(!currentQuestions.length){alert('Start the quiz first!');return;}
+  const L=['A','B','C','D'];
+  let h=`<html><head><title>Bible Quiz for Kids - Questions</title><style>
+    body{font-family:Arial,sans-serif;max-width:700px;margin:0 auto;padding:32px;color:#1a3a4a;}
+    h1{color:#2d6a8f;font-size:22px;margin-bottom:4px;}
+    .sub{color:#4a7a90;font-size:13px;margin-bottom:28px;}
+    .q{margin-bottom:20px;page-break-inside:avoid;}
+    .qn{font-weight:bold;color:#2d6a8f;font-size:12px;margin-bottom:3px;}
+    .qt{font-size:15px;font-weight:bold;margin-bottom:7px;}
+    .opt{font-size:14px;margin:3px 0 3px 14px;}
+    .badge{display:inline-block;background:#e8f4f8;color:#2d6a8f;font-size:11px;padding:2px 8px;border-radius:8px;margin-bottom:5px;}
+    .footer{margin-top:36px;border-top:1px solid #c8e6f0;padding-top:12px;font-size:12px;color:#4a7a90;text-align:center;}
+    @media print{body{padding:16px;}}
+  </style></head><body>
+  <h1>⭐ Bible Quiz for Kids — Questions</h1>
+  <div class="sub">Daily Prayers &amp; Blessings | Ages 4–8 | ${currentQuestions.length} Questions | Topic: ${selectedTopic==='all'?'All Topics':topicLabel(selectedTopic)}</div>`;
+  currentQuestions.forEach((q,i)=>{
+    h+=`<div class="q"><div class="badge">${q.emoji} ${topicLabel(q.topic)}</div><div class="qn">Question ${i+1}</div><div class="qt">${q.q}</div>${q.opts.map((o,oi)=>`<div class="opt">${L[oi]}. ${o}</div>`).join('')}</div>`;
+  });
+  h+=`<div class="footer">dailyprayersandblessings.com | Bible Quiz for Kids | Answer key available after completing the quiz</div></body></html>`;
+  openPrintWindow(h);
+}
+
+function downloadAnswersPDF(){
+  const L=['A','B','C','D'];
+  const total=currentQuestions.length,pct=score/total;
+  let badge=pct===1?'🏆 Bible Champion!':pct>=0.8?'⭐ Bible Star!':pct>=0.6?'📖 Bible Explorer!':pct>=0.4?'🌱 Bible Learner!':'🙏 Bible Friend!';
+  let h=`<html><head><title>Bible Quiz for Kids - Answers</title><style>
+    body{font-family:Arial,sans-serif;max-width:700px;margin:0 auto;padding:32px;color:#1a3a4a;}
+    h1{color:#2d6a8f;font-size:22px;margin-bottom:4px;}
+    .sub{color:#4a7a90;font-size:13px;margin-bottom:22px;}
+    .score-box{background:#e8f4f8;border:2px solid #4a90b8;border-radius:10px;padding:14px 20px;margin-bottom:24px;text-align:center;}
+    .big{font-size:34px;font-weight:bold;color:#2d6a8f;}
+    .lbl{font-size:13px;color:#4a7a90;}
+    .bdg{font-size:15px;font-weight:bold;margin-top:5px;}
+    table{width:100%;border-collapse:collapse;font-size:13px;}
+    th{background:#2d6a8f;color:white;padding:9px 7px;text-align:left;}
+    td{padding:8px 7px;border-bottom:1px solid #e8f4f8;vertical-align:top;}
+    tr:nth-child(even) td{background:#f5fafd;}
+    .cr td{background:#f0faf0!important;}
+    .wr td{background:#fff5f5!important;}
+    .tick{color:#2d7a2d;font-weight:bold;}
+    .cross{color:#a03030;font-weight:bold;}
+    .ans{color:#2d7a2d;font-weight:bold;}
+    .footer{margin-top:36px;border-top:1px solid #c8e6f0;padding-top:12px;font-size:12px;color:#4a7a90;text-align:center;}
+    @media print{body{padding:16px;}}
+  </style></head><body>
+  <h1>⭐ Bible Quiz for Kids — Answer Key</h1>
+  <div class="sub">Daily Prayers &amp; Blessings | Ages 4–8 | ${total} Questions</div>
+  <div class="score-box"><div class="big">${score} / ${total}</div><div class="lbl">stars collected</div><div class="bdg">${badge}</div></div>
+  <table><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th></tr>`;
+  currentQuestions.forEach((q,i)=>{
+    const ua=userAnswers[i];
+    const chosen=ua?q.opts[ua.chosen]:'Not answered';
+    const correct=q.opts[q.ans];
+    const ok=ua&&ua.wasCorrect;
+    h+=`<tr class="${ua?(ok?'cr':'wr'):''}"><td>${i+1}</td><td>${q.q}</td><td>${chosen}</td><td class="ans">${correct}</td><td>${ua?(ok?'<span class="tick">✓</span>':'<span class="cross">✗</span>'):'—'}</td></tr>`;
+  });
+  h+=`</table><div class="footer">dailyprayersandblessings.com | Bible Quiz for Kids | Keep learning God's Word!</div></body></html>`;
+  openPrintWindow(h);
+}
+</script>
+</body>
+</html>
