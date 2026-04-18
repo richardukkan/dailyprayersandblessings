@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible Quiz for Senior Citizens | Daily Prayers & Blessings</title>
+<meta name="description" content="A gentle and enriching Bible quiz for senior citizens. Large text, classic KJV questions on Psalms, Proverbs, the Gospels, and beloved Bible stories. No timer, no pressure.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5ede0;
+    --parchment-dark: #ede0cf;
+    --parchment-deep: #e0cdb8;
+    --sepia: #8b6555;
+    --sepia-dark: #5c3d2e;
+    --sepia-light: #b08070;
+    --gold: #c9a96e;
+    --gold-dark: #a07840;
+    --gold-light: #e8d5b0;
+    --white: #fffdf8;
+    --text: #2c1f16;
+    --text-mid: #5c3d2e;
+    --text-light: #8b6555;
+    --correct: #4a7c4a;
+    --correct-bg: #edf6ed;
+    --wrong: #8b3030;
+    --wrong-bg: #fdf0f0;
+    --border: #d4b896;
+    --shadow: 0 4px 24px rgba(92,61,46,0.12);
+    --radius: 14px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    font-family:'Lora', serif;
+    background: var(--parchment);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  /* Subtle texture overlay */
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:0;
+    opacity:0.5;
+  }
+
+  .wrap {
+    position:relative;
+    z-index:1;
+    max-width:720px;
+    margin:0 auto;
+    padding:28px 20px 56px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align:center;
+    margin-bottom:32px;
+    padding-bottom:24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-cross {
+    display:block;
+    font-size:2rem;
+    color:var(--gold-dark);
+    margin-bottom:10px;
+    letter-spacing:0.1em;
+  }
+
+  .header-badge {
+    display:inline-block;
+    font-family:'Lora',serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--sepia-light);
+    margin-bottom:14px;
+  }
+
+  .header h1 {
+    font-family:'Playfair Display', serif;
+    font-size:clamp(1.9rem, 5vw, 2.8rem);
+    font-weight:700;
+    color:var(--sepia-dark);
+    line-height:1.2;
+    margin-bottom:10px;
+  }
+
+  .header h1 em {
+    font-style:italic;
+    color:var(--gold-dark);
+  }
+
+  .header-sub {
+    font-size:16px;
+    color:var(--text-light);
+    font-style:italic;
+  }
+
+  /* ── SCORE BAR ── */
+  .score-bar {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:14px 24px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  .score-left {
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+
+  .score-num {
+    font-family:'Playfair Display',serif;
+    font-size:2rem;
+    font-weight:700;
+    color:var(--sepia-dark);
+    line-height:1;
+  }
+
+  .score-label {
+    font-size:14px;
+    color:var(--text-light);
+    font-style:italic;
+  }
+
+  .score-stars {
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+    max-width:240px;
+  }
+
+  .score-star {
+    font-size:20px;
+    line-height:1;
+  }
+
+  .score-star.new { animation:starBless 0.5s ease; }
+
+  @keyframes starBless {
+    0%  { transform:scale(0) rotate(-15deg); opacity:0; }
+    60% { transform:scale(1.25) rotate(5deg); opacity:1; }
+    100%{ transform:scale(1) rotate(0); }
+  }
+
+  .prog-pill {
+    font-family:'Playfair Display',serif;
+    font-size:14px;
+    font-weight:600;
+    color:var(--text-light);
+    background:var(--parchment);
+    padding:5px 14px;
+    border-radius:20px;
+    border:1px solid var(--border);
+  }
+
+  /* ── NAV ROW ── */
+  .nav-row {
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+
+  .nav-btn {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:10px 18px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    background:var(--white);
+    font-family:'Lora',serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--text-light);
+    cursor:pointer;
+    transition:all 0.2s ease;
+    white-space:nowrap;
+  }
+
+  .nav-btn:hover:not(:disabled) { border-color:var(--sepia); color:var(--sepia-dark); background:var(--parchment); }
+  .nav-btn:disabled { opacity:0.3; cursor:default; }
+  .nav-btn.danger:hover { border-color:var(--wrong); color:var(--wrong); }
+  .nav-btn.pdf { border-color:var(--gold-dark); color:var(--gold-dark); }
+  .nav-btn.pdf:hover { background:var(--gold-light); }
+
+  /* ── PROGRESS BAR ── */
+  .prog-wrap { background:var(--parchment-deep); border-radius:20px; height:6px; margin-bottom:20px; overflow:hidden; }
+  .prog-fill { height:100%; background:linear-gradient(90deg, var(--gold), var(--gold-dark)); border-radius:20px; transition:width 0.45s ease; }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:34px 34px 28px;
+    box-shadow:var(--shadow);
+    margin-bottom:16px;
+    animation:cardIn 0.38s ease both;
+  }
+
+  @keyframes cardIn { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+
+  .q-topic {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold-dark);
+    margin-bottom:18px;
+    padding:5px 14px;
+    background:var(--parchment);
+    border-radius:20px;
+    border:1px solid var(--gold-light);
+  }
+
+  .q-text {
+    font-family:'Playfair Display', serif;
+    font-size:clamp(1.2rem, 3vw, 1.55rem);
+    font-weight:600;
+    color:var(--text);
+    line-height:1.5;
+    margin-bottom:28px;
+  }
+
+  /* ── OPTIONS — 1 per row for seniors ── */
+  .options {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .opt-btn {
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px 22px;
+    background:var(--parchment);
+    border:2px solid var(--parchment-deep);
+    border-radius:12px;
+    cursor:pointer;
+    font-family:'Lora',serif;
+    font-size:17px;
+    font-weight:500;
+    color:var(--text);
+    text-align:left;
+    transition:all 0.2s ease;
+    line-height:1.45;
+    width:100%;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    border-color:var(--gold);
+    background:var(--gold-light);
+    color:var(--sepia-dark);
+  }
+
+  .opt-letter {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    min-width:34px;
+    border-radius:50%;
+    background:var(--white);
+    border:1.5px solid var(--border);
+    font-family:'Playfair Display',serif;
+    font-size:15px;
+    font-weight:700;
+    color:var(--sepia);
+  }
+
+  .opt-btn.correct { background:var(--correct-bg); border-color:var(--correct); color:var(--correct); }
+  .opt-btn.correct .opt-letter { background:var(--correct); border-color:var(--correct); color:white; }
+  .opt-btn.wrong { background:var(--wrong-bg); border-color:var(--wrong); color:var(--wrong); }
+  .opt-btn.wrong .opt-letter { background:var(--wrong); border-color:var(--wrong); color:white; }
+  .opt-btn.review-correct { background:var(--correct-bg); border-color:var(--correct); color:var(--correct); }
+  .opt-btn.review-correct .opt-letter { background:var(--correct); border-color:var(--correct); color:white; }
+  .opt-btn.review-wrong { background:var(--wrong-bg); border-color:var(--wrong); color:var(--wrong); }
+  .opt-btn.review-wrong .opt-letter { background:var(--wrong); border-color:var(--wrong); color:white; }
+  .opt-btn:disabled { cursor:default; }
+
+  /* ── FEEDBACK ── */
+  .feedback {
+    display:none;
+    align-items:flex-start;
+    gap:12px;
+    margin-top:18px;
+    padding:16px 20px;
+    border-radius:10px;
+    font-family:'Playfair Display',serif;
+    font-size:1.05rem;
+    font-style:italic;
+    animation:feedIn 0.3s ease both;
+    line-height:1.6;
+  }
+
+  @keyframes feedIn { from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)} }
+  .feedback.correct { background:var(--correct-bg); color:var(--correct); border-left:4px solid var(--correct); display:flex; }
+  .feedback.wrong   { background:var(--wrong-bg); color:var(--wrong); border-left:4px solid var(--wrong); display:flex; }
+  .feedback.review  { background:var(--parchment); color:var(--text-light); border-left:4px solid var(--gold); display:flex; }
+  .feedback-icon { font-size:1.5rem; margin-top:2px; }
+
+  /* ── SCRIPTURE HINT ── */
+  .scripture-hint {
+    display:none;
+    margin-top:14px;
+    padding:14px 20px;
+    background:var(--parchment);
+    border-left:3px solid var(--gold-dark);
+    border-radius:0 8px 8px 0;
+    font-style:italic;
+    font-size:15px;
+    color:var(--text-mid);
+    line-height:1.65;
+  }
+
+  .scripture-hint.show { display:block; }
+  .scripture-ref { font-family:'Playfair Display',serif; font-size:12px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-dark); margin-top:6px; display:block; }
+
+  /* ── ACTION ROW ── */
+  .action-row { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+
+  .action-btn {
+    flex:1;
+    min-width:120px;
+    padding:16px 20px;
+    font-family:'Playfair Display',serif;
+    font-size:16px;
+    font-weight:600;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+
+  .action-btn.primary { background:var(--sepia-dark); color:var(--white); }
+  .action-btn.primary:hover { background:var(--sepia); transform:translateY(-2px); }
+  .action-btn.secondary { background:var(--parchment); color:var(--sepia-dark); border:1.5px solid var(--border); }
+  .action-btn.secondary:hover { background:var(--parchment-dark); }
+
+  /* ── EXIT MODAL ── */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(44,31,22,0.55); z-index:500; align-items:center; justify-content:center; padding:24px; }
+  .modal-overlay.show { display:flex; }
+  .modal { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:36px 32px; max-width:400px; width:100%; text-align:center; box-shadow:0 12px 48px rgba(44,31,22,0.2); animation:cardIn 0.3s ease both; }
+  .modal-cross { font-size:2.5rem; color:var(--gold-dark); margin-bottom:12px; display:block; }
+  .modal h3 { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--sepia-dark); margin-bottom:10px; }
+  .modal p { font-size:16px; color:var(--text-light); margin-bottom:24px; font-style:italic; line-height:1.6; }
+  .modal-btns { display:flex; gap:10px; }
+  .modal-btn { flex:1; padding:14px; font-family:'Playfair Display',serif; font-size:15px; font-weight:600; border:none; border-radius:10px; cursor:pointer; transition:all 0.2s ease; }
+  .modal-btn.primary { background:var(--wrong); color:white; }
+  .modal-btn.primary:hover { opacity:0.85; }
+  .modal-btn.secondary { background:var(--parchment); color:var(--sepia-dark); border:1.5px solid var(--border); }
+  .modal-btn.secondary:hover { background:var(--parchment-dark); }
+
+  /* ── START SCREEN ── */
+  .start-screen { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:44px 36px; box-shadow:var(--shadow); text-align:center; }
+  .start-cross { font-size:3rem; color:var(--gold-dark); margin-bottom:14px; display:block; }
+  .start-screen h2 { font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:700; color:var(--sepia-dark); margin-bottom:12px; }
+  .start-screen p { font-size:17px; color:var(--text-light); font-style:italic; margin-bottom:30px; line-height:1.7; max-width:520px; margin-left:auto; margin-right:auto; }
+
+  .topic-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:28px; }
+
+  .topic-card {
+    background:var(--parchment);
+    border:2px solid var(--border);
+    border-radius:12px;
+    padding:18px 14px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    text-align:center;
+  }
+
+  .topic-card:hover { border-color:var(--gold); transform:translateY(-2px); }
+  .topic-card.selected { border-color:var(--gold-dark); background:var(--gold-light); }
+  .topic-card .t-icon { font-size:1.9rem; margin-bottom:8px; display:block; }
+  .topic-card .t-name { font-family:'Playfair Display',serif; font-size:15px; font-weight:600; color:var(--text); }
+
+  .count-row { display:flex; justify-content:center; gap:10px; margin-bottom:28px; flex-wrap:wrap; }
+
+  .count-btn {
+    padding:12px 24px;
+    border-radius:24px;
+    border:2px solid var(--border);
+    background:var(--white);
+    font-family:'Playfair Display',serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--text-light);
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+
+  .count-btn.active, .count-btn:hover { background:var(--sepia-dark); color:white; border-color:var(--sepia-dark); }
+
+  .start-btn {
+    width:100%;
+    padding:20px;
+    background:var(--sepia-dark);
+    color:var(--white);
+    font-family:'Playfair Display',serif;
+    font-size:1.15rem;
+    font-weight:700;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    letter-spacing:0.04em;
+  }
+
+  .start-btn:hover { background:var(--sepia); transform:translateY(-2px); }
+
+  /* ── RESULTS ── */
+  .results { display:none; background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:44px 32px; box-shadow:var(--shadow); text-align:center; animation:cardIn 0.4s ease both; }
+  .results-ornament { font-family:'Playfair Display',serif; font-size:2.8rem; color:var(--gold-dark); margin-bottom:14px; display:block; }
+  .results-title { font-family:'Playfair Display',serif; font-size:clamp(1.7rem,4vw,2.3rem); font-weight:700; color:var(--sepia-dark); margin-bottom:8px; }
+  .results-scripture { font-style:italic; font-size:16px; color:var(--text-light); margin-bottom:20px; padding:0 20px; line-height:1.65; }
+  .results-score-wrap { background:var(--parchment); border:1px solid var(--border); border-radius:12px; padding:24px; margin:20px 0; }
+  .results-score { font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:var(--sepia-dark); line-height:1; }
+  .results-score-label { font-size:16px; color:var(--text-light); font-style:italic; margin-top:6px; }
+  .results-badge { display:inline-block; background:var(--gold-light); border:2px solid var(--gold); border-radius:10px; padding:12px 28px; font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--sepia-dark); margin:16px 0 24px; }
+  .results-stars { display:flex; justify-content:center; gap:5px; flex-wrap:wrap; margin-bottom:24px; font-size:1.6rem; }
+
+  .results-btns { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:28px; }
+  .results-btn { padding:15px 24px; font-family:'Playfair Display',serif; font-size:15px; font-weight:600; border:none; border-radius:12px; cursor:pointer; transition:all 0.2s ease; }
+  .results-btn.primary { background:var(--sepia-dark); color:white; }
+  .results-btn.primary:hover { background:var(--sepia); }
+  .results-btn.secondary { background:var(--parchment); color:var(--sepia-dark); border:1.5px solid var(--border); }
+  .results-btn.secondary:hover { background:var(--parchment-dark); }
+  .results-btn.pdf { background:var(--gold-light); color:var(--sepia-dark); border:2px solid var(--gold-dark); }
+  .results-btn.pdf:hover { background:var(--gold); }
+
+  /* Answer review */
+  .ans-review { margin-top:12px; text-align:left; }
+  .ans-review-title { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--sepia-dark); margin-bottom:16px; text-align:center; padding-top:8px; border-top:1px solid var(--border); }
+  .ans-item { background:var(--parchment); border-radius:10px; padding:14px 18px; margin-bottom:12px; border-left:4px solid var(--border); }
+  .ans-item.ok { border-left-color:var(--correct); background:var(--correct-bg); }
+  .ans-item.no { border-left-color:var(--wrong); background:var(--wrong-bg); }
+  .ans-item-q { font-family:'Playfair Display',serif; font-weight:600; font-size:15px; color:var(--text); margin-bottom:6px; }
+  .ans-item-d { font-size:14px; font-style:italic; }
+  .c-ans { color:var(--correct); font-weight:600; }
+  .w-ans { color:var(--wrong); font-weight:600; }
+
+  /* Divider ornament */
+  .ornament { text-align:center; color:var(--gold); font-size:18px; letter-spacing:0.3em; margin:8px 0; opacity:0.6; }
+
+  @media (max-width:540px) {
+    .q-card { padding:22px 18px 20px; }
+    .start-screen { padding:28px 18px; }
+    .results { padding:28px 18px; }
+    .topic-grid { grid-template-columns:1fr 1fr; }
+    .opt-btn { font-size:16px; padding:14px 16px; }
+    .q-text { font-size:1.15rem; }
+    .action-row { flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="header-cross">✦ ✝ ✦</span>
+    <div class="header-badge">Daily Prayers &amp; Blessings</div>
+    <h1>Bible Quiz for<br><em>Senior Citizens</em></h1>
+    <div class="header-sub">Large text · No timer · Classic KJV questions · All are welcome</div>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <span class="start-cross">✝</span>
+    <h2>Welcome, Friend</h2>
+    <p>Choose your favourite Bible topic and how many questions you would like. Take your time — there is no rush. Each question comes with a scripture note to enrich your spirit.</p>
+
+    <div class="topic-grid">
+      <div class="topic-card selected" data-topic="all" onclick="selectTopic(this)"><span class="t-icon">📖</span><div class="t-name">All Topics</div></div>
+      <div class="topic-card" data-topic="psalms" onclick="selectTopic(this)"><span class="t-icon">🎵</span><div class="t-name">Psalms &amp; Proverbs</div></div>
+      <div class="topic-card" data-topic="gospels" onclick="selectTopic(this)"><span class="t-icon">✝</span><div class="t-name">The Gospels</div></div>
+      <div class="topic-card" data-topic="oldtestament" onclick="selectTopic(this)"><span class="t-icon">📜</span><div class="t-name">Old Testament</div></div>
+      <div class="topic-card" data-topic="epistles" onclick="selectTopic(this)"><span class="t-icon">✉️</span><div class="t-name">Epistles &amp; Letters</div></div>
+      <div class="topic-card" data-topic="hymns" onclick="selectTopic(this)"><span class="t-icon">🕊️</span><div class="t-name">Faith &amp; Hymns</div></div>
+      <div class="topic-card" data-topic="miracles" onclick="selectTopic(this)"><span class="t-icon">✨</span><div class="t-name">Miracles</div></div>
+      <div class="topic-card" data-topic="promises" onclick="selectTopic(this)"><span class="t-icon">🌿</span><div class="t-name">God's Promises</div></div>
+    </div>
+
+    <div class="count-row">
+      <button class="count-btn active" onclick="selectCount(this,10)">10 Questions</button>
+      <button class="count-btn" onclick="selectCount(this,20)">20 Questions</button>
+      <button class="count-btn" onclick="selectCount(this,30)">30 Questions</button>
+    </div>
+
+    <button class="start-btn" onclick="startQuiz()">Begin the Quiz ✦</button>
+  </div>
+
+  <!-- Quiz Area -->
+  <div id="quizArea" style="display:none;">
+    <div class="score-bar">
+      <div class="score-left">
+        <div class="score-num" id="scoreNum">0</div>
+        <div class="score-label">correct</div>
+      </div>
+      <div class="score-stars" id="scoreStars"></div>
+      <div class="prog-pill" id="progPill">1 of 10</div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>← Previous</button>
+      <button class="nav-btn danger" onclick="showExitModal()">✕ Exit Quiz</button>
+      <button class="nav-btn pdf" onclick="downloadQuestionsPDF()">⬇ Download Questions</button>
+    </div>
+
+    <div class="prog-wrap">
+      <div class="prog-fill" id="progFill" style="width:0%"></div>
+    </div>
+
+    <div class="q-card" id="qCard">
+      <div class="q-topic" id="qTopic">📖 Bible</div>
+      <div class="q-text" id="qText">Loading...</div>
+      <div class="options" id="optGrid"></div>
+      <div class="feedback" id="feedback">
+        <span class="feedback-icon" id="fbIcon"></span>
+        <span id="fbText"></span>
+      </div>
+      <div class="scripture-hint" id="scriptureHint">
+        <span id="scriptureText"></span>
+        <span class="scripture-ref" id="scriptureRef"></span>
+      </div>
+      <div class="action-row">
+        <button class="action-btn secondary" id="prevBtn" style="display:none;" onclick="goBack()">← Previous</button>
+        <button class="action-btn primary" id="nextBtn" style="display:none;" onclick="nextQuestion()">Next Question →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <span class="results-ornament" id="resOrnament">✦</span>
+    <div class="results-title" id="resTitle">Well Done</div>
+    <div class="results-scripture" id="resScripture"></div>
+    <div class="results-score-wrap">
+      <div class="results-score" id="resScore">0/0</div>
+      <div class="results-score-label">questions answered correctly</div>
+    </div>
+    <div class="results-badge" id="resBadge">📖 Faithful Student</div>
+    <div class="results-stars" id="resStars"></div>
+    <div class="results-btns">
+      <button class="results-btn primary" onclick="restartSame()">Play Again</button>
+      <button class="results-btn secondary" onclick="goHome()">New Topic</button>
+      <button class="results-btn pdf" onclick="downloadAnswersPDF()">⬇ Download Answers PDF</button>
+    </div>
+    <div class="ans-review" id="ansReview"></div>
+  </div>
+
+</div>
+
+<!-- Exit Modal -->
+<div class="modal-overlay" id="exitModal">
+  <div class="modal">
+    <span class="modal-cross">✝</span>
+    <h3>Leave the Quiz?</h3>
+    <p>You have answered <strong id="exitProg">0</strong> questions. Are you sure you would like to return to the beginning?</p>
+    <div class="modal-btns">
+      <button class="modal-btn secondary" onclick="hideExitModal()">Continue Playing</button>
+      <button class="modal-btn primary" onclick="confirmExit()">Yes, Go Back</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  QUESTION BANK — 300+ questions for seniors
+// ════════════════════════════════════════════════════════
+const ALL_QUESTIONS = [
+
+  // ── PSALMS & PROVERBS ───────────────────────────────
+  {topic:"psalms",icon:"🎵",q:"Psalm 23 begins 'The Lord is my...'",opts:["A. King","B. Shepherd","C. Rock","D. Shield"],ans:1,hint:"The full verse: 'The Lord is my shepherd; I shall not want.' — Psalm 23:1 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"According to Psalm 23, God leads me beside still...",opts:["A. Mountains","B. Rivers","C. Waters","D. Gardens"],ans:2,hint:"'He leadeth me beside the still waters.' — Psalm 23:2 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 46:10 says 'Be still and know that I am...'",opts:["A. Lord","B. Near","C. God","D. King"],ans:2,hint:"'Be still, and know that I am God.' — Psalm 46:10 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Which psalm begins with 'God is our refuge and strength'?",opts:["A. Psalm 23","B. Psalm 46","C. Psalm 91","D. Psalm 100"],ans:1,hint:"'God is our refuge and strength, a very present help in trouble.' — Psalm 46:1 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 119 is the longest chapter in the Bible. What is its subject?",opts:["A. Prayer","B. God's Law and Word","C. Creation","D. Praise"],ans:1,hint:"Every verse of Psalm 119 refers to God's Word, law, precepts, or commandments."},
+  {topic:"psalms",icon:"🎵",q:"Proverbs 3:5 says 'Trust in the Lord with all thine...'",opts:["A. Mind","B. Soul","C. Strength","D. Heart"],ans:3,hint:"'Trust in the Lord with all thine heart; and lean not unto thine own understanding.' — Proverbs 3:5 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Proverbs 31 describes a virtuous...",opts:["A. King","B. Priest","C. Woman","D. Servant"],ans:2,hint:"'Who can find a virtuous woman? for her price is far above rubies.' — Proverbs 31:10 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 91 promises He shall cover thee with His...",opts:["A. Glory","B. Feathers","C. Armour","D. Light"],ans:1,hint:"'He shall cover thee with his feathers, and under his wings shalt thou trust.' — Psalm 91:4 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 100 says to 'Make a joyful noise unto the...'",opts:["A. World","B. Angels","C. Lord","D. Mountains"],ans:2,hint:"'Make a joyful noise unto the Lord, all ye lands.' — Psalm 100:1 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"'A merry heart doeth good like a...' — complete this Proverb",opts:["A. Song","B. Medicine","C. Blessing","D. Prayer"],ans:1,hint:"'A merry heart doeth good like a medicine.' — Proverbs 17:22 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 27:1 — 'The Lord is my light and my...'",opts:["A. Salvation","B. Fortress","C. Rock","D. Comfort"],ans:0,hint:"'The Lord is my light and my salvation; whom shall I fear?' — Psalm 27:1 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"According to Proverbs, 'Pride goeth before...'",opts:["A. A fall","B. Judgement","C. Destruction","D. A storm"],ans:2,hint:"'Pride goeth before destruction, and an haughty spirit before a fall.' — Proverbs 16:18 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 34:8 — 'O taste and see that the Lord is...'",opts:["A. Holy","B. Good","C. Near","D. Just"],ans:1,hint:"'O taste and see that the Lord is good: blessed is the man that trusteth in him.' — Psalm 34:8 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"'Train up a child in the way he should go' is from which book?",opts:["A. Psalms","B. Isaiah","C. Proverbs","D. Matthew"],ans:2,hint:"'Train up a child in the way he should go: and when he is old, he will not depart from it.' — Proverbs 22:6 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 121:1 — 'I will lift up mine eyes unto the...'",opts:["A. Heavens","B. Lord","C. Hills","D. Sky"],ans:2,hint:"'I will lift up mine eyes unto the hills, from whence cometh my help.' — Psalm 121:1 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"How many psalms are in the book of Psalms?",opts:["A. 100","B. 120","C. 150","D. 175"],ans:2,hint:"The Book of Psalms contains 150 psalms, making it the longest book in the Bible."},
+  {topic:"psalms",icon:"🎵",q:"'The fear of the Lord is the beginning of...' — Proverbs 9:10",opts:["A. Faith","B. Wisdom","C. Prayer","D. Salvation"],ans:1,hint:"'The fear of the Lord is the beginning of wisdom.' — Proverbs 9:10 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 23:4 — 'Yea, though I walk through the valley of the shadow of death, I will fear no evil for thou art...'",opts:["A. Mighty","B. With me","C. My shield","D. Near"],ans:1,hint:"'...for thou art with me; thy rod and thy staff they comfort me.' — Psalm 23:4 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Which Psalm is called the 'Shepherd's Psalm'?",opts:["A. Psalm 1","B. Psalm 22","C. Psalm 23","D. Psalm 24"],ans:2,hint:"Psalm 23 is universally known as the Shepherd's Psalm, one of the most beloved passages in Scripture."},
+  {topic:"psalms",icon:"🎵",q:"'Thy word is a lamp unto my feet' — from which Psalm?",opts:["A. Psalm 23","B. Psalm 91","C. Psalm 100","D. Psalm 119"],ans:3,hint:"'Thy word is a lamp unto my feet, and a light unto my path.' — Psalm 119:105 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Proverbs 18:10 — 'The name of the Lord is a strong...'",opts:["A. Shield","B. Fortress","C. Tower","D. Rock"],ans:2,hint:"'The name of the Lord is a strong tower: the righteous runneth into it, and is safe.' — Proverbs 18:10 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"According to Psalm 139, where can we go to flee from God's presence?",opts:["A. The depths of the sea","B. Nowhere — He is everywhere","C. The desert","D. The highest mountain"],ans:1,hint:"'Whither shall I go from thy spirit? or whither shall I flee from thy presence?' — Psalm 139:7 (KJV) — the answer is nowhere."},
+  {topic:"psalms",icon:"🎵",q:"Psalm 1 describes a blessed man as one who does not walk in the counsel of the...",opts:["A. Wicked","B. Foolish","C. Proud","D. Ungrateful"],ans:0,hint:"'Blessed is the man that walketh not in the counsel of the ungodly.' — Psalm 1:1 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"'As a man thinketh in his heart, so is he.' This is from which book?",opts:["A. Psalms","B. Proverbs","C. Ecclesiastes","D. Isaiah"],ans:1,hint:"'For as he thinketh in his heart, so is he.' — Proverbs 23:7 (KJV)"},
+  {topic:"psalms",icon:"🎵",q:"Psalm 91 is often called the Psalm of what?",opts:["A. Praise","B. Lament","C. Protection","D. Wisdom"],ans:2,hint:"Psalm 91 is widely known as the Psalm of Protection, full of promises of God's covering and care."},
+
+  // ── THE GOSPELS ─────────────────────────────────────
+  {topic:"gospels",icon:"✝",q:"How many Gospels are in the New Testament?",opts:["A. 3","B. 4","C. 5","D. 6"],ans:1,hint:"The four Gospels are Matthew, Mark, Luke, and John, each telling the story of Jesus's life and ministry."},
+  {topic:"gospels",icon:"✝",q:"Which Gospel begins 'In the beginning was the Word'?",opts:["A. Matthew","B. Mark","C. Luke","D. John"],ans:3,hint:"'In the beginning was the Word, and the Word was with God, and the Word was God.' — John 1:1 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"The Sermon on the Mount is found mainly in which Gospel?",opts:["A. Mark","B. Luke","C. Matthew","D. John"],ans:2,hint:"The Sermon on the Mount (Matthew 5–7) is Jesus's most extended teaching, including the Beatitudes and the Lord's Prayer."},
+  {topic:"gospels",icon:"✝",q:"Jesus was baptised in which river?",opts:["A. The Nile","B. The Euphrates","C. The Jordan","D. The Galilee"],ans:2,hint:"John the Baptist baptised Jesus in the River Jordan. — Matthew 3:13 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"What were the first words of Jesus's public ministry?",opts:["A. Love one another","B. Follow me","C. Repent, for the kingdom of heaven is at hand","D. The Spirit of the Lord is upon me"],ans:2,hint:"'Repent: for the kingdom of heaven is at hand.' — Matthew 4:17 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"The Beatitudes begin with 'Blessed are the poor in...'",opts:["A. Heart","B. Spirit","C. Faith","D. Deed"],ans:1,hint:"'Blessed are the poor in spirit: for theirs is the kingdom of heaven.' — Matthew 5:3 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"John 3:16 begins 'For God so loved the world that he gave his only...'",opts:["A. Word","B. Law","C. Begotten Son","D. Spirit"],ans:2,hint:"'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish.' — John 3:16 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Jesus raised Lazarus from the dead. How long had Lazarus been in the tomb?",opts:["A. One day","B. Two days","C. Three days","D. Four days"],ans:3,hint:"'Lord, by this time he stinketh: for he hath been dead four days.' — John 11:39 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"The parable of the Prodigal Son is found in which Gospel?",opts:["A. Matthew","B. Mark","C. Luke","D. John"],ans:2,hint:"The Parable of the Prodigal Son (Luke 15:11–32) is one of the most beloved parables of Jesus about forgiveness and grace."},
+  {topic:"gospels",icon:"✝",q:"Jesus said 'I am the way, the truth, and the life.' This is from which Gospel?",opts:["A. Matthew","B. Mark","C. Luke","D. John"],ans:3,hint:"'I am the way, the truth, and the life: no man cometh unto the Father, but by me.' — John 14:6 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Jesus rode into Jerusalem on which animal?",opts:["A. A horse","B. A camel","C. A donkey","D. A mule"],ans:2,hint:"Jesus entered Jerusalem on a donkey, fulfilling the prophecy of Zechariah 9:9. — Matthew 21:5 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"What is the shortest verse in the entire Bible?",opts:["A. 'Fear not'","B. 'Jesus wept'","C. 'Pray always'","D. 'God is love'"],ans:1,hint:"'Jesus wept.' — John 11:35 (KJV) — at the tomb of Lazarus, showing Christ's compassion."},
+  {topic:"gospels",icon:"✝",q:"Which disciple denied Jesus three times?",opts:["A. James","B. Thomas","C. John","D. Peter"],ans:3,hint:"Peter denied knowing Jesus three times before the rooster crowed, just as Jesus had foretold. — Luke 22:61 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Jesus turned water into wine at a wedding in which town?",opts:["A. Bethlehem","B. Cana","C. Nazareth","D. Capernaum"],ans:1,hint:"The wedding at Cana of Galilee was the site of Jesus's first miracle. — John 2:1 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Which Gospel was written by a physician?",opts:["A. Matthew","B. Mark","C. Luke","D. John"],ans:2,hint:"Luke was a physician and companion of Paul (Colossians 4:14), which shows in his careful, detailed writing."},
+  {topic:"gospels",icon:"✝",q:"The Lord's Prayer begins 'Our Father which art in...'",opts:["A. Glory","B. Heaven","C. Spirit","D. Light"],ans:1,hint:"'Our Father which art in heaven, Hallowed be thy name.' — Matthew 6:9 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Jesus fed 5000 people with five loaves and how many fish?",opts:["A. One","B. Two","C. Five","D. Seven"],ans:1,hint:"'five barley loaves, and two small fishes' — John 6:9 (KJV) — yet all were fed and twelve baskets of fragments remained."},
+  {topic:"gospels",icon:"✝",q:"Who betrayed Jesus for thirty pieces of silver?",opts:["A. Pilate","B. Barabbas","C. Judas Iscariot","D. Caiaphas"],ans:2,hint:"Judas Iscariot agreed to betray Jesus to the chief priests for thirty pieces of silver. — Matthew 26:15 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"On which day did Jesus rise from the dead?",opts:["A. The first day of the week","B. The Sabbath","C. The third day of the week","D. The day of Passover"],ans:0,hint:"'He is not here: for he is risen, as he said.' — Matthew 28:6 (KJV). He rose on the first day of the week (Sunday)."},
+  {topic:"gospels",icon:"✝",q:"Jesus said the greatest commandment is to love God with all your heart and also to love your...",opts:["A. Family","B. Enemy","C. Neighbour","D. Nation"],ans:2,hint:"'Thou shalt love thy neighbour as thyself.' — Matthew 22:39 (KJV) — the second great commandment."},
+  {topic:"gospels",icon:"✝",q:"Which Gospel contains the story of the Good Samaritan?",opts:["A. Matthew","B. Mark","C. Luke","D. John"],ans:2,hint:"The Parable of the Good Samaritan is found in Luke 10:25–37 (KJV) — one of Jesus's most beloved teachings on love."},
+  {topic:"gospels",icon:"✝",q:"Jesus said 'Come unto me, all ye that labour and are heavy laden, and I will give you...'",opts:["A. Peace","B. Rest","C. Life","D. Strength"],ans:1,hint:"'Come unto me, all ye that labour and are heavy laden, and I will give you rest.' — Matthew 11:28 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Who announced the coming of Jesus by saying 'Prepare ye the way of the Lord'?",opts:["A. Elijah","B. Isaiah","C. John the Baptist","D. An angel"],ans:2,hint:"John the Baptist fulfilled the prophecy of Isaiah 40:3 — 'Prepare ye the way of the Lord.' — Matthew 3:3 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"The transfiguration of Jesus took place on a high...",opts:["A. Mountain","B. Hill","C. Rooftop","D. Plain"],ans:0,hint:"'Jesus taketh Peter, James, and John his brother, and bringeth them up into an high mountain.' — Matthew 17:1 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Jesus said 'Suffer the little children to come unto me' — what does 'suffer' mean in this context?",opts:["A. Hurt them","B. Allow or permit them","C. Make them wait","D. Test them"],ans:1,hint:"In KJV English, 'suffer' means to permit or allow. 'Suffer the little children to come unto me, and forbid them not.' — Mark 10:14 (KJV)"},
+
+  // ── OLD TESTAMENT ────────────────────────────────────
+  {topic:"oldtestament",icon:"📜",q:"Who led the Israelites out of Egypt?",opts:["A. Abraham","B. Joshua","C. Moses","D. David"],ans:2,hint:"Moses led the Israelites out of 400 years of bondage in Egypt. — Exodus 12 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"What did God give Moses on Mount Sinai?",opts:["A. The Ark of the Covenant","B. The Ten Commandments","C. The Book of the Law","D. Manna from heaven"],ans:1,hint:"God wrote the Ten Commandments on two tablets of stone and gave them to Moses on Mount Sinai. — Exodus 31:18 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Who was swallowed by a great fish and prayed from inside it?",opts:["A. Elijah","B. Daniel","C. Jonah","D. Nehemiah"],ans:2,hint:"Jonah was inside the great fish for three days and three nights and prayed to God from within. — Jonah 2:1 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"How many books are in the Old Testament?",opts:["A. 27","B. 33","C. 39","D. 46"],ans:2,hint:"The Protestant Old Testament contains 39 books, from Genesis to Malachi."},
+  {topic:"oldtestament",icon:"📜",q:"Who built the ark in the Bible?",opts:["A. Abraham","B. Noah","C. Moses","D. Solomon"],ans:1,hint:"God commanded Noah to build the ark of gopher wood before the great flood. — Genesis 6:14 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"What were the names of the first man and woman?",opts:["A. Abraham and Sarah","B. Cain and Abel","C. Adam and Eve","D. Isaac and Rebekah"],ans:2,hint:"God created Adam from the dust of the ground and Eve from Adam's rib. — Genesis 2 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Who was cast into the lion's den?",opts:["A. Shadrach","B. Jonah","C. Daniel","D. Nehemiah"],ans:2,hint:"Daniel was cast into the lion's den because he refused to stop praying to God. God shut the lions' mouths. — Daniel 6 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"The three young men thrown into the fiery furnace were Shadrach, Meshach and...",opts:["A. Abednego","B. Azariah","C. Michael","D. Gabriel"],ans:0,hint:"Shadrach, Meshach, and Abednego refused to bow to Nebuchadnezzar's golden image. — Daniel 3 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Who was Abraham's son of promise, born to him and Sarah in their old age?",opts:["A. Ishmael","B. Jacob","C. Esau","D. Isaac"],ans:3,hint:"God fulfilled His promise and Sarah bore Isaac in Abraham's old age. — Genesis 21:3 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"King Solomon was known for his great gift of...",opts:["A. Strength","B. Beauty","C. Wisdom","D. Wealth"],ans:2,hint:"When God asked Solomon what he desired, Solomon asked for wisdom to govern God's people. God was pleased. — 1 Kings 3 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"The walls of Jericho fell after Israel marched around them for how many days?",opts:["A. 3","B. 5","C. 7","D. 12"],ans:2,hint:"Israel marched around Jericho once each day for six days, then seven times on the seventh day. — Joshua 6 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Who was sold into slavery by his brothers and eventually became a ruler in Egypt?",opts:["A. Benjamin","B. Joseph","C. Simeon","D. Levi"],ans:1,hint:"Joseph's brothers sold him for twenty pieces of silver, but God used it for good. — Genesis 37 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"What did God give Noah as a sign of His covenant after the flood?",opts:["A. A dove","B. A pillar of fire","C. A rainbow","D. A burning bush"],ans:2,hint:"'I do set my bow in the cloud, and it shall be for a token of a covenant between me and the earth.' — Genesis 9:13 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Who was the first king of Israel?",opts:["A. David","B. Solomon","C. Saul","D. Gideon"],ans:2,hint:"Saul was anointed the first king of Israel by the prophet Samuel. — 1 Samuel 10 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Elijah called down fire from heaven to defeat the prophets of which false god?",opts:["A. Dagon","B. Baal","C. Moloch","D. Asherah"],ans:1,hint:"Elijah challenged 450 prophets of Baal on Mount Carmel. — 1 Kings 18 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Ruth said to Naomi: 'Whither thou goest, I will go.' Who was Ruth's mother-in-law?",opts:["A. Rahab","B. Deborah","C. Naomi","D. Hannah"],ans:2,hint:"Ruth's faithful words to Naomi (Ruth 1:16 KJV) are among the most beautiful expressions of loyalty in Scripture."},
+  {topic:"oldtestament",icon:"📜",q:"Moses parted which body of water to allow Israel to escape Egypt?",opts:["A. The River Jordan","B. The Dead Sea","C. The Red Sea","D. The Nile"],ans:2,hint:"God commanded Moses to stretch out his rod over the Red Sea, which parted, allowing Israel to cross on dry land. — Exodus 14 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"How many years did the Israelites wander in the wilderness?",opts:["A. 20 years","B. 30 years","C. 40 years","D. 50 years"],ans:2,hint:"Israel wandered in the wilderness for forty years because of their unbelief. — Numbers 14:33 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Who was the judge of Israel known for his great strength?",opts:["A. Gideon","B. Samson","C. Barak","D. Jephthah"],ans:1,hint:"Samson was set apart from birth by God and was given extraordinary strength by the Spirit of the Lord. — Judges 13–16 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"The book of Esther is notable because which name is not mentioned in it?",opts:["A. Israel","B. Jerusalem","C. God","D. The Law"],ans:2,hint:"The name of God does not appear in the book of Esther, yet God's providence is evident throughout the story."},
+  {topic:"oldtestament",icon:"📜",q:"Isaiah 40:31 says 'They that wait upon the Lord shall renew their strength; they shall mount up with wings as...'",opts:["A. Angels","B. Doves","C. Eagles","D. Sparrows"],ans:2,hint:"'They shall mount up with wings as eagles; they shall run, and not be weary.' — Isaiah 40:31 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"How many commandments did God give Moses on Mount Sinai?",opts:["A. 7","B. 10","C. 12","D. 15"],ans:1,hint:"God gave Moses the Ten Commandments, also called the Decalogue. — Exodus 20 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"Who was Elijah's successor as prophet?",opts:["A. Isaiah","B. Amos","C. Hosea","D. Elisha"],ans:3,hint:"Elijah cast his mantle upon Elisha, who asked for a double portion of Elijah's spirit. — 1 Kings 19 / 2 Kings 2 (KJV)"},
+  {topic:"oldtestament",icon:"📜",q:"The first book of the Bible is called?",opts:["A. Exodus","B. Leviticus","C. Genesis","D. Numbers"],ans:2,hint:"Genesis means 'beginning' and covers creation, the fall, Noah, Abraham, and the patriarchs."},
+  {topic:"oldtestament",icon:"📜",q:"Jeremiah 29:11 — 'For I know the thoughts that I think toward you, saith the Lord, thoughts of...'",opts:["A. Mercy","B. Peace","C. Grace","D. Justice"],ans:1,hint:"'For I know the thoughts that I think toward you, saith the Lord, thoughts of peace, and not of evil.' — Jeremiah 29:11 (KJV)"},
+
+  // ── EPISTLES & LETTERS ───────────────────────────────
+  {topic:"epistles",icon:"✉️",q:"Romans 8:28 says 'And we know that all things work together for good to them that...'",opts:["A. Obey the law","B. Love God","C. Trust in Him","D. Walk in faith"],ans:1,hint:"'...to them that love God, to them who are the called according to his purpose.' — Romans 8:28 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"Philippians 4:13 — 'I can do all things through...'",opts:["A. Faith","B. Prayer","C. Christ which strengtheneth me","D. The Spirit"],ans:2,hint:"'I can do all things through Christ which strengtheneth me.' — Philippians 4:13 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"1 Corinthians 13 is known as the chapter on...",opts:["A. Faith","B. Hope","C. Love","D. Wisdom"],ans:2,hint:"'And now abideth faith, hope, charity, these three; but the greatest of these is charity (love).' — 1 Corinthians 13:13 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"Who wrote the most books in the New Testament?",opts:["A. Peter","B. John","C. Paul","D. Luke"],ans:2,hint:"The Apostle Paul wrote 13 or 14 epistles, from Romans to Philemon, more than any other New Testament author."},
+  {topic:"epistles",icon:"✉️",q:"Ephesians 6 describes the 'whole armour of...'",opts:["A. The Lord","B. God","C. Christ","D. Faith"],ans:1,hint:"'Put on the whole armour of God, that ye may be able to stand against the wiles of the devil.' — Ephesians 6:11 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"'The wages of sin is death; but the gift of God is...' — Romans 6:23",opts:["A. Peace","B. Forgiveness","C. Eternal life","D. Heaven"],ans:2,hint:"'The wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord.' — Romans 6:23 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"Which epistle says 'Faith without works is dead'?",opts:["A. Romans","B. Hebrews","C. James","D. 1 Peter"],ans:2,hint:"'For as the body without the spirit is dead, so faith without works is dead also.' — James 2:26 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"'Be anxious for nothing; but in every thing by prayer and supplication with thanksgiving...' is from which letter?",opts:["A. Romans","B. Philippians","C. Colossians","D. Galatians"],ans:1,hint:"Philippians 4:6 (KJV) — this promise of peace that passes all understanding follows this instruction."},
+  {topic:"epistles",icon:"✉️",q:"Hebrews 11:1 defines faith as the substance of things hoped for, and the evidence of things...",opts:["A. Seen","B. Not seen","C. Prayed for","D. Hoped for"],ans:1,hint:"'Now faith is the substance of things hoped for, the evidence of things not seen.' — Hebrews 11:1 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"1 John 4:8 says 'God is...'",opts:["A. Mighty","B. Holy","C. Love","D. Light"],ans:2,hint:"'He that loveth not knoweth not God; for God is love.' — 1 John 4:8 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"Who wrote the letters to Timothy?",opts:["A. Peter","B. Paul","C. John","D. James"],ans:1,hint:"Paul wrote two letters to Timothy, his beloved son in the faith, giving him pastoral guidance."},
+  {topic:"epistles",icon:"✉️",q:"'I have fought a good fight, I have finished my course' — who said this at the end of his life?",opts:["A. Peter","B. James","C. Paul","D. Barnabas"],ans:2,hint:"'I have fought a good fight, I have finished my course, I have kept the faith.' — 2 Timothy 4:7 (KJV) — Paul's final words."},
+  {topic:"epistles",icon:"✉️",q:"Romans 5:8 — 'But God commendeth his love toward us, in that, while we were yet sinners, Christ...'",opts:["A. Called us","B. Chose us","C. Died for us","D. Saved us"],ans:2,hint:"'But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us.' — Romans 5:8 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"Which letter opens with 'Paul, a servant of Jesus Christ, called to be an apostle'?",opts:["A. Galatians","B. Ephesians","C. Romans","D. Colossians"],ans:2,hint:"Romans 1:1 (KJV) opens with this introduction as Paul addresses the Christians in Rome."},
+  {topic:"epistles",icon:"✉️",q:"2 Timothy 3:16 tells us all scripture is given by inspiration of God and is profitable for...",opts:["A. Learning","B. Doctrine and correction","C. Preaching only","D. The church"],ans:1,hint:"'All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness.' — 2 Timothy 3:16 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"'The Lord is my helper, and I will not fear what man shall do unto me.' — from which letter?",opts:["A. Romans","B. Hebrews","C. James","D. 1 Peter"],ans:1,hint:"Hebrews 13:6 (KJV) — the writer quotes Psalm 118 to reassure believers of God's faithful presence."},
+  {topic:"epistles",icon:"✉️",q:"Galatians 5:22 lists the fruit of the Spirit. Which of these is NOT one of them?",opts:["A. Love","B. Joy","C. Courage","D. Peace"],ans:2,hint:"The fruit of the Spirit (Galatians 5:22–23 KJV) includes love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, and temperance."},
+  {topic:"epistles",icon:"✉️",q:"1 Thessalonians 5:17 gives one of the shortest instructions in the Bible. What is it?",opts:["A. Fear not","B. Rejoice always","C. Pray without ceasing","D. Give thanks"],ans:2,hint:"'Pray without ceasing.' — 1 Thessalonians 5:17 (KJV) — just three words, one of the most powerful commands in Scripture."},
+  {topic:"epistles",icon:"✉️",q:"Philippians 4:7 promises the peace of God which passeth all...",opts:["A. Knowledge","B. Understanding","C. Wisdom","D. Thought"],ans:1,hint:"'And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.' — Philippians 4:7 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"Which New Testament letter is written to just one person about a runaway slave named Onesimus?",opts:["A. Titus","B. Philemon","C. 2 Timothy","D. 3 John"],ans:1,hint:"Philemon is the shortest letter of Paul, written as a personal plea on behalf of the slave Onesimus."},
+  {topic:"epistles",icon:"✉️",q:"Romans 12:2 — 'Be not conformed to this world: but be ye transformed by the renewing of your...'",opts:["A. Heart","B. Soul","C. Mind","D. Spirit"],ans:2,hint:"'...be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.' — Romans 12:2 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"Ephesians 2:8 — 'For by grace are ye saved through...'",opts:["A. Works","B. Love","C. Faith","D. Prayer"],ans:2,hint:"'For by grace are ye saved through faith; and that not of yourselves: it is the gift of God.' — Ephesians 2:8 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"'Cast all your anxiety on him because he cares for you' is from which letter?",opts:["A. James","B. Hebrews","C. 1 Peter","D. 2 Peter"],ans:2,hint:"'Casting all your care upon him; for he careth for you.' — 1 Peter 5:7 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"Colossians 3:23 — 'And whatsoever ye do, do it heartily, as to the...'",opts:["A. Church","B. Community","C. Lord and not unto men","D. Glory of God"],ans:2,hint:"'And whatsoever ye do, do it heartily, as to the Lord, and not unto men.' — Colossians 3:23 (KJV)"},
+  {topic:"epistles",icon:"✉️",q:"The book of Revelation was written by which apostle?",opts:["A. Paul","B. Peter","C. James","D. John"],ans:3,hint:"The Apostle John received the revelation of Jesus Christ while exiled on the island of Patmos. — Revelation 1:9 (KJV)"},
+
+  // ── FAITH & HYMNS ────────────────────────────────────
+  {topic:"hymns",icon:"🕊️",q:"Which famous hymn begins 'Amazing grace, how sweet the sound, that saved a wretch like me'?",opts:["A. How Great Thou Art","B. Amazing Grace","C. The Old Rugged Cross","D. Blessed Assurance"],ans:1,hint:"Amazing Grace was written by John Newton (1779), a former slave trader who was transformed by God's grace."},
+  {topic:"hymns",icon:"🕊️",q:"Who wrote the hymn 'Amazing Grace'?",opts:["A. Charles Wesley","B. Isaac Watts","C. John Newton","D. Fanny Crosby"],ans:2,hint:"John Newton, a former slave trader turned Anglican clergyman, wrote Amazing Grace around 1772."},
+  {topic:"hymns",icon:"🕊️",q:"The hymn 'How Great Thou Art' is based on a poem by which Swedish minister?",opts:["A. Carl Boberg","B. Lina Sandell","C. Eric Lund","D. Andrew Murray"],ans:0,hint:"Carl Boberg wrote the Swedish poem 'O Store Gud' in 1885, later translated and popularised as How Great Thou Art."},
+  {topic:"hymns",icon:"🕊️",q:"'Blessed Assurance, Jesus is mine' — who wrote this hymn?",opts:["A. Fanny Crosby","B. Ira Sankey","C. Isaac Watts","D. Charles Wesley"],ans:0,hint:"Fanny Crosby, who was blind from infancy, wrote thousands of hymns including Blessed Assurance (1873)."},
+  {topic:"hymns",icon:"🕊️",q:"'On a hill far away stood an old rugged cross' — what is this hymn called?",opts:["A. The Blood of the Lamb","B. When I Survey","C. The Old Rugged Cross","D. Rock of Ages"],ans:2,hint:"The Old Rugged Cross was written by George Bennard in 1913, one of the most beloved hymns of the faith."},
+  {topic:"hymns",icon:"🕊️",q:"Which prolific hymn writer wrote both 'When I Survey the Wondrous Cross' and 'Joy to the World'?",opts:["A. John Wesley","B. Isaac Watts","C. Charles Wesley","D. William Cowper"],ans:1,hint:"Isaac Watts (1674–1748) is known as the 'Father of English Hymnody' and wrote over 750 hymns."},
+  {topic:"hymns",icon:"🕊️",q:"'O for a thousand tongues to sing' was written by which founder of Methodism?",opts:["A. John Wesley","B. Charles Wesley","C. George Whitefield","D. John Calvin"],ans:1,hint:"Charles Wesley wrote this hymn on the first anniversary of his conversion in 1739. His brother John founded Methodism."},
+  {topic:"hymns",icon:"🕊️",q:"What is the doxology traditionally sung in many churches?",opts:["A. Holy Holy Holy","B. To God be the glory","C. Praise God from whom all blessings flow","D. All hail the power of Jesus' name"],ans:2,hint:"The Doxology by Thomas Ken (1674) begins 'Praise God from whom all blessings flow; praise Him all creatures here below.'"},
+  {topic:"hymns",icon:"🕊️",q:"'Rock of Ages, cleft for me' was written by which English clergyman?",opts:["A. Isaac Watts","B. Augustus Toplady","C. John Newton","D. William Cowper"],ans:1,hint:"Augustus Toplady wrote Rock of Ages in 1763, inspired by sheltering from a storm in the cleft of a rock."},
+  {topic:"hymns",icon:"🕊️",q:"What does the word 'Hallelujah' mean?",opts:["A. Praise the Lord","B. God is good","C. Amen","D. Holy is He"],ans:0,hint:"Hallelujah (or Alleluia) is Hebrew for 'Praise the Lord' — it appears in Psalms and the Book of Revelation."},
+  {topic:"hymns",icon:"🕊️",q:"Which New Testament letter tells us to speak to one another in psalms and hymns and spiritual songs?",opts:["A. Romans","B. Colossians","C. Ephesians","D. Both B and C"],ans:3,hint:"Both Ephesians 5:19 and Colossians 3:16 (KJV) give this instruction to the church."},
+  {topic:"hymns",icon:"🕊️",q:"The Bible says God inhabits the...",opts:["A. Prayers","B. Praises","C. Temples","D. Hearts"],ans:1,hint:"'But thou art holy, O thou that inhabitest the praises of Israel.' — Psalm 22:3 (KJV)"},
+  {topic:"hymns",icon:"🕊️",q:"Paul and Silas sang hymns in prison at midnight. Where were they imprisoned?",opts:["A. Rome","B. Jerusalem","C. Philippi","D. Corinth"],ans:2,hint:"At midnight Paul and Silas prayed and sang praises to God in the prison at Philippi, and an earthquake opened the doors. — Acts 16:25 (KJV)"},
+  {topic:"hymns",icon:"🕊️",q:"'Great is Thy Faithfulness' is based on a verse from which Old Testament book?",opts:["A. Isaiah","B. Jeremiah","C. Lamentations","D. Psalms"],ans:2,hint:"'Great is thy faithfulness.' — Lamentations 3:23 (KJV) — the hymn by Thomas Chisholm (1923) is drawn from this verse."},
+  {topic:"hymns",icon:"🕊️",q:"In Revelation 4, the four living creatures around the throne cry out 'Holy, holy, holy is the Lord...'",opts:["A. Most High","B. Almighty","C. God","D. King"],ans:1,hint:"'Holy, holy, holy, Lord God Almighty, which was, and is, and is to come.' — Revelation 4:8 (KJV)"},
+  {topic:"hymns",icon:"🕊️",q:"What does 'Amen' mean as used at the end of prayers?",opts:["A. The End","B. So be it / Truly","C. Goodbye","D. Thanks be to God"],ans:1,hint:"'Amen' is a Hebrew word meaning 'truly' or 'so be it' — expressing agreement and affirming what has been said."},
+  {topic:"hymns",icon:"🕊️",q:"The first song recorded in the Bible was sung by whom after crossing the Red Sea?",opts:["A. David","B. Miriam and Moses","C. Deborah","D. Solomon"],ans:1,hint:"After crossing the Red Sea, Moses and the Israelites sang a song of praise; Miriam led the women with tambourines. — Exodus 15 (KJV)"},
+  {topic:"hymns",icon:"🕊️",q:"Which instrument is most commonly associated with King David in the Bible?",opts:["A. Trumpet","B. Harp","C. Lyre","D. Flute"],ans:1,hint:"David was known for playing the harp (or lyre) from his youth, even soothing King Saul's troubled spirit with it. — 1 Samuel 16:23 (KJV)"},
+  {topic:"hymns",icon:"🕊️",q:"Psalm 150 says to praise God with which instrument among others?",opts:["A. Organ","B. Guitar","C. Trumpet","D. Piano"],ans:2,hint:"'Praise him with the sound of the trumpet.' — Psalm 150:3 (KJV) — the psalm lists many instruments of praise."},
+  {topic:"hymns",icon:"🕊️",q:"'It Is Well with My Soul' was written by Horatio Spafford after what tragedy?",opts:["A. The death of his wife","B. The loss of his home","C. The drowning of his four daughters","D. The loss of his business"],ans:2,hint:"Horatio Spafford wrote this hymn (1873) after learning that his four daughters had drowned in a shipwreck — a powerful testimony of faith."},
+  {topic:"hymns",icon:"🕊️",q:"'To God be the glory, great things he hath done' was written by which blind hymn writer?",opts:["A. Fanny Crosby","B. Ira Sankey","C. Philip Bliss","D. William Doane"],ans:0,hint:"Fanny Crosby (1820–1915) wrote this hymn among thousands of others despite being blind from six weeks of age."},
+  {topic:"hymns",icon:"🕊️",q:"The book of Psalms was used as the hymn book of which group?",opts:["A. The early church only","B. The ancient Israelites in worship","C. The prophets","D. The disciples of John"],ans:1,hint:"The Psalms were the worship songs of ancient Israel, sung in the Temple and synagogues — they are the hymnal of God's people."},
+  {topic:"hymns",icon:"🕊️",q:"Ephesians 5:19 tells us to make melody in our...",opts:["A. Voices","B. Hearts","C. Souls","D. Minds"],ans:1,hint:"'Making melody in your heart to the Lord.' — Ephesians 5:19 (KJV)"},
+  {topic:"hymns",icon:"🕊️",q:"Which Old Testament prophetess led Israel in song after the Red Sea crossing?",opts:["A. Deborah","B. Esther","C. Ruth","D. Miriam"],ans:3,hint:"'And Miriam the prophetess, the sister of Aaron, took a timbrel in her hand; and all the women went out after her.' — Exodus 15:20 (KJV)"},
+  {topic:"hymns",icon:"🕊️",q:"'Come thou fount of every blessing' — the hymn asks God to tune our hearts to sing His...",opts:["A. Glory","B. Grace","C. Praise","D. Name"],ans:1,hint:"'Come, thou Fount of every blessing, tune my heart to sing thy grace.' — Robert Robinson, 1758."},
+
+  // ── MIRACLES ─────────────────────────────────────────
+  {topic:"miracles",icon:"✨",q:"Jesus's first miracle was turning water into wine at a wedding. How many water jars were used?",opts:["A. Two","B. Four","C. Six","D. Twelve"],ans:2,hint:"'And there were set there six waterpots of stone.' — John 2:6 (KJV). Jesus filled all six with wine."},
+  {topic:"miracles",icon:"✨",q:"When Jesus healed the ten lepers, how many returned to give thanks?",opts:["A. One","B. Three","C. Five","D. All ten"],ans:0,hint:"Only one of the ten healed lepers returned to thank Jesus, and he was a Samaritan. — Luke 17:15–16 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"Jesus calmed the storm on which body of water?",opts:["A. The Jordan River","B. The Dead Sea","C. The Sea of Galilee","D. The Mediterranean"],ans:2,hint:"Jesus rebuked the wind and the raging Sea of Galilee, and there was a great calm. — Luke 8:24 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"Elijah raised a widow's son from the dead in which town?",opts:["A. Bethel","B. Zarephath","C. Samaria","D. Jericho"],ans:1,hint:"God worked through Elijah to raise the son of the widow of Zarephath. — 1 Kings 17:22 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"How did Jesus restore sight to a blind man in John 9?",opts:["A. He touched his eyes","B. He spoke a word","C. He made clay and anointed his eyes","D. He prayed aloud"],ans:2,hint:"Jesus made clay with saliva and anointed the man's eyes, then told him to wash in the pool of Siloam. — John 9:6 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"Peter healed a lame man at which gate of the temple?",opts:["A. The Eastern Gate","B. The Beautiful Gate","C. The Golden Gate","D. The Sheep Gate"],ans:1,hint:"Peter and John healed a man lame from birth at the Beautiful Gate, in the name of Jesus Christ. — Acts 3:2 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"God fed the Israelites in the wilderness with bread from heaven called...",opts:["A. Manna","B. Shewbread","C. Unleavened bread","D. Barley"],ans:0,hint:"'And the house of Israel called the name thereof Manna.' — Exodus 16:31 (KJV). God provided it every morning except the Sabbath."},
+  {topic:"miracles",icon:"✨",q:"The widow's oil in 2 Kings multiplied miraculously through the prophet...",opts:["A. Elijah","B. Isaiah","C. Elisha","D. Jeremiah"],ans:2,hint:"Elisha told the widow to gather vessels, and the oil poured out until all vessels were full. — 2 Kings 4:6 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"Paul was shipwrecked on which island and survived a viper bite unharmed?",opts:["A. Crete","B. Cyprus","C. Malta","D. Rhodes"],ans:2,hint:"Paul shook the viper into the fire on the island of Melita (Malta) and suffered no harm. — Acts 28:5 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"Joshua commanded which two things to stand still during battle?",opts:["A. Wind and rain","B. Sun and moon","C. Stars and sea","D. Lightning and thunder"],ans:1,hint:"'Sun, stand thou still upon Gibeon; and thou, Moon, in the valley of Ajalon.' — Joshua 10:12 (KJV). God answered."},
+  {topic:"miracles",icon:"✨",q:"Naaman was healed of leprosy after washing in which river how many times?",opts:["A. The Jordan, three times","B. The Nile, seven times","C. The Jordan, seven times","D. The Euphrates, once"],ans:2,hint:"Naaman washed seven times in the Jordan River and his flesh was restored like that of a little child. — 2 Kings 5:14 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"In Acts 12, which apostle was miraculously released from prison by an angel?",opts:["A. Paul","B. John","C. Peter","D. Silas"],ans:2,hint:"An angel of the Lord appeared and struck Peter on the side; his chains fell off and the prison doors opened. — Acts 12:7 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"The feeding of the 5000 is the only miracle (besides the resurrection) recorded in all four Gospels. True or false?",opts:["A. True","B. False","C. Only in three Gospels","D. Uncertain"],ans:0,hint:"The feeding of the five thousand appears in all four Gospels: Matthew 14, Mark 6, Luke 9, and John 6 — showing its significance."},
+  {topic:"miracles",icon:"✨",q:"God provided water from a rock when Moses struck it. Where were the Israelites?",opts:["A. Egypt","B. Canaan","C. The wilderness of Sinai","D. Jericho"],ans:2,hint:"At Horeb/Meribah in the wilderness, God told Moses to strike the rock and water came out abundantly. — Exodus 17:6 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"Shadrach, Meshach and Abednego were thrown into a furnace heated how many times hotter than normal?",opts:["A. Three","B. Five","C. Seven","D. Ten"],ans:2,hint:"Nebuchadnezzar commanded the furnace to be heated seven times more than usual, yet the three men were unharmed. — Daniel 3:19 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"Elisha fed 100 men with 20 loaves of barley — what was left over?",opts:["A. Nothing","B. Five loaves","C. Some, as the Lord had said","D. One basket"],ans:2,hint:"'...and they did eat, and left thereof, according to the word of the Lord.' — 2 Kings 4:44 (KJV). This foreshadows Jesus's feeding miracles."},
+  {topic:"miracles",icon:"✨",q:"Jesus healed a woman who had been bent over and could not straighten up for how many years?",opts:["A. 10 years","B. 18 years","C. 24 years","D. 38 years"],ans:1,hint:"'And, behold, there was a woman which had a spirit of infirmity eighteen years, and was bowed together.' — Luke 13:11 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"In Acts 9, which disciple was raised from the dead in Joppa by Peter?",opts:["A. Lydia","B. Dorcas (Tabitha)","C. Priscilla","D. Phoebe"],ans:1,hint:"Dorcas (Tabitha) was raised from the dead by Peter's prayer in Joppa, and many believed in the Lord because of it. — Acts 9:40 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"Which prophet called down bears from the woods to deal with youths who mocked him?",opts:["A. Elijah","B. Isaiah","C. Elisha","D. Amos"],ans:2,hint:"When youths mocked Elisha saying 'Go up, thou bald head,' two she-bears came and harmed forty-two of them. — 2 Kings 2:24 (KJV)"},
+  {topic:"miracles",icon:"✨",q:"The miracle of manna ceased when Israel entered which land?",opts:["A. Egypt","B. Canaan (the Promised Land)","C. Sinai","D. Moab"],ans:1,hint:"'And the manna ceased on the morrow after they had eaten of the old corn of the land.' — Joshua 5:12 (KJV) — once in Canaan."},
+  {topic:"miracles",icon:"✨",q:"When Jesus was baptised, what did the Holy Spirit descend upon Him like?",opts:["A. A flame","B. A dove","C. A cloud","D. The wind"],ans:1,hint:"'And the Holy Ghost descended in a bodily shape like a dove upon him.' — Luke 3:22 (KJV)"},
+
+  // ── GOD'S PROMISES ───────────────────────────────────
+  {topic:"promises",icon:"🌿",q:"Isaiah 41:10 — 'Fear thou not; for I am with thee: be not dismayed; for I am thy...'",opts:["A. King","B. Shepherd","C. God","D. Father"],ans:2,hint:"'Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee.' — Isaiah 41:10 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Jeremiah 29:11 — God says He knows the plans He has for us — plans of peace and not of...",opts:["A. Harm","B. Evil","C. Sorrow","D. War"],ans:1,hint:"'For I know the thoughts that I think toward you, saith the Lord, thoughts of peace, and not of evil.' — Jeremiah 29:11 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Lamentations 3:22–23 says God's mercies are new every...",opts:["A. Week","B. Month","C. Morning","D. Season"],ans:2,hint:"'It is of the Lord's mercies that we are not consumed...They are new every morning: great is thy faithfulness.' — Lamentations 3:22–23 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Matthew 6:33 promises that if we seek first God's kingdom, all these things shall be...",opts:["A. Granted","B. Added unto you","C. Given in season","D. Found"],ans:1,hint:"'But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.' — Matthew 6:33 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"John 14:27 — 'Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto...'",opts:["A. Believers","B. The righteous","C. You","D. My people"],ans:2,hint:"'Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you.' — John 14:27 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Romans 8:38–39 assures us that nothing can separate us from the...",opts:["A. Grace of God","B. Peace of God","C. Love of God","D. Spirit of God"],ans:2,hint:"'...neither death, nor life...shall be able to separate us from the love of God, which is in Christ Jesus our Lord.' — Romans 8:39 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"2 Chronicles 7:14 — 'If my people, which are called by my name, shall humble themselves, and pray...then will I...'",opts:["A. Answer from heaven","B. Hear from heaven and heal their land","C. Send my Spirit","D. Forgive and restore"],ans:1,hint:"'...then will I hear from heaven, and will forgive their sin, and will heal their land.' — 2 Chronicles 7:14 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Isaiah 40:31 promises that those who wait on the Lord shall renew their...",opts:["A. Faith","B. Peace","C. Strength","D. Hope"],ans:2,hint:"'They that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles.' — Isaiah 40:31 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"John 3:16 says that God so loved the world that He gave His Son so that whoever believes shall not perish but have...",opts:["A. Life eternal","B. Everlasting life","C. Life abundant","D. Salvation"],ans:1,hint:"'...that whosoever believeth in him should not perish, but have everlasting life.' — John 3:16 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Proverbs 3:5–6 promises that if we acknowledge God in all our ways, He will...",opts:["A. Bless our path","B. Direct our paths","C. Light our way","D. Guard our steps"],ans:1,hint:"'In all thy ways acknowledge him, and he shall direct thy paths.' — Proverbs 3:6 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"1 Corinthians 10:13 promises that God will not allow any temptation beyond what we can bear, and will provide a way of...",opts:["A. Escape","B. Strength","C. Rest","D. Peace"],ans:0,hint:"'...but will with the temptation also make a way to escape, that ye may be able to bear it.' — 1 Corinthians 10:13 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Revelation 21:4 promises that in heaven God will wipe away all...",opts:["A. Sin","B. Sorrow","C. Tears","D. Darkness"],ans:2,hint:"'And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying.' — Revelation 21:4 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Matthew 11:28 — Jesus says 'Come unto me, all ye that labour and are heavy laden, and I will give you...'",opts:["A. Comfort","B. Rest","C. Peace","D. Life"],ans:1,hint:"'Come unto me, all ye that labour and are heavy laden, and I will give you rest.' — Matthew 11:28 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Philippians 4:19 promises that God shall supply all your need according to His riches in...",opts:["A. Heaven","B. Grace","C. Glory","D. Mercy"],ans:2,hint:"'But my God shall supply all your need according to his riches in glory by Christ Jesus.' — Philippians 4:19 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"James 1:5 promises that if any man lacks wisdom, he should ask of God who gives...",opts:["A. Freely","B. With conditions","C. Liberally and upbraideth not","D. To those who deserve it"],ans:2,hint:"'If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not.' — James 1:5 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Romans 8:28 assures us that all things work together for good for those who...",opts:["A. Believe in God","B. Love God","C. Pray without ceasing","D. Walk in the Spirit"],ans:1,hint:"'And we know that all things work together for good to them that love God.' — Romans 8:28 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Hebrews 13:5 records God's promise: 'I will never leave thee, nor...'",opts:["A. Forget thee","B. Forsake thee","C. Fail thee","D. Depart from thee"],ans:1,hint:"'I will never leave thee, nor forsake thee.' — Hebrews 13:5 (KJV) — echoing God's words to Joshua (Joshua 1:5)."},
+  {topic:"promises",icon:"🌿",q:"Isaiah 43:2 promises that when we pass through the waters, God will be with us, and through the rivers, they shall not...",opts:["A. Rise against us","B. Overflow thee","C. Overcome us","D. Harm us"],ans:1,hint:"'When thou passest through the waters, I will be with thee; and through the rivers, they shall not overflow thee.' — Isaiah 43:2 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Psalm 37:4 says 'Delight thyself also in the Lord; and he shall give thee the desires of thine...'",opts:["A. Soul","B. Mind","C. Heart","D. Spirit"],ans:2,hint:"'Delight thyself also in the Lord; and he shall give thee the desires of thine heart.' — Psalm 37:4 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"2 Corinthians 5:17 — 'If any man be in Christ, he is a new...'",opts:["A. Person","B. Believer","C. Creature","D. Being"],ans:2,hint:"'Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.' — 2 Corinthians 5:17 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"1 John 1:9 promises that if we confess our sins, God is faithful and just to forgive us and to...",opts:["A. Restore us","B. Cleanse us from all unrighteousness","C. Remember them no more","D. Renew us"],ans:1,hint:"'If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.' — 1 John 1:9 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"Malachi 3:10 records God's promise to open the windows of heaven and pour out a blessing for those who...",opts:["A. Pray faithfully","B. Bring tithes into the storehouse","C. Walk in righteousness","D. Keep the Sabbath"],ans:1,hint:"'Bring ye all the tithes into the storehouse...and I will pour you out a blessing, that there shall not be room enough to receive it.' — Malachi 3:10 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"What does Jesus promise in John 10:10?",opts:["A. He will never leave us","B. He came that we might have life more abundantly","C. He will return for us","D. He will answer all prayer"],ans:1,hint:"'I am come that they might have life, and that they might have it more abundantly.' — John 10:10 (KJV)"},
+  {topic:"promises",icon:"🌿",q:"According to Matthew 28:20, Jesus promises to be with us always, even unto the...",opts:["A. Day of judgement","B. End of the world","C. Second coming","D. End of our days"],ans:1,hint:"'Lo, I am with you always, even unto the end of the world.' — Matthew 28:20 (KJV) — the Great Commission's closing promise."},
+  {topic:"promises",icon:"🌿",q:"Psalm 30:5 promises that weeping may endure for a night, but...",opts:["A. Peace comes in the morning","B. Joy cometh in the morning","C. Hope rises with the sun","D. God's mercies are new"],ans:1,hint:"'...weeping may endure for a night, but joy cometh in the morning.' — Psalm 30:5 (KJV)"}
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let selTopic="all", selCount=10, questions=[], idx=0, score=0, answered=false, userAnswers=[];
+
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+function topicLabel(t){return{psalms:"Psalms & Proverbs",gospels:"The Gospels",oldtestament:"Old Testament",epistles:"Epistles & Letters",hymns:"Faith & Hymns",miracles:"Miracles",promises:"God's Promises"}[t]||"The Bible";}
+function topicIcon(t){return{psalms:"🎵",gospels:"✝",oldtestament:"📜",epistles:"✉️",hymns:"🕊️",miracles:"✨",promises:"🌿"}[t]||"📖";}
+
+function selectTopic(el){document.querySelectorAll('.topic-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');selTopic=el.dataset.topic;}
+function selectCount(el,n){document.querySelectorAll('.count-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');selCount=n;}
+
+function startQuiz(){
+  let pool=selTopic==="all"?ALL_QUESTIONS:ALL_QUESTIONS.filter(q=>q.topic===selTopic);
+  if(!pool.length)pool=ALL_QUESTIONS;
+  questions=shuffle(pool).slice(0,Math.min(selCount,pool.length));
+  idx=0;score=0;userAnswers=[];
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('results').style.display='none';
+  document.getElementById('quizArea').style.display='block';
+  updateScore();showQuestion();
+}
+
+function showQuestion(){
+  answered=false;
+  const q=questions[idx], total=questions.length, prev=userAnswers[idx];
+  document.getElementById('progPill').textContent=`${idx+1} of ${total}`;
+  document.getElementById('progFill').style.width=`${(idx/total)*100}%`;
+  document.getElementById('qTopic').innerHTML=`${topicIcon(q.topic)} ${topicLabel(q.topic)}`;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('backBtn').disabled=idx===0;
+  document.getElementById('prevBtn').style.display=idx===0?'none':'block';
+
+  const grid=document.getElementById('optGrid');grid.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letters[i]}</span><span>${opt.slice(3)}</span>`;
+    if(prev!==undefined){
+      btn.disabled=true;
+      if(i===q.ans)btn.classList.add(prev.wasCorrect||i===prev.chosen?'review-correct':'review-correct');
+      if(i===q.ans)btn.classList.add('review-correct');
+      if(i===prev.chosen&&!prev.wasCorrect)btn.classList.add('review-wrong');
+    } else {
+      btn.onclick=()=>selectAnswer(i,btn,q.ans,q.hint);
+    }
+    grid.appendChild(btn);
+  });
+
+  const fb=document.getElementById('feedback');
+  const sh=document.getElementById('scriptureHint');
+  if(prev!==undefined){
+    fb.className='feedback review';fb.style.display='flex';
+    document.getElementById('fbIcon').textContent='📖';
+    document.getElementById('fbText').textContent=prev.wasCorrect?'You answered this correctly. ✓':'Review the answer below.';
+    sh.classList.add('show');
+    document.getElementById('scriptureText').textContent=q.hint.split('—')[0].trim();
+    document.getElementById('scriptureRef').textContent=q.hint.includes('—')?q.hint.split('—').slice(1).join('—').trim():'';
+    document.getElementById('nextBtn').style.display='block';answered=true;
+  } else {
+    fb.className='feedback';fb.style.display='none';
+    sh.classList.remove('show');
+    document.getElementById('nextBtn').style.display='none';
+  }
+
+  const card=document.getElementById('qCard');card.style.animation='none';card.offsetHeight;card.style.animation='cardIn 0.38s ease both';
+}
+
+function selectAnswer(i,btn,correct,hint){
+  if(answered)return;answered=true;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const wasCorrect=i===correct;
+  userAnswers[idx]={chosen:i,correct,wasCorrect};
+  if(wasCorrect){score++;btn.classList.add('correct');showFb(true);updateScore();}
+  else{btn.classList.add('wrong');document.querySelectorAll('.opt-btn')[correct].classList.add('correct');showFb(false);}
+  // Show scripture
+  const sh=document.getElementById('scriptureHint');sh.classList.add('show');
+  const parts=hint.split('—');
+  document.getElementById('scriptureText').textContent=parts[0].trim();
+  document.getElementById('scriptureRef').textContent=parts.length>1?parts.slice(1).join('—').trim():'';
+  document.getElementById('nextBtn').style.display='block';
+}
+
+function showFb(ok){
+  const fb=document.getElementById('feedback');
+  const okM=["Well done! That is correct.","Splendid! You remembered well.","Correct — God bless you!","That's right. Well answered.","Excellent! Faithful and true.","Correct indeed. Well done."];
+  const noM=["Not quite — but do read the verse below.","The correct answer is shown. Keep going!","Almost — the scripture note will help.","Do not be discouraged — keep reading.","God's Word rewards those who study it.","Keep going — you are doing wonderfully."];
+  fb.className=`feedback ${ok?'correct':'wrong'}`;fb.style.display='flex';
+  document.getElementById('fbIcon').textContent=ok?'✓':'✦';
+  document.getElementById('fbText').textContent=ok?okM[Math.floor(Math.random()*okM.length)]:noM[Math.floor(Math.random()*noM.length)];
+}
+
+function nextQuestion(){idx++;if(idx>=questions.length)showResults();else showQuestion();}
+function goBack(){if(idx===0)return;idx--;showQuestion();}
+function showExitModal(){document.getElementById('exitProg').textContent=userAnswers.filter(Boolean).length;document.getElementById('exitModal').classList.add('show');}
+function hideExitModal(){document.getElementById('exitModal').classList.remove('show');}
+function confirmExit(){hideExitModal();document.getElementById('quizArea').style.display='none';document.getElementById('results').style.display='none';document.getElementById('startScreen').style.display='block';score=0;idx=0;userAnswers=[];updateScore();}
+
+function updateScore(){
+  document.getElementById('scoreNum').textContent=score;
+  const stars=document.getElementById('scoreStars');stars.innerHTML='';
+  const show=Math.min(score,10);
+  for(let i=0;i<show;i++){const s=document.createElement('span');s.className='score-star'+(i===score-1?' new':'');s.textContent='✦';stars.appendChild(s);}
+  if(score>10){const m=document.createElement('span');m.style.cssText='font-size:13px;color:var(--text-light);';m.textContent=` +${score-10}`;stars.appendChild(m);}
+}
+
+function showResults(){
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('quizArea').style.display='none';
+  const res=document.getElementById('results');res.style.display='block';
+  const total=questions.length,pct=score/total;
+  let ornament='✦',title='',scripture='',badge='';
+  if(pct===1){ornament='✝';title='Perfect Score!';scripture='"Well done, thou good and faithful servant." — Matthew 25:21 (KJV)';badge='✦ Faithful Servant of the Word ✦';}
+  else if(pct>=0.8){ornament='✦';title='Wonderfully Done!';scripture='"She openeth her mouth with wisdom; and in her tongue is the law of kindness." — Proverbs 31:26 (KJV)';badge='📖 Bible Scholar';}
+  else if(pct>=0.6){ornament='🕊️';title='Well Done, Friend!';scripture='"Thy word have I hid in mine heart, that I might not sin against thee." — Psalm 119:11 (KJV)';badge='🌿 Faithful Student';}
+  else if(pct>=0.4){ornament='🌿';title='A Good Effort!';scripture='"Study to shew thyself approved unto God." — 2 Timothy 2:15 (KJV)';badge='✝ Diligent Learner';}
+  else{ornament='🕊️';title='Keep Reading the Word!';scripture='"But grow in grace, and in the knowledge of our Lord." — 2 Peter 3:18 (KJV)';badge='🌿 Faithful Seeker';}
+  document.getElementById('resOrnament').textContent=ornament;
+  document.getElementById('resTitle').textContent=title;
+  document.getElementById('resScripture').textContent=scripture;
+  document.getElementById('resScore').textContent=`${score} / ${total}`;
+  document.getElementById('resBadge').textContent=badge;
+  const sd=document.getElementById('resStars');sd.innerHTML='';
+  for(let i=0;i<Math.min(score,20);i++){const s=document.createElement('span');s.textContent='✦';sd.appendChild(s);}
+  // Answer review
+  const rev=document.getElementById('ansReview');
+  rev.innerHTML=`<div class="ans-review-title">Your Answers Review</div>`;
+  questions.forEach((q,i)=>{
+    const ua=userAnswers[i];
+    const item=document.createElement('div');
+    item.className='ans-item '+(ua?(ua.wasCorrect?'ok':'no'):'');
+    const correctText=q.opts[q.ans].slice(3);
+    const chosenText=ua?q.opts[ua.chosen].slice(3):'Not answered';
+    item.innerHTML=`<div class="ans-item-q">${i+1}. ${q.q}</div>
+    <div class="ans-item-d">${ua&&ua.wasCorrect?`<span class="c-ans">✓ Correct: ${correctText}</span>`:`${ua?`<span class="w-ans">✗ Your answer: ${chosenText}</span><br>`:'<span class="w-ans">Not answered</span><br>'}<span class="c-ans">✓ Answer: ${correctText}</span>`}
+    <br><em style="color:var(--text-light);font-size:13px;">${q.hint}</em></div>`;
+    rev.appendChild(item);
+  });
+}
+
+function restartSame(){startQuiz();}
+function goHome(){document.getElementById('results').style.display='none';document.getElementById('quizArea').style.display='none';document.getElementById('startScreen').style.display='block';score=0;idx=0;userAnswers=[];updateScore();}
+
+function openPrint(html){
+  const w=window.open('','_blank');
+  if(!w){alert('Please allow pop-ups to download the PDF.');return;}
+  w.document.write(html);w.document.close();w.focus();setTimeout(()=>w.print(),700);
+}
+
+function downloadQuestionsPDF(){
+  if(!questions.length){alert('Please start the quiz first.');return;}
+  const L=['A','B','C','D'];
+  let h=`<html><head><title>Bible Quiz for Seniors — Questions</title><style>
+    body{font-family:Georgia,serif;max-width:700px;margin:0 auto;padding:32px;color:#2c1f16;font-size:15px;line-height:1.7;}
+    h1{color:#5c3d2e;font-size:22px;margin-bottom:4px;}
+    .sub{color:#8b6555;font-size:13px;font-style:italic;margin-bottom:28px;}
+    .ornament{color:#c9a96e;font-size:18px;letter-spacing:0.3em;text-align:center;margin-bottom:20px;}
+    .q{margin-bottom:22px;page-break-inside:avoid;border-bottom:1px solid #e0cdb8;padding-bottom:18px;}
+    .qn{font-weight:bold;color:#5c3d2e;font-size:12px;margin-bottom:3px;letter-spacing:0.1em;text-transform:uppercase;}
+    .qcat{color:#a07840;font-size:11px;font-style:italic;margin-bottom:5px;}
+    .qt{font-size:16px;font-weight:bold;margin-bottom:9px;}
+    .opt{font-size:15px;margin:4px 0 4px 14px;}
+    .footer{margin-top:36px;border-top:1px solid #e0cdb8;padding-top:12px;font-size:12px;color:#8b6555;text-align:center;font-style:italic;}
+    @media print{body{padding:16px;}}
+  </style></head><body>
+  <div class="ornament">✦ ✝ ✦</div>
+  <h1>Bible Quiz for Senior Citizens — Questions</h1>
+  <div class="sub">Daily Prayers &amp; Blessings &nbsp;|&nbsp; ${questions.length} Questions &nbsp;|&nbsp; Topic: ${selTopic==='all'?'All Topics':topicLabel(selTopic)}<br>No timer · Large print · Take your time · God bless you</div>`;
+  questions.forEach((q,i)=>{
+    h+=`<div class="q"><div class="qcat">${topicIcon(q.topic)} ${topicLabel(q.topic)}</div><div class="qn">Question ${i+1}</div><div class="qt">${q.q}</div>${q.opts.map((o,oi)=>`<div class="opt">${L[oi]}. ${o.slice(3)}</div>`).join('')}</div>`;
+  });
+  h+=`<div class="footer">"Thy word is a lamp unto my feet, and a light unto my path." — Psalm 119:105 (KJV)<br>dailyprayersandblessings.com</div></body></html>`;
+  openPrint(h);
+}
+
+function downloadAnswersPDF(){
+  const L=['A','B','C','D'];
+  const total=questions.length,pct=score/total;
+  let badge=pct===1?'Faithful Servant of the Word':pct>=0.8?'Bible Scholar':pct>=0.6?'Faithful Student':pct>=0.4?'Diligent Learner':'Faithful Seeker';
+  let h=`<html><head><title>Bible Quiz for Seniors — Answer Key</title><style>
+    body{font-family:Georgia,serif;max-width:700px;margin:0 auto;padding:32px;color:#2c1f16;font-size:14px;line-height:1.6;}
+    h1{color:#5c3d2e;font-size:22px;margin-bottom:4px;}
+    .sub{color:#8b6555;font-size:13px;font-style:italic;margin-bottom:22px;}
+    .ornament{color:#c9a96e;font-size:18px;letter-spacing:0.3em;text-align:center;margin-bottom:16px;}
+    .score-box{background:#f5ede0;border:2px solid #c9a96e;border-radius:10px;padding:18px 24px;margin-bottom:24px;text-align:center;}
+    .big{font-size:38px;font-weight:bold;color:#5c3d2e;}
+    .lbl{font-size:14px;color:#8b6555;font-style:italic;}
+    .bdg{font-size:16px;font-weight:bold;margin-top:6px;color:#5c3d2e;}
+    table{width:100%;border-collapse:collapse;font-size:13px;}
+    th{background:#5c3d2e;color:#fffdf8;padding:10px 8px;text-align:left;}
+    td{padding:9px 8px;border-bottom:1px solid #e0cdb8;vertical-align:top;}
+    tr:nth-child(even) td{background:#faf5ef;}
+    .cr td{background:#edf6ed!important;}
+    .wr td{background:#fdf0f0!important;}
+    .tick{color:#4a7c4a;font-weight:bold;}
+    .cross{color:#8b3030;font-weight:bold;}
+    .ans{color:#4a7c4a;font-weight:bold;}
+    .hint-row td{font-style:italic;font-size:12px;color:#8b6555;background:#faf5ef!important;border-bottom:2px solid #e0cdb8;}
+    .footer{margin-top:36px;border-top:1px solid #e0cdb8;padding-top:12px;font-size:12px;color:#8b6555;text-align:center;font-style:italic;}
+    @media print{body{padding:16px;}}
+  </style></head><body>
+  <div class="ornament">✦ ✝ ✦</div>
+  <h1>Bible Quiz for Senior Citizens — Answer Key</h1>
+  <div class="sub">Daily Prayers &amp; Blessings | ${total} Questions</div>
+  <div class="score-box"><div class="big">${score} / ${total}</div><div class="lbl">answered correctly</div><div class="bdg">✦ ${badge} ✦</div></div>
+  <table><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th></tr>`;
+  questions.forEach((q,i)=>{
+    const ua=userAnswers[i];
+    const chosen=ua?q.opts[ua.chosen].slice(3):'Not answered';
+    const correct=q.opts[q.ans].slice(3);
+    const ok=ua&&ua.wasCorrect;
+    h+=`<tr class="${ua?(ok?'cr':'wr'):''}"><td>${i+1}</td><td>${q.q}</td><td>${chosen}</td><td class="ans">${correct}</td><td>${ua?(ok?'<span class="tick">✓</span>':'<span class="cross">✗</span>'):'—'}</td></tr>`;
+    h+=`<tr class="hint-row"><td colspan="5">📖 ${q.hint}</td></tr>`;
+  });
+  h+=`</table><div class="footer">"Study to shew thyself approved unto God." — 2 Timothy 2:15 (KJV)<br>dailyprayersandblessings.com</div></body></html>`;
+  openPrint(h);
+}
+</script>
+</body>
+</html>
