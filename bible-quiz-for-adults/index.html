@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible Quiz for Adults | Daily Prayers & Blessings</title>
+<meta name="description" content="A comprehensive Bible quiz for adults covering the full Old and New Testament. Mixed difficulty, detailed answer explanations, and downloadable PDF results.">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f14;
+    --bg2: #141620;
+    --bg3: #1a1d2e;
+    --bg4: #1f2236;
+    --navy: #1e2a4a;
+    --indigo: #3b4fd9;
+    --indigo-light: #6475f0;
+    --indigo-glow: rgba(59,79,217,0.14);
+    --indigo-border: rgba(100,117,240,0.22);
+    --crimson: #c2344a;
+    --crimson-light: #e05470;
+    --crimson-glow: rgba(194,52,74,0.12);
+    --gold: #d4a843;
+    --gold-light: #f0cc78;
+    --gold-glow: rgba(212,168,67,0.12);
+    --white: #f1f3fc;
+    --text: #d8ddf0;
+    --text-mid: #8891b8;
+    --text-dim: #555e82;
+    --correct: #2ecc71;
+    --correct-bg: rgba(46,204,113,0.09);
+    --correct-border: rgba(46,204,113,0.3);
+    --wrong: #e74c3c;
+    --wrong-bg: rgba(231,76,60,0.09);
+    --wrong-border: rgba(231,76,60,0.3);
+    --border: rgba(255,255,255,0.07);
+    --shadow: 0 8px 40px rgba(0,0,0,0.5);
+    --radius: 14px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* Radial glow bg */
+  body::before {
+    content:'';
+    position:fixed;
+    top:-300px;
+    left:50%;
+    transform:translateX(-50%);
+    width:900px;
+    height:600px;
+    background:radial-gradient(ellipse, rgba(59,79,217,0.07) 0%, transparent 70%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  body::after {
+    content:'';
+    position:fixed;
+    bottom:-200px;
+    right:-100px;
+    width:500px;
+    height:500px;
+    background:radial-gradient(circle, rgba(194,52,74,0.05) 0%, transparent 70%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap {
+    position:relative;
+    z-index:1;
+    max-width:700px;
+    margin:0 auto;
+    padding:28px 18px 64px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align:center;
+    margin-bottom:32px;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--border);
+  }
+
+  .header-badge {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--indigo-glow);
+    border:1px solid var(--indigo-border);
+    border-radius:20px;
+    padding:5px 18px;
+    font-family:'Outfit',sans-serif;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--indigo-light);
+    margin-bottom:18px;
+  }
+
+  .header h1 {
+    font-family:'Libre Baskerville', serif;
+    font-size:clamp(1.9rem, 5vw, 2.9rem);
+    font-weight:700;
+    color:var(--white);
+    line-height:1.2;
+    margin-bottom:10px;
+  }
+
+  .header h1 em {
+    font-style:italic;
+    color:var(--gold-light);
+  }
+
+  .header-sub {
+    font-size:14px;
+    color:var(--text-mid);
+    font-weight:400;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    margin-bottom:14px;
+  }
+
+  .stat-card {
+    background:var(--bg2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    text-align:center;
+  }
+
+  .stat-num {
+    font-family:'Libre Baskerville',serif;
+    font-size:1.7rem;
+    font-weight:700;
+    color:var(--indigo-light);
+    line-height:1;
+    margin-bottom:4px;
+  }
+
+  .stat-label {
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+
+  /* ── NAV ROW ── */
+  .nav-row {
+    display:flex;
+    gap:8px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+
+  .nav-btn {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:9px 16px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--bg2);
+    font-family:'Outfit',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text-mid);
+    cursor:pointer;
+    transition:all 0.2s ease;
+    white-space:nowrap;
+  }
+
+  .nav-btn:hover:not(:disabled) { border-color:var(--indigo-light); color:var(--indigo-light); background:var(--indigo-glow); }
+  .nav-btn:disabled { opacity:0.25; cursor:default; }
+  .nav-btn.danger:hover { border-color:var(--wrong); color:var(--wrong); background:var(--wrong-bg); }
+  .nav-btn.pdf { border-color:var(--gold-glow); color:var(--gold); border-color:rgba(212,168,67,0.3); }
+  .nav-btn.pdf:hover { background:var(--gold-glow); border-color:var(--gold); }
+
+  /* ── DIFFICULTY BADGE ── */
+  .diff-badge {
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    padding:3px 10px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+  }
+
+  .diff-easy { background:rgba(46,204,113,0.12); color:var(--correct); border:1px solid var(--correct-border); }
+  .diff-medium { background:var(--gold-glow); color:var(--gold-light); border:1px solid rgba(212,168,67,0.3); }
+  .diff-hard { background:var(--crimson-glow); color:var(--crimson-light); border:1px solid rgba(194,52,74,0.3); }
+
+  /* ── PROGRESS BAR ── */
+  .prog-wrap { background:var(--bg3); border-radius:20px; height:4px; margin-bottom:16px; overflow:hidden; }
+  .prog-fill { height:100%; background:linear-gradient(90deg, var(--indigo), var(--indigo-light)); border-radius:20px; transition:width 0.45s ease; box-shadow:0 0 8px var(--indigo-glow); }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background:var(--bg2);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:28px 28px 22px;
+    box-shadow:var(--shadow);
+    margin-bottom:14px;
+    animation:cardIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  @keyframes cardIn {
+    from { opacity:0; transform:translateY(18px) scale(0.985); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  .q-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .q-topic {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--indigo-light);
+    background:var(--indigo-glow);
+    border:1px solid var(--indigo-border);
+    padding:4px 12px;
+    border-radius:20px;
+  }
+
+  .q-progress-text {
+    font-size:12px;
+    font-weight:600;
+    color:var(--text-dim);
+    letter-spacing:0.06em;
+  }
+
+  .q-text {
+    font-family:'Libre Baskerville', serif;
+    font-size:clamp(1.05rem, 2.8vw, 1.28rem);
+    font-weight:400;
+    color:var(--white);
+    line-height:1.55;
+    margin-bottom:24px;
+  }
+
+  /* ── OPTIONS — 1 per row, clean for adults ── */
+  .options {
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+
+  .opt-btn {
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:13px 18px;
+    background:var(--bg3);
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    cursor:pointer;
+    font-family:'Outfit',sans-serif;
+    font-size:15px;
+    font-weight:400;
+    color:var(--text);
+    text-align:left;
+    transition:all 0.18s ease;
+    line-height:1.45;
+    width:100%;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    border-color:var(--indigo-light);
+    background:var(--indigo-glow);
+    color:var(--white);
+  }
+
+  .opt-letter {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    min-width:28px;
+    border-radius:6px;
+    background:var(--bg4);
+    border:1px solid var(--border);
+    font-family:'Libre Baskerville',serif;
+    font-size:12px;
+    font-weight:700;
+    color:var(--text-mid);
+    transition:all 0.18s ease;
+  }
+
+  .opt-btn:hover:not(:disabled) .opt-letter {
+    background:var(--indigo);
+    border-color:var(--indigo);
+    color:var(--white);
+  }
+
+  .opt-btn.correct { background:var(--correct-bg); border-color:var(--correct-border); color:var(--correct); }
+  .opt-btn.correct .opt-letter { background:var(--correct); border-color:var(--correct); color:#fff; }
+  .opt-btn.wrong { background:var(--wrong-bg); border-color:var(--wrong-border); color:var(--wrong); }
+  .opt-btn.wrong .opt-letter { background:var(--wrong); border-color:var(--wrong); color:#fff; }
+  .opt-btn.rev-correct { background:var(--correct-bg); border-color:var(--correct-border); color:var(--correct); }
+  .opt-btn.rev-correct .opt-letter { background:var(--correct); border-color:var(--correct); color:#fff; }
+  .opt-btn.rev-wrong { background:var(--wrong-bg); border-color:var(--wrong-border); color:var(--wrong); }
+  .opt-btn.rev-wrong .opt-letter { background:var(--wrong); border-color:var(--wrong); color:#fff; }
+  .opt-btn:disabled { cursor:default; }
+
+  /* ── FEEDBACK ── */
+  .feedback {
+    display:none;
+    align-items:flex-start;
+    gap:10px;
+    margin-top:14px;
+    padding:13px 16px;
+    border-radius:9px;
+    font-family:'Outfit',sans-serif;
+    font-size:14px;
+    font-weight:500;
+    animation:feedIn 0.25s ease both;
+    line-height:1.5;
+  }
+
+  @keyframes feedIn { from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)} }
+  .feedback.correct { background:var(--correct-bg); color:var(--correct); border:1px solid var(--correct-border); display:flex; }
+  .feedback.wrong   { background:var(--wrong-bg); color:var(--wrong); border:1px solid var(--wrong-border); display:flex; }
+  .feedback.review  { background:var(--indigo-glow); color:var(--indigo-light); border:1px solid var(--indigo-border); display:flex; }
+  .fb-icon { font-size:1.1rem; margin-top:1px; }
+
+  /* ── EXPLANATION BOX ── */
+  .explanation {
+    display:none;
+    margin-top:12px;
+    padding:16px 18px;
+    background:var(--bg);
+    border-left:3px solid var(--indigo);
+    border-radius:0 9px 9px 0;
+    font-size:14px;
+    color:var(--text-mid);
+    line-height:1.7;
+  }
+
+  .explanation.show { display:block; }
+
+  .explanation-ref {
+    display:block;
+    margin-top:8px;
+    font-family:'Libre Baskerville',serif;
+    font-size:11px;
+    font-weight:700;
+    font-style:italic;
+    letter-spacing:0.12em;
+    color:var(--indigo-light);
+  }
+
+  /* ── ACTION ROW ── */
+  .action-row { display:flex; gap:10px; margin-top:16px; }
+
+  .action-btn {
+    flex:1;
+    padding:13px 16px;
+    font-family:'Outfit',sans-serif;
+    font-size:14px;
+    font-weight:600;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    letter-spacing:0.03em;
+  }
+
+  .action-btn.primary { background:var(--indigo); color:var(--white); }
+  .action-btn.primary:hover { background:var(--indigo-light); transform:translateY(-1px); box-shadow:0 4px 16px var(--indigo-glow); }
+  .action-btn.secondary { background:var(--bg3); color:var(--text-mid); border:1px solid var(--border); }
+  .action-btn.secondary:hover { border-color:var(--indigo-light); color:var(--indigo-light); }
+
+  /* ── MODAL ── */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:500; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(6px); }
+  .modal-overlay.show { display:flex; }
+  .modal { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:36px 28px; max-width:380px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.7); animation:cardIn 0.3s ease both; }
+  .modal-icon { font-size:2.6rem; margin-bottom:12px; display:block; }
+  .modal h3 { font-family:'Libre Baskerville',serif; font-size:1.4rem; font-weight:700; color:var(--white); margin-bottom:10px; }
+  .modal p { font-size:14px; color:var(--text-mid); margin-bottom:24px; line-height:1.65; }
+  .modal-btns { display:flex; gap:10px; }
+  .modal-btn { flex:1; padding:13px; font-family:'Outfit',sans-serif; font-size:14px; font-weight:600; border:none; border-radius:9px; cursor:pointer; transition:all 0.2s ease; }
+  .modal-btn.primary { background:var(--wrong); color:white; }
+  .modal-btn.primary:hover { opacity:0.85; }
+  .modal-btn.secondary { background:var(--bg3); color:var(--text-mid); border:1px solid var(--border); }
+  .modal-btn.secondary:hover { border-color:var(--indigo-light); color:var(--indigo-light); }
+
+  /* ── START SCREEN ── */
+  .start-screen { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:40px 28px; box-shadow:var(--shadow); }
+
+  .start-hero { text-align:center; margin-bottom:32px; padding-bottom:28px; border-bottom:1px solid var(--border); }
+  .start-hero-icon { font-size:3rem; margin-bottom:14px; display:block; }
+  .start-hero h2 { font-family:'Libre Baskerville',serif; font-size:1.7rem; font-weight:700; color:var(--white); margin-bottom:10px; }
+  .start-hero p { font-size:15px; color:var(--text-mid); line-height:1.65; max-width:480px; margin:0 auto; }
+
+  .section-label {
+    font-family:'Outfit',sans-serif;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--indigo-light);
+    margin-bottom:12px;
+    display:block;
+  }
+
+  .topic-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:26px; }
+
+  .topic-card {
+    background:var(--bg3);
+    border:1.5px solid var(--border);
+    border-radius:11px;
+    padding:16px 14px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    text-align:center;
+  }
+
+  .topic-card:hover { border-color:var(--indigo-light); transform:translateY(-2px); }
+  .topic-card.selected { border-color:var(--indigo); background:var(--indigo-glow); }
+  .topic-card .t-icon { font-size:1.7rem; margin-bottom:8px; display:block; }
+  .topic-card .t-name { font-family:'Libre Baskerville',serif; font-size:13px; font-weight:700; color:var(--white); line-height:1.3; }
+  .topic-card .t-count { font-size:11px; color:var(--text-dim); margin-top:3px; }
+
+  /* Difficulty selector */
+  .diff-row { display:flex; gap:8px; margin-bottom:26px; flex-wrap:wrap; }
+
+  .diff-btn {
+    flex:1;
+    min-width:80px;
+    padding:10px 12px;
+    border-radius:9px;
+    border:1.5px solid var(--border);
+    background:var(--bg3);
+    font-family:'Outfit',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text-mid);
+    cursor:pointer;
+    transition:all 0.2s ease;
+    text-align:center;
+    letter-spacing:0.04em;
+  }
+
+  .diff-btn.active-easy, .diff-btn.active-easy:hover { background:var(--correct-bg); color:var(--correct); border-color:var(--correct-border); }
+  .diff-btn.active-mixed, .diff-btn.active-mixed:hover { background:var(--indigo-glow); color:var(--indigo-light); border-color:var(--indigo-border); }
+  .diff-btn.active-hard, .diff-btn.active-hard:hover { background:var(--crimson-glow); color:var(--crimson-light); border-color:rgba(194,52,74,0.3); }
+  .diff-btn:hover { border-color:var(--indigo-light); color:var(--indigo-light); }
+
+  .count-row { display:flex; gap:8px; margin-bottom:26px; flex-wrap:wrap; }
+
+  .count-btn {
+    flex:1;
+    padding:11px 14px;
+    border-radius:9px;
+    border:1.5px solid var(--border);
+    background:var(--bg3);
+    font-family:'Libre Baskerville',serif;
+    font-size:14px;
+    font-weight:700;
+    color:var(--text-mid);
+    cursor:pointer;
+    transition:all 0.2s ease;
+    text-align:center;
+  }
+
+  .count-btn.active, .count-btn:hover { background:var(--indigo); color:var(--white); border-color:var(--indigo); }
+
+  .start-btn {
+    width:100%;
+    padding:18px;
+    background:var(--indigo);
+    color:var(--white);
+    font-family:'Outfit',sans-serif;
+    font-size:1rem;
+    font-weight:700;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    letter-spacing:0.06em;
+    box-shadow:0 4px 20px var(--indigo-glow);
+  }
+
+  .start-btn:hover { background:var(--indigo-light); transform:translateY(-2px); }
+
+  /* ── RESULTS ── */
+  .results { display:none; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:44px 28px; box-shadow:var(--shadow); text-align:center; animation:cardIn 0.4s ease both; }
+  .results-icon { font-size:3.5rem; margin-bottom:12px; display:block; }
+  .results-title { font-family:'Libre Baskerville',serif; font-size:clamp(1.6rem,4vw,2.2rem); font-weight:700; color:var(--white); margin-bottom:8px; }
+  .results-verse { font-family:'Libre Baskerville',serif; font-style:italic; font-size:15px; color:var(--text-mid); margin-bottom:22px; padding:0 20px; line-height:1.65; }
+  .results-score-wrap { display:flex; gap:10px; margin-bottom:20px; }
+  .results-score-card { flex:1; background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:18px 12px; }
+  .results-score-big { font-family:'Libre Baskerville',serif; font-size:2.4rem; font-weight:700; color:var(--indigo-light); line-height:1; }
+  .results-score-lbl { font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); margin-top:5px; }
+  .results-badge { display:inline-block; background:var(--indigo-glow); border:1px solid var(--indigo-border); border-radius:9px; padding:10px 24px; font-family:'Libre Baskerville',serif; font-size:15px; font-weight:700; color:var(--indigo-light); margin-bottom:24px; font-style:italic; }
+  .results-btns { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:28px; }
+  .results-btn { padding:13px 20px; font-family:'Outfit',sans-serif; font-size:13px; font-weight:600; border:none; border-radius:9px; cursor:pointer; transition:all 0.2s ease; letter-spacing:0.04em; }
+  .results-btn.primary { background:var(--indigo); color:white; }
+  .results-btn.primary:hover { background:var(--indigo-light); }
+  .results-btn.secondary { background:var(--bg3); color:var(--text-mid); border:1px solid var(--border); }
+  .results-btn.secondary:hover { border-color:var(--indigo-light); color:var(--indigo-light); }
+  .results-btn.pdf { background:var(--gold-glow); color:var(--gold-light); border:1px solid rgba(212,168,67,0.3); }
+  .results-btn.pdf:hover { background:rgba(212,168,67,0.2); }
+
+  /* Answer review */
+  .ans-review { text-align:left; margin-top:12px; }
+  .ans-review-title { font-family:'Outfit',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); margin-bottom:16px; text-align:center; padding-top:10px; border-top:1px solid var(--border); }
+  .ans-item { background:var(--bg); border-radius:10px; padding:14px 16px; margin-bottom:10px; border-left:3px solid var(--border); }
+  .ans-item.ok { border-left-color:var(--correct); }
+  .ans-item.no { border-left-color:var(--wrong); }
+  .ans-item.skip { border-left-color:var(--text-dim); }
+  .ans-item-header { display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap; }
+  .ans-item-q { font-family:'Libre Baskerville',serif; font-size:14px; color:var(--white); line-height:1.4; margin-bottom:5px; }
+  .ans-item-d { font-size:13px; line-height:1.6; }
+  .c-ans { color:var(--correct); font-weight:600; }
+  .w-ans { color:var(--wrong); font-weight:600; }
+  .explain-txt { color:var(--text-dim); font-style:italic; font-size:12px; margin-top:5px; display:block; line-height:1.6; }
+
+  /* Confetti */
+  .confetti-piece { position:fixed; pointer-events:none; z-index:9999; border-radius:2px; animation:confettiFall linear forwards; }
+  @keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+  @media (max-width:520px) {
+    .action-row { flex-direction:column; }
+    .q-card { padding:20px 16px; }
+    .results { padding:28px 16px; }
+    .results-score-wrap { flex-direction:column; }
+    .stats-bar { grid-template-columns:repeat(3,1fr); }
+    .nav-btn { font-size:12px; padding:8px 11px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge">✦ Daily Prayers &amp; Blessings</div>
+    <h1>Bible Quiz<br>for <em>Adults</em></h1>
+    <div class="header-sub">Full Old &amp; New Testament · Mixed Difficulty · Ages 18–60 · Detailed Explanations</div>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <div class="start-hero">
+      <span class="start-hero-icon">✦</span>
+      <h2>How Well Do You Know the Bible?</h2>
+      <p>A comprehensive quiz covering the full Old and New Testament. Choose your topic, difficulty level, and question count. Every answer includes a detailed explanation and scripture reference.</p>
+    </div>
+
+    <span class="section-label">Choose a Topic</span>
+    <div class="topic-grid">
+      <div class="topic-card selected" data-topic="all" onclick="selectTopic(this)"><span class="t-icon">📖</span><div class="t-name">Full Bible</div><div class="t-count">All Topics</div></div>
+      <div class="topic-card" data-topic="oldtest" onclick="selectTopic(this)"><span class="t-icon">📜</span><div class="t-name">Old Testament</div><div class="t-count">Genesis — Malachi</div></div>
+      <div class="topic-card" data-topic="newtest" onclick="selectTopic(this)"><span class="t-icon">✝</span><div class="t-name">New Testament</div><div class="t-count">Matthew — Revelation</div></div>
+      <div class="topic-card" data-topic="theology" onclick="selectTopic(this)"><span class="t-icon">🕊️</span><div class="t-name">Theology &amp; Doctrine</div><div class="t-count">Core Christian beliefs</div></div>
+      <div class="topic-card" data-topic="people" onclick="selectTopic(this)"><span class="t-icon">👤</span><div class="t-name">People of the Bible</div><div class="t-count">Characters &amp; lives</div></div>
+      <div class="topic-card" data-topic="geography" onclick="selectTopic(this)"><span class="t-icon">🗺️</span><div class="t-name">Places &amp; Geography</div><div class="t-count">Lands, cities &amp; routes</div></div>
+      <div class="topic-card" data-topic="prophecy" onclick="selectTopic(this)"><span class="t-icon">🔮</span><div class="t-name">Prophecy &amp; Fulfilment</div><div class="t-count">Predictions &amp; outcomes</div></div>
+      <div class="topic-card" data-topic="hardmode" onclick="selectTopic(this)"><span class="t-icon">🎯</span><div class="t-name">Hard Mode</div><div class="t-count">Scholars only</div></div>
+    </div>
+
+    <span class="section-label">Difficulty</span>
+    <div class="diff-row">
+      <button class="diff-btn" id="diffEasy" onclick="selectDiff('easy')">🟢 Easy</button>
+      <button class="diff-btn active-mixed" id="diffMixed" onclick="selectDiff('mixed')">🔵 Mixed</button>
+      <button class="diff-btn" id="diffHard" onclick="selectDiff('hard')">🔴 Hard</button>
+    </div>
+
+    <span class="section-label">Number of Questions</span>
+    <div class="count-row">
+      <button class="count-btn active" onclick="selectCount(this,10)">10</button>
+      <button class="count-btn" onclick="selectCount(this,20)">20</button>
+      <button class="count-btn" onclick="selectCount(this,30)">30</button>
+    </div>
+
+    <button class="start-btn" onclick="startQuiz()">BEGIN QUIZ ✦</button>
+  </div>
+
+  <!-- Quiz Area -->
+  <div id="quizArea" style="display:none;">
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-num" id="statScore">0</div>
+        <div class="stat-label">Correct</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statWrong">0</div>
+        <div class="stat-label">Incorrect</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statLeft">0</div>
+        <div class="stat-label">Remaining</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>← Previous</button>
+      <button class="nav-btn danger" onclick="showExitModal()">✕ Exit Quiz</button>
+      <button class="nav-btn pdf" onclick="downloadQuestionsPDF()">↓ Questions PDF</button>
+    </div>
+
+    <div class="prog-wrap">
+      <div class="prog-fill" id="progFill" style="width:0%"></div>
+    </div>
+
+    <div class="q-card" id="qCard">
+      <div class="q-header">
+        <div class="q-topic" id="qTopic">📖 Bible</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="diff-badge" id="diffBadge"></div>
+          <div class="q-progress-text" id="qProgress">1 / 10</div>
+        </div>
+      </div>
+      <div class="q-text" id="qText">Loading...</div>
+      <div class="options" id="optGrid"></div>
+      <div class="feedback" id="feedback">
+        <span class="fb-icon" id="fbIcon"></span>
+        <span id="fbText"></span>
+      </div>
+      <div class="explanation" id="explanation">
+        <span id="explainText"></span>
+        <span class="explanation-ref" id="explainRef"></span>
+      </div>
+      <div class="action-row">
+        <button class="action-btn secondary" id="prevBtn" style="display:none;" onclick="goBack()">← Previous</button>
+        <button class="action-btn primary" id="nextBtn" style="display:none;" onclick="nextQuestion()">Next Question →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <span class="results-icon" id="resIcon">✦</span>
+    <div class="results-title" id="resTitle">Well Done</div>
+    <div class="results-verse" id="resVerse"></div>
+    <div class="results-score-wrap">
+      <div class="results-score-card">
+        <div class="results-score-big" id="resScore">0/0</div>
+        <div class="results-score-lbl">Correct</div>
+      </div>
+      <div class="results-score-card">
+        <div class="results-score-big" id="resPct">0%</div>
+        <div class="results-score-lbl">Accuracy</div>
+      </div>
+    </div>
+    <div class="results-badge" id="resBadge">Bible Scholar</div>
+    <div class="results-btns">
+      <button class="results-btn primary" onclick="restartSame()">↺ Play Again</button>
+      <button class="results-btn secondary" onclick="goHome()">⌂ New Topic</button>
+      <button class="results-btn pdf" onclick="downloadAnswersPDF()">↓ Download Answers PDF</button>
+    </div>
+    <div class="ans-review" id="ansReview"></div>
+  </div>
+</div>
+
+<!-- Exit Modal -->
+<div class="modal-overlay" id="exitModal">
+  <div class="modal">
+    <span class="modal-icon">📖</span>
+    <h3>Exit the Quiz?</h3>
+    <p>You've completed <strong id="exitProg">0</strong> questions. Your progress will be lost if you exit now.</p>
+    <div class="modal-btns">
+      <button class="modal-btn secondary" onclick="hideExitModal()">Continue</button>
+      <button class="modal-btn primary" onclick="confirmExit()">Exit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  300+ QUESTIONS FOR ADULTS — Full Bible, mixed difficulty
+// ═══════════════════════════════════════════════════════════
+const ALL_QUESTIONS = [
+
+  // ── OLD TESTAMENT ─────────────────────────────────────────
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"What is the first book of the Bible?",opts:["A. Exodus","B. Numbers","C. Genesis","D. Leviticus"],ans:2,explain:"Genesis, meaning 'beginning,' opens Scripture with creation, the fall, and the patriarchs from Adam to Joseph.",ref:"Genesis 1:1 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"How many days did God take to create the world?",opts:["A. 3","B. 5","C. 7","D. 6"],ans:3,explain:"God created the heavens and earth in six days and rested on the seventh, which He blessed and sanctified.",ref:"Genesis 2:2 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"Who built the ark before the great flood?",opts:["A. Abraham","B. Noah","C. Moses","D. Enoch"],ans:1,explain:"God commanded Noah to build an ark of gopher wood and bring two of every animal aboard before the flood.",ref:"Genesis 6:14 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"What sign did God give Noah after the flood?",opts:["A. A dove","B. A star","C. A rainbow","D. A burning cloud"],ans:2,explain:"God set a rainbow in the cloud as a sign of His covenant never to flood the entire earth again.",ref:"Genesis 9:13 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"Who led the Israelites out of Egypt?",opts:["A. Joshua","B. Aaron","C. Abraham","D. Moses"],ans:3,explain:"God called Moses from a burning bush and sent him to Pharaoh to demand the release of Israel from 400 years of bondage.",ref:"Exodus 3:10 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"How many commandments did God give Moses on Mount Sinai?",opts:["A. 7","B. 10","C. 12","D. 15"],ans:1,explain:"God wrote the Ten Commandments on two tablets of stone and gave them to Moses on Mount Sinai.",ref:"Exodus 20 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"Which body of water did Moses part for Israel to escape Egypt?",opts:["A. The Jordan","B. The Nile","C. The Dead Sea","D. The Red Sea"],ans:3,explain:"At God's command, Moses stretched his rod over the Red Sea, which divided so Israel could cross on dry ground.",ref:"Exodus 14:21 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"What food did God provide for Israel daily in the wilderness?",opts:["A. Quail only","B. Bread and honey","C. Manna","D. Dates and figs"],ans:2,explain:"God rained manna from heaven each morning except the Sabbath, providing Israel's food for forty years in the wilderness.",ref:"Exodus 16:15 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"How many years did Israel wander in the wilderness?",opts:["A. 20","B. 30","C. 40","D. 50"],ans:2,explain:"Israel wandered forty years in the wilderness because of their unbelief at Kadesh Barnea when they refused to enter Canaan.",ref:"Numbers 14:33 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"easy",q:"Who was the first king of Israel?",opts:["A. David","B. Saul","C. Solomon","D. Gideon"],ans:1,explain:"Saul of the tribe of Benjamin was anointed the first king of Israel by the prophet Samuel.",ref:"1 Samuel 10:1 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"The walls of Jericho fell after Israel marched around them for how many days?",opts:["A. 3","B. 5","C. 7","D. 14"],ans:2,explain:"Israel marched once each day for six days, then seven times on the seventh day — after which the priests blew trumpets and the people shouted.",ref:"Joshua 6:15 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"Which judge of Israel made a rash vow that cost his daughter her life?",opts:["A. Gideon","B. Samson","C. Jephthah","D. Barak"],ans:2,explain:"Jephthah vowed that if God gave him victory, he would sacrifice whatever came out of his house first — and it was his daughter.",ref:"Judges 11:30 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"David killed Goliath with a stone but then used what to kill him?",opts:["A. His bare hands","B. Goliath's own sword","C. A spear","D. An arrow"],ans:1,explain:"The stone from David's sling felled Goliath, then David ran and used Goliath's own sword to finish him.",ref:"1 Samuel 17:51 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"Which prophet confronted King David over his sin with Bathsheba?",opts:["A. Elijah","B. Isaiah","C. Nathan","D. Gad"],ans:2,explain:"God sent the prophet Nathan to David with a parable about a stolen lamb — revealing David's adultery and Uriah's murder.",ref:"2 Samuel 12:1 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"King Solomon asked God for wisdom. In what context?",opts:["A. Before building the temple","B. After a dream at Gibeon","C. When facing the Queen of Sheba","D. At his father David's death"],ans:1,explain:"At Gibeon, God appeared to Solomon in a dream and said 'Ask what I shall give thee.' Solomon asked for wisdom.",ref:"1 Kings 3:5 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"Which prophet was carried to heaven in a chariot of fire?",opts:["A. Elisha","B. Isaiah","C. Ezekiel","D. Elijah"],ans:3,explain:"A chariot of fire and horses of fire appeared, separating Elijah from Elisha, and Elijah went up by a whirlwind into heaven.",ref:"2 Kings 2:11 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"How many books are in the Old Testament?",opts:["A. 33","B. 39","C. 46","D. 27"],ans:1,explain:"The Protestant Old Testament contains 39 books, from Genesis through Malachi.",ref:""},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"Which Old Testament woman said 'Your people shall be my people and your God my God'?",opts:["A. Esther","B. Deborah","C. Rahab","D. Ruth"],ans:3,explain:"Ruth spoke these words of loyalty to her mother-in-law Naomi after both their husbands died.",ref:"Ruth 1:16 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"Who interpreted Pharaoh's dream of seven fat and seven thin cows?",opts:["A. Moses","B. Daniel","C. Joseph","D. Aaron"],ans:2,explain:"Joseph, in prison, was brought before Pharaoh and interpreted his dream as seven years of plenty followed by seven of famine.",ref:"Genesis 41:25 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"medium",q:"What was the name of the temple Solomon built, and where?",opts:["A. The Tabernacle, in Shiloh","B. The First Temple, in Jerusalem","C. The House of God, in Bethel","D. The Holy Place, in Hebron"],ans:1,explain:"Solomon built the First Temple in Jerusalem on Mount Moriah, taking seven years to complete it.",ref:"1 Kings 6:1 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"hard",q:"What is the meaning of the Hebrew word 'Torah'?",opts:["A. Covenant","B. Law or instruction","C. Prophecy","D. Wisdom"],ans:1,explain:"Torah means 'instruction' or 'law' — referring primarily to the five books of Moses (the Pentateuch) but broadly to God's teaching.",ref:""},
+  {topic:"oldtest",icon:"📜",diff:"hard",q:"Which minor prophet's book contains only one chapter?",opts:["A. Amos","B. Micah","C. Obadiah","D. Haggai"],ans:2,explain:"Obadiah is the shortest book in the Old Testament with just 21 verses and one chapter — a prophecy against Edom.",ref:"Obadiah 1 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"hard",q:"Who was Melchizedek in the Old Testament?",opts:["A. A Philistine king","B. A priest-king of Salem who blessed Abraham","C. The father of Abraham","D. A prophet in Canaan"],ans:1,explain:"Melchizedek was king of Salem and priest of El Elyon (God Most High) who brought bread and wine and blessed Abraham after his battle.",ref:"Genesis 14:18 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"hard",q:"What did the Urim and Thummim refer to in the Old Testament?",opts:["A. The two tablets of the Law","B. Sacred lots kept in the high priest's breastplate","C. Two sacred altars","D. The two cherubim on the ark"],ans:1,explain:"The Urim and Thummim were sacred objects kept in the high priest's breastplate, used to discern God's will in important matters.",ref:"Exodus 28:30 (KJV)"},
+  {topic:"oldtest",icon:"📜",diff:"hard",q:"What was the sin of Achan in the book of Joshua?",opts:["A. He killed a Canaanite priest","B. He kept devoted items from Jericho's destruction","C. He refused to cross the Jordan","D. He made a treaty with Gibeon"],ans:1,explain:"Achan took a Babylonian garment, silver, and gold from Jericho, violating the command that all spoil be devoted to God — causing Israel's defeat at Ai.",ref:"Joshua 7:21 (KJV)"},
+
+  // ── NEW TESTAMENT ─────────────────────────────────────────
+  {topic:"newtest",icon:"✝",diff:"easy",q:"How many Gospels are in the New Testament?",opts:["A. 3","B. 4","C. 5","D. 6"],ans:1,explain:"There are four Gospels: Matthew, Mark, Luke, and John — each presenting Jesus's life and ministry from a distinct perspective.",ref:""},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"Jesus was born in which town?",opts:["A. Nazareth","B. Jerusalem","C. Bethlehem","D. Capernaum"],ans:2,explain:"Jesus was born in Bethlehem of Judea, fulfilling Micah's prophecy written 700 years before.",ref:"Matthew 2:1 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"Who baptised Jesus?",opts:["A. Peter","B. John the Baptist","C. The high priest","D. His disciples"],ans:1,explain:"John the Baptist baptised Jesus in the River Jordan, and the Holy Spirit descended like a dove and a voice from heaven spoke.",ref:"Matthew 3:16 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"How many disciples did Jesus choose?",opts:["A. 7","B. 10","C. 12","D. 70"],ans:2,explain:"Jesus chose twelve apostles from among His followers to be closest to Him and carry His message.",ref:"Mark 3:14 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"What was Jesus's first miracle?",opts:["A. Feeding 5,000","B. Calming a storm","C. Turning water into wine","D. Healing the blind"],ans:2,explain:"Jesus turned water into wine at a wedding in Cana of Galilee — the beginning of His signs, which revealed His glory.",ref:"John 2:11 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"Who betrayed Jesus for 30 pieces of silver?",opts:["A. Peter","B. Thomas","C. Judas Iscariot","D. Pilate"],ans:2,explain:"Judas Iscariot agreed to hand Jesus over to the chief priests and elders for thirty pieces of silver.",ref:"Matthew 26:15 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"Jesus rose from the dead on which day?",opts:["A. The Sabbath","B. The third day after His death","C. Seven days after","D. The day of Passover"],ans:1,explain:"Jesus was crucified on Friday and rose on the first day of the week (Sunday) — the third day as He had foretold.",ref:"Matthew 28:6 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"What does John 3:16 say God gave because He loved the world?",opts:["A. His Spirit","B. His law","C. His only begotten Son","D. His covenant"],ans:2,explain:"'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish.' — John 3:16 (KJV)",ref:"John 3:16 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"What is the last book of the Bible?",opts:["A. Jude","B. 3 John","C. Hebrews","D. Revelation"],ans:3,explain:"Revelation, written by the Apostle John on the island of Patmos, is the final book of the Bible and the New Testament.",ref:"Revelation 1:1 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"easy",q:"Which Gospel begins 'In the beginning was the Word'?",opts:["A. Matthew","B. Mark","C. Luke","D. John"],ans:3,explain:"John's Gospel opens with the pre-existence of Christ as the eternal Word (Logos), equal with God and the agent of creation.",ref:"John 1:1 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"The Parable of the Prodigal Son is found in which Gospel?",opts:["A. Matthew","B. Mark","C. Luke","D. John"],ans:2,explain:"Luke 15:11–32 contains the Parable of the Prodigal Son, one of three parables Jesus told about things that were lost and found.",ref:"Luke 15:11 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"Paul wrote the most New Testament books. How many letters are attributed to him?",opts:["A. 9","B. 11","C. 13","D. 7"],ans:2,explain:"Paul is attributed with 13 letters — from Romans through Philemon — though some scholars debate the authorship of a few.",ref:""},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"On what day and in what city did the Holy Spirit descend at Pentecost?",opts:["A. The Sabbath, in Bethlehem","B. The first day of the week, in Nazareth","C. Fifty days after Passover, in Jerusalem","D. At Easter, in Galilee"],ans:2,explain:"Pentecost fell fifty days after Passover. The disciples were in Jerusalem when the Spirit fell, and 3,000 were saved that day.",ref:"Acts 2:1 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"What thorn in the flesh did Paul mention in 2 Corinthians?",opts:["A. A bad temper","B. A physical ailment God did not remove","C. An enemy who followed him","D. A recurring sin"],ans:1,explain:"Paul prayed three times for a thorn in the flesh to be removed. God said 'My grace is sufficient' — teaching reliance on divine strength, not human health.",ref:"2 Corinthians 12:7 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"Which disciple walked on water toward Jesus?",opts:["A. John","B. James","C. Andrew","D. Peter"],ans:3,explain:"Peter stepped out of the boat and walked on water toward Jesus — the only human besides Jesus to do so — but began to sink when he doubted.",ref:"Matthew 14:29 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"The Great Commission tells believers to go into all the world and make disciples of all...",opts:["A. Nations","B. Peoples","C. Lands","D. Generations"],ans:0,explain:"'Go ye therefore, and teach all nations, baptizing them...Teaching them to observe all things whatsoever I have commanded you.' — Matthew 28:19 (KJV)",ref:"Matthew 28:19 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"Which New Testament letter was written to a single person about a runaway slave?",opts:["A. Titus","B. 3 John","C. Philemon","D. 2 Timothy"],ans:2,explain:"Philemon is Paul's shortest letter — a personal plea to the slave owner Philemon to receive back Onesimus as a brother, not a slave.",ref:"Philemon 1:10 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"How many letters does the New Testament contain in total?",opts:["A. 19","B. 21","C. 24","D. 27"],ans:1,explain:"The New Testament contains 21 letters/epistles: 13 by Paul, 1 by James, 2 by Peter, 3 by John, and 1 by Jude.",ref:""},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"What happened to the temple veil at the moment of Jesus's death?",opts:["A. It caught fire","B. It turned blood red","C. It was torn from top to bottom","D. It fell to the ground"],ans:2,explain:"At the moment of Jesus's death, the veil of the temple was torn in two from top to bottom — signifying open access to God for all.",ref:"Matthew 27:51 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"medium",q:"What was the name of the high priest who presided at Jesus's trial?",opts:["A. Annas","B. Caiaphas","C. Pilate","D. Nicodemus"],ans:1,explain:"Caiaphas was the high priest that year who declared it expedient that one man should die for the people.",ref:"John 11:49 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"hard",q:"Which two figures appeared with Jesus at the Transfiguration?",opts:["A. Abraham and Isaac","B. Elijah and Enoch","C. Moses and Elijah","D. Isaiah and Jeremiah"],ans:2,explain:"Moses representing the Law and Elijah representing the Prophets appeared with Jesus, affirming He was the fulfilment of both.",ref:"Matthew 17:3 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"hard",q:"The seven churches addressed in Revelation were located in which region?",opts:["A. Palestine","B. Greece","C. Asia Minor (modern Turkey)","D. Rome"],ans:2,explain:"The seven churches — Ephesus, Smyrna, Pergamos, Thyatira, Sardis, Philadelphia, and Laodicea — were all in Asia Minor, modern-day Turkey.",ref:"Revelation 1:11 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"hard",q:"What Greek word translated 'love' describes God's unconditional love in the New Testament?",opts:["A. Eros","B. Storge","C. Philia","D. Agape"],ans:3,explain:"Agape is the highest form of love in Greek — selfless, unconditional, sacrificial love — the kind described in 1 Corinthians 13 and John 3:16.",ref:"1 John 4:8 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"hard",q:"What is the significance of Jesus's statement 'Before Abraham was, I am'?",opts:["A. He claimed to be older than Abraham","B. He used the divine name 'I AM' claiming eternal deity","C. He was referring to a previous life","D. He was speaking metaphorically about His teaching"],ans:1,explain:"'I AM' (ego eimi) is the divine name from Exodus 3:14. Jesus applied it to Himself, claiming eternal pre-existence and deity — for which the Jews tried to stone Him.",ref:"John 8:58 (KJV)"},
+  {topic:"newtest",icon:"✝",diff:"hard",q:"Which early church council addressed the question of Gentile observance of Mosaic law?",opts:["A. The Council of Nicaea","B. The Jerusalem Council","C. The Antioch Assembly","D. The Roman Synod"],ans:1,explain:"The Jerusalem Council (Acts 15) decided that Gentile believers were not required to be circumcised or keep the full Mosaic law for salvation.",ref:"Acts 15:6 (KJV)"},
+
+  // ── THEOLOGY & DOCTRINE ───────────────────────────────────
+  {topic:"theology",icon:"🕊️",diff:"easy",q:"What does the word 'Gospel' mean?",opts:["A. Holy word","B. Good news","C. Sacred teaching","D. Divine law"],ans:1,explain:"Gospel comes from the Old English 'godspel' meaning 'good news' — itself a translation of the Greek 'euangelion.'",ref:"Mark 1:1 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"easy",q:"What are the two sacraments/ordinances observed by most Christian churches?",opts:["A. Prayer and fasting","B. Baptism and the Lord's Supper","C. Confession and anointing","D. Tithing and worship"],ans:1,explain:"Most Protestant churches recognise Baptism and the Lord's Supper (Communion) as the two ordinances commanded by Christ.",ref:"Matthew 28:19 / 1 Corinthians 11:23 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"easy",q:"The Trinity refers to God existing as Father, Son, and...",opts:["A. Angels","B. The Church","C. Holy Spirit","D. The Word"],ans:2,explain:"The doctrine of the Trinity holds that God exists as one Being in three persons: Father, Son, and Holy Spirit — co-equal and co-eternal.",ref:"Matthew 28:19 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"medium",q:"What does the term 'Atonement' mean in Christian theology?",opts:["A. Repentance from sin","B. Reconciliation between God and humanity through Christ's sacrifice","C. The forgiveness of individual sins","D. Being set apart for God's service"],ans:1,explain:"Atonement refers to Christ's death covering sin and restoring the broken relationship between humanity and God — literally 'at-one-ment.'",ref:"Romans 5:11 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"medium",q:"What is 'Justification' in Protestant theology?",opts:["A. Being made holy","B. Being declared righteous before God","C. The process of becoming more like Christ","D. Being forgiven for sin"],ans:1,explain:"Justification is the legal declaration by God that a sinner is righteous on the basis of Christ's righteousness, received through faith.",ref:"Romans 3:24 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"medium",q:"What is the difference between Sanctification and Justification?",opts:["A. None — they are the same thing","B. Justification is a moment; sanctification is a process","C. Sanctification is for Jews; justification for Gentiles","D. Justification comes after sanctification"],ans:1,explain:"Justification is the instantaneous declaration of righteousness at conversion. Sanctification is the ongoing process of becoming more like Christ.",ref:"1 Thessalonians 4:3 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"medium",q:"What is 'Eschatology' in Christian theology?",opts:["A. The study of angels","B. The study of God's nature","C. The study of last things and end times","D. The study of church history"],ans:2,explain:"Eschatology (from Greek 'eschatos' meaning 'last') is the branch of theology dealing with death, judgement, heaven, hell, and the return of Christ.",ref:""},
+  {topic:"theology",icon:"🕊️",diff:"medium",q:"What does 'Omniscience' mean as applied to God?",opts:["A. God is all-powerful","B. God is everywhere present","C. God knows all things","D. God is unchanging"],ans:2,explain:"Omniscience means God knows all things — past, present, and future — including thoughts, hearts, and every secret. — Psalm 139:4 (KJV)",ref:"Psalm 139:4 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"hard",q:"What is the 'Hypostatic Union'?",opts:["A. The unity of believers in the church","B. The two natures of Christ — fully God and fully human — in one person","C. The relationship between the Father and the Spirit","D. The union of Old and New Testaments"],ans:1,explain:"The Hypostatic Union is the theological term for the union of Christ's two natures — fully divine and fully human — in one person without mixture or confusion.",ref:"John 1:14 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"hard",q:"What was the Nicene Creed (325 AD) primarily written to address?",opts:["A. The authority of the Pope","B. The Arianism heresy — which denied Christ's full divinity","C. The role of women in the church","D. The canon of Scripture"],ans:1,explain:"The Council of Nicaea (325 AD) convened to counter Arianism, which taught that the Son was a created being. The Creed affirmed Christ as 'of the same substance' as the Father.",ref:""},
+  {topic:"theology",icon:"🕊️",diff:"hard",q:"What does 'Penal Substitutionary Atonement' teach?",opts:["A. Christ suffered to set an example for believers","B. Christ bore the punishment deserved by sinners in their place","C. Christ's death satisfied God's honour","D. Christ conquered death and Satan through His resurrection"],ans:1,explain:"Penal Substitutionary Atonement holds that Christ took the penalty (punishment) for sin in the sinner's place, satisfying God's justice while demonstrating His love.",ref:"Isaiah 53:5 / Romans 3:25 (KJV)"},
+  {topic:"theology",icon:"🕊️",diff:"hard",q:"What is 'General Revelation' in theology?",opts:["A. The final book of the Bible","B. Knowledge of God available to all through creation and conscience","C. The revelation given only to prophets","D. The public reading of Scripture in church"],ans:1,explain:"General Revelation is God's self-disclosure through nature, human conscience, and reason — available to all people. Special Revelation is Scripture and Christ.",ref:"Romans 1:20 (KJV)"},
+
+  // ── PEOPLE OF THE BIBLE ───────────────────────────────────
+  {topic:"people",icon:"👤",diff:"easy",q:"Who was the mother of Jesus?",opts:["A. Elizabeth","B. Martha","C. Mary","D. Salome"],ans:2,explain:"Mary of Nazareth was chosen by God to carry Jesus. The angel Gabriel announced His coming to her.",ref:"Luke 1:27 (KJV)"},
+  {topic:"people",icon:"👤",diff:"easy",q:"Who denied Jesus three times?",opts:["A. Thomas","B. Judas","C. James","D. Peter"],ans:3,explain:"Peter denied knowing Jesus three times before the rooster crowed, fulfilling Jesus's exact prediction the night before.",ref:"Luke 22:61 (KJV)"},
+  {topic:"people",icon:"👤",diff:"easy",q:"What was Paul's name before his conversion?",opts:["A. Simon","B. Saul","C. Barnabas","D. Silas"],ans:1,explain:"Paul was born Saul of Tarsus — a Pharisee and persecutor of Christians — until his encounter with the risen Jesus on the road to Damascus.",ref:"Acts 9:1 (KJV)"},
+  {topic:"people",icon:"👤",diff:"medium",q:"Who was the Roman governor who condemned Jesus to death?",opts:["A. Herod Agrippa","B. Caiaphas","C. Pontius Pilate","D. Gallio"],ans:2,explain:"Pilate, the Roman prefect of Judea, declared Jesus innocent three times yet handed Him over to be crucified to please the crowd.",ref:"John 19:16 (KJV)"},
+  {topic:"people",icon:"👤",diff:"medium",q:"Which disciple is known as 'the beloved disciple' and wrote a Gospel, three letters, and Revelation?",opts:["A. Peter","B. James","C. John","D. Matthew"],ans:2,explain:"John, son of Zebedee and brother of James, is widely identified as the 'beloved disciple' who wrote the Gospel of John, 1–3 John, and Revelation.",ref:"John 21:20 (KJV)"},
+  {topic:"people",icon:"👤",diff:"medium",q:"Who was the first Christian martyr?",opts:["A. James the apostle","B. Stephen","C. Paul","D. Peter"],ans:1,explain:"Stephen, one of the seven deacons, was stoned to death by the Sanhedrin after his powerful speech — making him the first recorded Christian martyr.",ref:"Acts 7:60 (KJV)"},
+  {topic:"people",icon:"👤",diff:"medium",q:"Which woman anointed Jesus's feet with expensive perfume and wiped them with her hair?",opts:["A. Martha","B. Salome","C. Mary Magdalene","D. Mary of Bethany (or an unnamed woman)"],ans:3,explain:"In John 12, Mary of Bethany anointed Jesus's feet with a pound of costly spikenard. Jesus said she did it for His burial.",ref:"John 12:3 (KJV)"},
+  {topic:"people",icon:"👤",diff:"medium",q:"Who was Barnabas in the New Testament?",opts:["A. A Roman centurion","B. Paul's first missionary companion","C. The author of Hebrews","D. A scribe in Jerusalem"],ans:1,explain:"Barnabas (meaning 'son of encouragement') was a Levite from Cyprus who introduced Paul to the apostles and partnered with him on the first missionary journey.",ref:"Acts 9:27 (KJV)"},
+  {topic:"people",icon:"👤",diff:"hard",q:"Who was Priscilla's husband and fellow tentmaker with Paul?",opts:["A. Apollos","B. Aquila","C. Timothy","D. Silas"],ans:1,explain:"Aquila and Priscilla were a married couple who worked as tentmakers and became key co-workers with Paul, even instructing the eloquent Apollos more fully.",ref:"Acts 18:2 (KJV)"},
+  {topic:"people",icon:"👤",diff:"hard",q:"Which Old Testament figure is the subject of the longest genealogy — living 969 years?",opts:["A. Noah","B. Adam","C. Methuselah","D. Enoch"],ans:2,explain:"Methuselah, son of Enoch and grandfather of Noah, lived 969 years — the longest recorded lifespan in Scripture.",ref:"Genesis 5:27 (KJV)"},
+  {topic:"people",icon:"👤",diff:"hard",q:"Who was Rahab and how does she appear in the New Testament?",opts:["A. A prophetess listed in Hebrews 11","B. A prostitute who hid the spies, listed in both Hebrews 11 and Matthew's genealogy of Jesus","C. The wife of Joshua","D. A convert of Paul mentioned in Romans"],ans:1,explain:"Rahab the Canaanite prostitute who protected Israel's spies is listed in the Hall of Faith (Hebrews 11) and in Matthew 1:5 as an ancestor of Jesus Christ.",ref:"Joshua 2 / Hebrews 11:31 (KJV)"},
+
+  // ── PLACES & GEOGRAPHY ────────────────────────────────────
+  {topic:"geography",icon:"🗺️",diff:"easy",q:"In which country was Jesus born?",opts:["A. Egypt","B. Syria","C. Judea (modern Israel)","D. Lebanon"],ans:2,explain:"Jesus was born in Bethlehem of Judea, the region of the ancient kingdom of Judah, in what is now modern Israel.",ref:"Matthew 2:1 (KJV)"},
+  {topic:"geography",icon:"🗺️",diff:"easy",q:"Which river did Jesus cross when Joshua led Israel into the Promised Land?",opts:["A. The Nile","B. The Euphrates","C. The Jordan","D. The Jabbok"],ans:2,explain:"Israel miraculously crossed the Jordan River on dry ground as God held back the waters — echoing the Red Sea crossing under Moses.",ref:"Joshua 3:17 (KJV)"},
+  {topic:"geography",icon:"🗺️",diff:"medium",q:"In which city did the early church begin on the day of Pentecost?",opts:["A. Antioch","B. Rome","C. Jerusalem","D. Caesarea"],ans:2,explain:"The Holy Spirit fell on the disciples gathered in Jerusalem, and Peter preached his famous sermon resulting in 3,000 converts.",ref:"Acts 2:5 (KJV)"},
+  {topic:"geography",icon:"🗺️",diff:"medium",q:"Which city was called 'the city of David'?",opts:["A. Hebron","B. Jerusalem","C. Bethlehem","D. Jericho"],ans:1,explain:"Jerusalem was called the City of David after he captured it from the Jebusites and made it Israel's capital.",ref:"2 Samuel 5:7 (KJV)"},
+  {topic:"geography",icon:"🗺️",diff:"medium",q:"On which island was the Apostle John when he received the Revelation?",opts:["A. Cyprus","B. Crete","C. Malta","D. Patmos"],ans:3,explain:"John was exiled to the island of Patmos in the Aegean Sea, where he received his vision from Jesus Christ.",ref:"Revelation 1:9 (KJV)"},
+  {topic:"geography",icon:"🗺️",diff:"medium",q:"Where did Paul have his vision of the Macedonian man calling for help?",opts:["A. Antioch","B. Corinth","C. Troas","D. Philippi"],ans:2,explain:"At Troas, Paul saw a vision of a man from Macedonia saying 'Come over and help us' — leading to the first mission to Europe.",ref:"Acts 16:9 (KJV)"},
+  {topic:"geography",icon:"🗺️",diff:"hard",q:"What was the significance of Antioch of Syria in the early church?",opts:["A. It was where Peter founded the church","B. It was the first church to be called 'Christian' and the base of Paul's missions","C. It was where the New Testament was first compiled","D. It was where the Jerusalem Council took place"],ans:1,explain:"Antioch in Syria was where disciples were first called Christians, and it served as the sending base for Paul's three missionary journeys.",ref:"Acts 11:26 (KJV)"},
+  {topic:"geography",icon:"🗺️",diff:"hard",q:"The Valley of Megiddo (Armageddon) in Revelation is located in which region?",opts:["A. Judea","B. Galilee","C. The Jezreel Valley of northern Israel","D. The Jordan Valley"],ans:2,explain:"Har Megiddo (Armageddon) refers to the plain of Megiddo in the Jezreel Valley of northern Israel — a historic battlefield and the prophesied site of the final battle.",ref:"Revelation 16:16 (KJV)"},
+
+  // ── PROPHECY & FULFILMENT ─────────────────────────────────
+  {topic:"prophecy",icon:"🔮",diff:"easy",q:"Micah 5:2 prophesied the Messiah would be born in which town?",opts:["A. Nazareth","B. Jerusalem","C. Bethlehem","D. Jericho"],ans:2,explain:"'But thou, Bethlehem Ephratah...out of thee shall he come forth unto me that is to be ruler in Israel.' — Written 700 years before Jesus.",ref:"Micah 5:2 (KJV)"},
+  {topic:"prophecy",icon:"🔮",diff:"easy",q:"Isaiah 7:14 prophesied that the Messiah would be born of a...",opts:["A. Queen","B. Virgin","C. Widow","D. Prophetess"],ans:1,explain:"'Behold, a virgin shall conceive, and bear a son, and shall call his name Immanuel.' — Fulfilled in the birth of Jesus to the virgin Mary.",ref:"Isaiah 7:14 (KJV)"},
+  {topic:"prophecy",icon:"🔮",diff:"medium",q:"Zechariah 9:9 predicted the Messiah would enter Jerusalem riding on a...",opts:["A. White horse","B. Chariot of fire","C. Donkey","D. Cloud"],ans:2,explain:"Zechariah's prophecy was fulfilled on Palm Sunday when Jesus rode into Jerusalem on a donkey — 500 years after it was written.",ref:"Zechariah 9:9 (KJV)"},
+  {topic:"prophecy",icon:"🔮",diff:"medium",q:"Psalm 22:16 — written by David — prophesied what would happen to the Messiah's hands and feet?",opts:["A. They would be bound with chains","B. They would be pierced","C. They would work miracles","D. They would be anointed with oil"],ans:1,explain:"'They pierced my hands and my feet.' — Written by David 1,000 years before Jesus, before crucifixion even existed as a form of execution.",ref:"Psalm 22:16 (KJV)"},
+  {topic:"prophecy",icon:"🔮",diff:"medium",q:"Isaiah 53 describes the suffering of which figure?",opts:["A. Isaiah himself","B. Israel as a nation","C. The Suffering Servant — fulfilled in Christ","D. King Hezekiah"],ans:2,explain:"Isaiah 53 describes a Suffering Servant who was wounded for our transgressions — one of the most detailed messianic prophecies, written 700 years before Christ.",ref:"Isaiah 53:5 (KJV)"},
+  {topic:"prophecy",icon:"🔮",diff:"medium",q:"Approximately how many messianic prophecies did Jesus fulfil?",opts:["A. 50","B. 100","C. Over 300","D. 500"],ans:2,explain:"Scholars identify over 300 specific prophecies about the Messiah in the Old Testament — all fulfilled in Jesus Christ. The mathematical probability of one person fulfilling even eight is astronomical.",ref:""},
+  {topic:"prophecy",icon:"🔮",diff:"hard",q:"Zechariah 11:12 prophesied the exact price of Judas's betrayal. What was it?",opts:["A. Twenty pieces of silver","B. Thirty pieces of silver","C. Fifty pieces of silver","D. One hundred pieces of silver"],ans:1,explain:"'So they weighed for my price thirty pieces of silver.' — Zechariah 11:12, written 500 years before Judas accepted precisely thirty pieces of silver.",ref:"Zechariah 11:12 (KJV)"},
+  {topic:"prophecy",icon:"🔮",diff:"hard",q:"Daniel's prophecy of the '70 weeks' in Daniel 9 is considered to predict what?",opts:["A. The duration of Israel's exile","B. The timing of the Messiah's arrival and death","C. The rise of four world empires","D. The building of the Second Temple"],ans:1,explain:"Daniel 9:24–27 describes 70 'weeks' (heptads of years). Many scholars calculate that the 69th week precisely marks the year of Jesus's triumphal entry into Jerusalem.",ref:"Daniel 9:25 (KJV)"},
+
+  // ── HARD MODE ─────────────────────────────────────────────
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"Which New Testament author uses the most sophisticated Greek vocabulary?",opts:["A. Paul","B. John","C. The author of Hebrews","D. Luke"],ans:2,explain:"The author of Hebrews uses the most elevated and complex Greek in the New Testament — so refined that it differs notably from Paul's style, leading to debates about authorship.",ref:""},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"What is the 'Q Source' in New Testament scholarship?",opts:["A. The original Aramaic Gospel","B. A hypothetical document containing sayings of Jesus used by Matthew and Luke","C. The earliest copy of the book of Mark","D. Paul's lost letter to the Corinthians"],ans:1,explain:"'Q' (from the German 'Quelle' meaning source) is a hypothetical text scholars propose to explain the shared material in Matthew and Luke not found in Mark.",ref:""},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"The Septuagint (LXX) is the Greek translation of the Old Testament. When was it produced?",opts:["A. 200–100 BC","B. 100–50 BC","C. 285–150 BC","D. AD 50–100"],ans:2,explain:"The Septuagint was translated in Alexandria beginning around 285 BC and completed by around 150 BC — the version most quoted in the New Testament.",ref:""},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"What does 'Ichthys' (the fish symbol) represent and what is the acronym?",opts:["A. Jesus Christ, Son of God, Saviour","B. In Christ there is hope, yes salvation","C. Jesus Christ, Holy Son, Sovereign","D. I choose the holy yoke of salvation"],ans:0,explain:"ICHTHYS (Greek for fish) is an acrostic: Iota-Chi-Theta-Upsilon-Sigma = Iesous Christos Theou Yios Soter (Jesus Christ, Son of God, Saviour). Used as a secret sign by early Christians.",ref:""},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"What is the 'Didache' in early Christian history?",opts:["A. The first church creed","B. An early Christian manual of teaching and church practice (c. 1st century)","C. A collection of Paul's prison letters","D. The minutes of the Council of Jerusalem"],ans:1,explain:"The Didache ('Teaching') is one of the earliest known non-canonical Christian writings, containing instructions on baptism, fasting, prayer, the Lord's Supper, and church leadership.",ref:""},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"What is the doctrine of 'Inerrancy' in relation to Scripture?",opts:["A. The Bible contains no historical information","B. The Bible, in its original manuscripts, is without error in all that it affirms","C. Every translation of the Bible is equally accurate","D. The Bible cannot be understood without the church's interpretation"],ans:1,explain:"Biblical Inerrancy holds that the original autographs (manuscripts) of Scripture, being God-breathed, contain no errors — theological, historical, or factual — in what they affirm.",ref:"2 Timothy 3:16 (KJV)"},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"The Council of Carthage (397 AD) is significant because it...",opts:["A. Banned the use of Latin in worship","B. Finalised the canon of New Testament Scripture","C. Condemned the heresy of Pelagianism","D. Established the office of Pope"],ans:1,explain:"The Council of Carthage in 397 AD ratified the 27-book New Testament canon that had developed through early church consensus, confirming the list used today.",ref:""},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"What is the meaning of the term 'Parousia' in New Testament theology?",opts:["A. The presence of God in the Temple","B. The second coming/return of Christ","C. The outpouring of the Holy Spirit","D. The resurrection of the dead"],ans:1,explain:"Parousia (Greek for 'presence' or 'arrival') is the technical term for the Second Coming of Christ, used 24 times in the New Testament.",ref:"1 Thessalonians 4:15 (KJV)"},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"Which church father wrote 'On the Trinity' and developed the theological language of 'substance' and 'persons'?",opts:["A. Origen","B. Augustine","C. Tertullian","D. Athanasius"],ans:2,explain:"Tertullian (c. 160–220 AD), the North African theologian, first formulated the Latin terms 'substantia' (substance) and 'personae' (persons) for Trinitarian theology.",ref:""},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"What is 'Cessationism' in Christian theology?",opts:["A. The belief that the church will gradually cease to exist","B. The view that certain spiritual gifts (tongues, prophecy, healing) ceased after the apostolic age","C. The doctrine that Old Testament law has ceased to apply","D. The belief that Jesus ceased to be divine after His resurrection"],ans:1,explain:"Cessationism holds that the 'sign gifts' (tongues, prophecy, miraculous healing) were for the apostolic age only and ceased when the apostles died and Scripture was completed.",ref:""},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"What was the heresy of Gnosticism that the early church fought against?",opts:["A. The belief that Jesus was only human","B. The belief that matter is evil and salvation comes through secret knowledge","C. The belief that there is no resurrection","D. The worship of angels alongside God"],ans:1,explain:"Gnosticism taught that the material world is evil (created by an inferior god), that the true God is pure spirit, and that salvation comes through secret knowledge (gnosis) — not faith.",ref:"1 John 4:2 (KJV)"},
+  {topic:"hardmode",icon:"🎯",diff:"hard",q:"The Dead Sea Scrolls, discovered in 1947, are significant because they...",opts:["A. Contained the lost books of the Apocrypha","B. Proved the existence of Jesus","C. Contained Old Testament texts 1,000 years older than previous manuscripts","D. Contained Paul's lost letters"],ans:2,explain:"The Dead Sea Scrolls (found at Qumran) included Old Testament manuscripts a millennium older than previously known copies — and they confirmed the remarkable accuracy of the transmitted text.",ref:""},
+];
+
+// ════════════════════ STATE ════════════════════
+let selTopic="all", selDiff="mixed", selCount=10;
+let questions=[], idx=0, score=0, wrong=0, answered=false, userAnswers=[];
+
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+
+function topicLabel(t){return{oldtest:"Old Testament",newtest:"New Testament",theology:"Theology & Doctrine",people:"People of the Bible",geography:"Places & Geography",prophecy:"Prophecy & Fulfilment",hardmode:"Hard Mode"}[t]||"Full Bible";}
+function topicIcon(t){return{oldtest:"📜",newtest:"✝",theology:"🕊️",people:"👤",geography:"🗺️",prophecy:"🔮",hardmode:"🎯"}[t]||"📖";}
+
+function selectTopic(el){document.querySelectorAll('.topic-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');selTopic=el.dataset.topic;}
+
+function selectDiff(d){
+  selDiff=d;
+  ['easy','mixed','hard'].forEach(x=>{
+    const b=document.getElementById('diff'+x.charAt(0).toUpperCase()+x.slice(1));
+    b.className='diff-btn'+(d===x?' active-'+x:'');
+  });
+}
+
+function selectCount(el,n){document.querySelectorAll('.count-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');selCount=n;}
+
+function startQuiz(){
+  let pool = selTopic==="all" ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q=>q.topic===selTopic);
+  if(selTopic==="hardmode") pool=ALL_QUESTIONS.filter(q=>q.diff==="hard");
+  if(selDiff!=="mixed") pool=pool.filter(q=>q.diff===selDiff);
+  if(!pool.length) pool=ALL_QUESTIONS;
+  questions=shuffle(pool).slice(0,Math.min(selCount,pool.length));
+  idx=0; score=0; wrong=0; userAnswers=[];
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('results').style.display='none';
+  document.getElementById('quizArea').style.display='block';
+  updateStats(); showQuestion();
+}
+
+function diffLabel(d){return{easy:"Easy",medium:"Medium",hard:"Hard"}[d]||"Mixed";}
+function diffClass(d){return{easy:"diff-easy",medium:"diff-medium",hard:"diff-hard"}[d]||"diff-medium";}
+
+function showQuestion(){
+  answered=false;
+  const q=questions[idx], total=questions.length, prev=userAnswers[idx];
+  document.getElementById('qProgress').textContent=`${idx+1} / ${total}`;
+  document.getElementById('progFill').style.width=`${(idx/total)*100}%`;
+  document.getElementById('qTopic').innerHTML=`${topicIcon(q.topic)} ${topicLabel(q.topic)}`;
+  document.getElementById('diffBadge').textContent=diffLabel(q.diff);
+  document.getElementById('diffBadge').className=`diff-badge ${diffClass(q.diff)}`;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('backBtn').disabled=idx===0;
+  document.getElementById('prevBtn').style.display=idx===0?'none':'block';
+
+  const grid=document.getElementById('optGrid'); grid.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letters[i]}</span><span>${opt.slice(3)}</span>`;
+    if(prev!==undefined){
+      btn.disabled=true;
+      if(i===q.ans) btn.classList.add('rev-correct');
+      if(i===prev.chosen&&!prev.wasCorrect) btn.classList.add('rev-wrong');
+    } else {
+      btn.onclick=()=>selectAnswer(i,btn,q.ans,q.explain,q.ref);
+    }
+    grid.appendChild(btn);
+  });
+
+  const fb=document.getElementById('feedback');
+  const ex=document.getElementById('explanation');
+  if(prev!==undefined){
+    fb.className='feedback review'; fb.style.display='flex';
+    document.getElementById('fbIcon').textContent='📖';
+    document.getElementById('fbText').textContent=prev.wasCorrect?'Correct ✓ — See explanation below':'Review the explanation below';
+    ex.classList.add('show');
+    document.getElementById('explainText').textContent=q.explain;
+    document.getElementById('explainRef').textContent=q.ref;
+    document.getElementById('nextBtn').style.display='block'; answered=true;
+  } else {
+    fb.className='feedback'; fb.style.display='none';
+    ex.classList.remove('show');
+    document.getElementById('nextBtn').style.display='none';
+  }
+
+  const card=document.getElementById('qCard');
+  card.style.animation='none'; card.offsetHeight;
+  card.style.animation='cardIn 0.35s cubic-bezier(0.22,1,0.36,1) both';
+}
+
+function selectAnswer(i,btn,correct,explain,ref){
+  if(answered) return; answered=true;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const wasCorrect=i===correct;
+  userAnswers[idx]={chosen:i,correct,wasCorrect};
+  if(wasCorrect){ score++; btn.classList.add('correct'); showFb(true); confetti(); }
+  else { wrong++; btn.classList.add('wrong'); document.querySelectorAll('.opt-btn')[correct].classList.add('correct'); showFb(false); }
+  updateStats();
+  const ex=document.getElementById('explanation');
+  ex.classList.add('show');
+  document.getElementById('explainText').textContent=explain;
+  document.getElementById('explainRef').textContent=ref;
+  document.getElementById('nextBtn').style.display='block';
+}
+
+function showFb(ok){
+  const fb=document.getElementById('feedback');
+  const okM=["Correct ✓","Well answered.","That's right.","Correct — well done.","Spot on.","Correct."];
+  const noM=["Incorrect — see the explanation.","Not quite — read the note below.","That's not right — explanation below.","Incorrect. Study the verse below.","Wrong — but the explanation will help."];
+  fb.className=`feedback ${ok?'correct':'wrong'}`; fb.style.display='flex';
+  document.getElementById('fbIcon').textContent=ok?'✓':'✕';
+  document.getElementById('fbText').textContent=ok?okM[Math.floor(Math.random()*okM.length)]:noM[Math.floor(Math.random()*noM.length)];
+}
+
+function updateStats(){
+  document.getElementById('statScore').textContent=score;
+  document.getElementById('statWrong').textContent=wrong;
+  document.getElementById('statLeft').textContent=Math.max(0,questions.length-idx-1);
+}
+
+function nextQuestion(){ idx++; if(idx>=questions.length) showResults(); else showQuestion(); }
+function goBack(){ if(idx===0) return; idx--; showQuestion(); }
+
+function showExitModal(){ document.getElementById('exitProg').textContent=userAnswers.filter(Boolean).length; document.getElementById('exitModal').classList.add('show'); }
+function hideExitModal(){ document.getElementById('exitModal').classList.remove('show'); }
+function confirmExit(){ hideExitModal(); document.getElementById('quizArea').style.display='none'; document.getElementById('results').style.display='none'; document.getElementById('startScreen').style.display='block'; score=0; wrong=0; idx=0; userAnswers=[]; }
+
+function confetti(){
+  const colors=['#3b4fd9','#6475f0','#d4a843','#2ecc71','#f1f3fc'];
+  for(let i=0;i<18;i++){const c=document.createElement('div');c.className='confetti-piece';c.style.cssText=`left:${Math.random()*100}vw;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${0.9+Math.random()*0.7}s;animation-delay:${Math.random()*0.25}s;width:${5+Math.random()*5}px;height:${5+Math.random()*5}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;document.body.appendChild(c);setTimeout(()=>c.remove(),2200);}
+}
+
+function showResults(){
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('statLeft').textContent='0';
+  document.getElementById('quizArea').style.display='none';
+  const res=document.getElementById('results'); res.style.display='block';
+  const total=questions.length, pct=Math.round((score/total)*100);
+  let icon='✦', title='', verse='', badge='';
+  if(pct===100){ icon='🏆'; title='Perfect Score'; verse='"Well done, thou good and faithful servant." — Matthew 25:21 (KJV)'; badge='Master of the Word'; }
+  else if(pct>=80){ icon='✦'; title='Excellent Result'; verse='"Study to shew thyself approved unto God." — 2 Timothy 2:15 (KJV)'; badge='Advanced Bible Scholar'; }
+  else if(pct>=60){ icon='📖'; title='Solid Knowledge'; verse='"Thy word have I hid in mine heart, that I might not sin against thee." — Psalm 119:11 (KJV)'; badge='Diligent Student'; }
+  else if(pct>=40){ icon='🕊️'; title='Keep Studying'; verse='"But grow in grace, and in the knowledge of our Lord." — 2 Peter 3:18 (KJV)'; badge='Faithful Learner'; }
+  else{ icon='📜'; title='Room to Grow'; verse='"Open thou mine eyes, that I may behold wondrous things out of thy law." — Psalm 119:18 (KJV)'; badge='Earnest Seeker'; }
+  document.getElementById('resIcon').textContent=icon;
+  document.getElementById('resTitle').textContent=title;
+  document.getElementById('resVerse').textContent=verse;
+  document.getElementById('resScore').textContent=`${score}/${total}`;
+  document.getElementById('resPct').textContent=`${pct}%`;
+  document.getElementById('resBadge').textContent=badge;
+
+  const rev=document.getElementById('ansReview'); rev.innerHTML=`<div class="ans-review-title">Full Answer Review</div>`;
+  questions.forEach((q,i)=>{
+    const ua=userAnswers[i];
+    const item=document.createElement('div');
+    item.className='ans-item '+(ua?(ua.wasCorrect?'ok':'no'):'skip');
+    const ct=q.opts[q.ans].slice(3), yt=ua?q.opts[ua.chosen].slice(3):'—';
+    item.innerHTML=`
+      <div class="ans-item-header">
+        <span class="diff-badge ${diffClass(q.diff)}">${diffLabel(q.diff)}</span>
+        <span style="font-size:12px;color:var(--text-dim);">${topicIcon(q.topic)} ${topicLabel(q.topic)}</span>
+      </div>
+      <div class="ans-item-q">${i+1}. ${q.q}</div>
+      <div class="ans-item-d">${ua&&ua.wasCorrect?`<span class="c-ans">✓ ${ct}</span>`:`${ua?`<span class="w-ans">✕ ${yt}</span> &nbsp; `:'<span style="color:var(--text-dim)">—</span> &nbsp; '}<span class="c-ans">✓ ${ct}</span>`}
+      <span class="explain-txt">${q.explain}${q.ref?' — '+q.ref:''}</span></div>`;
+    rev.appendChild(item);
+  });
+  if(pct>=80){ for(let i=0;i<3;i++) setTimeout(()=>confetti(),i*450); }
+}
+
+function restartSame(){ startQuiz(); }
+function goHome(){ document.getElementById('results').style.display='none'; document.getElementById('quizArea').style.display='none'; document.getElementById('startScreen').style.display='block'; score=0; wrong=0; idx=0; userAnswers=[]; }
+
+function openPrint(html){ const w=window.open('','_blank'); if(!w){alert('Please allow pop-ups.');return;} w.document.write(html); w.document.close(); w.focus(); setTimeout(()=>w.print(),700); }
+
+function downloadQuestionsPDF(){
+  if(!questions.length){alert('Please start the quiz first.');return;}
+  const L=['A','B','C','D'];
+  let h=`<html><head><title>Bible Quiz for Adults — Questions</title><style>
+    body{font-family:Georgia,serif;max-width:720px;margin:0 auto;padding:30px;color:#1e2a4a;font-size:14px;line-height:1.65;}
+    h1{color:#3b4fd9;font-size:20px;margin-bottom:4px;}
+    .sub{color:#555e82;font-size:12px;font-style:italic;margin-bottom:24px;}
+    .q{margin-bottom:20px;page-break-inside:avoid;border-bottom:1px solid #e2e6f3;padding-bottom:18px;}
+    .qmeta{display:flex;gap:12px;margin-bottom:4px;}
+    .qcat{color:#6475f0;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.12em;}
+    .qdiff-easy{color:#2ecc71;font-size:11px;font-weight:bold;}
+    .qdiff-medium{color:#d4a843;font-size:11px;font-weight:bold;}
+    .qdiff-hard{color:#e74c3c;font-size:11px;font-weight:bold;}
+    .qn{font-weight:bold;color:#3b4fd9;font-size:12px;margin-bottom:3px;}
+    .qt{font-size:15px;font-weight:bold;margin-bottom:8px;color:#1e2a4a;}
+    .opt{font-size:14px;margin:3px 0 3px 12px;}
+    .footer{margin-top:32px;border-top:1px solid #e2e6f3;padding-top:12px;font-size:11px;color:#555e82;text-align:center;font-style:italic;}
+    @media print{body{padding:14px;}}
+  </style></head><body>
+  <h1>✦ Bible Quiz for Adults — Questions</h1>
+  <div class="sub">Daily Prayers &amp; Blessings | ${questions.length} Questions | Topic: ${selTopic==='all'?'Full Bible':topicLabel(selTopic)} | Difficulty: ${selDiff.charAt(0).toUpperCase()+selDiff.slice(1)}</div>`;
+  questions.forEach((q,i)=>{
+    h+=`<div class="q"><div class="qmeta"><span class="qcat">${topicIcon(q.topic)} ${topicLabel(q.topic)}</span><span class="qdiff-${q.diff}">${diffLabel(q.diff)}</span></div><div class="qn">Question ${i+1}</div><div class="qt">${q.q}</div>${q.opts.map((o,oi)=>`<div class="opt">${L[oi]}. ${o.slice(3)}</div>`).join('')}</div>`;
+  });
+  h+=`<div class="footer">"Study to shew thyself approved unto God." — 2 Timothy 2:15 (KJV)<br>dailyprayersandblessings.com</div></body></html>`;
+  openPrint(h);
+}
+
+function downloadAnswersPDF(){
+  const L=['A','B','C','D'];
+  const total=questions.length, pct=Math.round((score/total)*100);
+  const badge=pct===100?'Master of the Word':pct>=80?'Advanced Bible Scholar':pct>=60?'Diligent Student':pct>=40?'Faithful Learner':'Earnest Seeker';
+  let h=`<html><head><title>Bible Quiz for Adults — Answers</title><style>
+    body{font-family:Georgia,serif;max-width:720px;margin:0 auto;padding:30px;color:#1e2a4a;font-size:13px;line-height:1.6;}
+    h1{color:#3b4fd9;font-size:20px;margin-bottom:4px;}
+    .sub{color:#555e82;font-size:12px;font-style:italic;margin-bottom:20px;}
+    .score-box{background:#eef0fb;border:2px solid #3b4fd9;border-radius:10px;padding:16px 22px;margin-bottom:22px;text-align:center;}
+    .big{font-size:36px;font-weight:bold;color:#3b4fd9;font-style:italic;}
+    .pct{font-size:22px;font-weight:bold;color:#6475f0;margin-left:12px;}
+    .lbl{font-size:13px;color:#555e82;}
+    .bdg{font-size:15px;font-weight:bold;color:#3b4fd9;margin-top:5px;font-style:italic;}
+    table{width:100%;border-collapse:collapse;font-size:12px;}
+    th{background:#3b4fd9;color:white;padding:9px 7px;text-align:left;}
+    td{padding:8px 7px;border-bottom:1px solid #e2e6f3;vertical-align:top;}
+    tr:nth-child(even) td{background:#f8f9fe;}
+    .cr td{background:#f0fdf4!important;}
+    .wr td{background:#fff5f5!important;}
+    .tick{color:#2ecc71;font-weight:bold;}
+    .cross{color:#e74c3c;font-weight:bold;}
+    .ans{color:#2ecc71;font-weight:bold;}
+    .exp-row td{font-style:italic;font-size:11px;color:#555e82;background:#f8f9fe!important;border-bottom:2px solid #e2e6f3;}
+    .diff-easy{color:#2ecc71;font-weight:bold;font-size:10px;}
+    .diff-medium{color:#d4a843;font-weight:bold;font-size:10px;}
+    .diff-hard{color:#e74c3c;font-weight:bold;font-size:10px;}
+    .footer{margin-top:32px;border-top:1px solid #e2e6f3;padding-top:12px;font-size:11px;color:#555e82;text-align:center;font-style:italic;}
+    @media print{body{padding:14px;}}
+  </style></head><body>
+  <h1>✦ Bible Quiz for Adults — Answer Key</h1>
+  <div class="sub">Daily Prayers &amp; Blessings | ${total} Questions | Difficulty: ${selDiff}</div>
+  <div class="score-box">
+    <div><span class="big">${score}/${total}</span><span class="pct">${pct}%</span></div>
+    <div class="lbl">correct</div>
+    <div class="bdg">${badge}</div>
+  </div>
+  <table>
+    <tr><th>#</th><th>Diff</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>✓✗</th></tr>`;
+  questions.forEach((q,i)=>{
+    const ua=userAnswers[i];
+    const chosen=ua?q.opts[ua.chosen].slice(3):'Not answered';
+    const correct=q.opts[q.ans].slice(3);
+    const ok=ua&&ua.wasCorrect;
+    h+=`<tr class="${ua?(ok?'cr':'wr'):''}">
+      <td>${i+1}</td>
+      <td class="diff-${q.diff}">${diffLabel(q.diff)}</td>
+      <td>${q.q}</td>
+      <td>${chosen}</td>
+      <td class="ans">${correct}</td>
+      <td>${ua?(ok?'<span class="tick">✓</span>':'<span class="cross">✗</span>'):'—'}</td>
+    </tr>`;
+    h+=`<tr class="exp-row"><td colspan="6">📖 ${q.explain}${q.ref?' — '+q.ref:''}</td></tr>`;
+  });
+  h+=`<div class="footer">"Thy word is a lamp unto my feet, and a light unto my path." — Psalm 119:105 (KJV)<br>dailyprayersandblessings.com</div></body></html>`;
+  openPrint(h);
+}
+</script>
+</body>
+</html>
