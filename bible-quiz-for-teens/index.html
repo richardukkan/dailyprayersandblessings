@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible Quiz for Teenagers | Daily Prayers & Blessings</title>
+<meta name="description" content="A bold and engaging Bible quiz for teenagers ages 13-17. Real questions about identity, purpose, courage, and faith tied to real Bible stories. No fluff, just truth.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg-card: #161b27;
+    --bg-card2: #1c2333;
+    --teal: #2dd4bf;
+    --teal-dark: #0d9488;
+    --teal-glow: rgba(45,212,191,0.15);
+    --teal-border: rgba(45,212,191,0.25);
+    --slate: #334155;
+    --slate-light: #475569;
+    --white: #f8fafc;
+    --text: #e2e8f0;
+    --text-mid: #94a3b8;
+    --text-dim: #64748b;
+    --correct: #22c55e;
+    --correct-bg: rgba(34,197,94,0.1);
+    --correct-border: rgba(34,197,94,0.35);
+    --wrong: #ef4444;
+    --wrong-bg: rgba(239,68,68,0.09);
+    --wrong-border: rgba(239,68,68,0.35);
+    --gold: #fbbf24;
+    --border: rgba(255,255,255,0.08);
+    --shadow: 0 4px 32px rgba(0,0,0,0.4);
+    --radius: 16px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* Animated grid bg */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(45,212,191,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45,212,191,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(45,212,191,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 28px 18px 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal-glow);
+    border: 1px solid var(--teal-border);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 18px;
+  }
+
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .header h1 span { color: var(--teal); }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--text-mid);
+    font-weight: 400;
+  }
+
+  /* ── SCORE BAR ── */
+  .score-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .score-left { display: flex; align-items: baseline; gap: 8px; }
+
+  .score-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--teal);
+    line-height: 1;
+  }
+
+  .score-label { font-size: 13px; color: var(--text-dim); font-weight: 500; }
+
+  .score-pts {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    max-width: 200px;
+  }
+
+  .score-pt {
+    font-size: 15px;
+    line-height: 1;
+    filter: grayscale(1);
+    opacity: 0.3;
+    transition: all 0.3s ease;
+  }
+
+  .score-pt.lit {
+    filter: none;
+    opacity: 1;
+    animation: ptPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  @keyframes ptPop {
+    0% { transform: scale(0) rotate(-30deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+
+  .prog-pill {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-mid);
+    background: var(--bg);
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── NAV ROW ── */
+  .nav-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .nav-btn:hover:not(:disabled) { border-color: var(--teal); color: var(--teal); background: var(--teal-glow); }
+  .nav-btn:disabled { opacity: 0.25; cursor: default; }
+  .nav-btn.danger:hover { border-color: var(--wrong); color: var(--wrong); background: var(--wrong-bg); }
+  .nav-btn.pdf { border-color: rgba(251,191,36,0.3); color: var(--gold); }
+  .nav-btn.pdf:hover { background: rgba(251,191,36,0.1); border-color: var(--gold); }
+
+  /* ── PROGRESS BAR ── */
+  .prog-wrap {
+    background: var(--bg-card2);
+    border-radius: 20px;
+    height: 5px;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal-dark), var(--teal));
+    border-radius: 20px;
+    transition: width 0.45s ease;
+    box-shadow: 0 0 10px var(--teal-glow);
+  }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px 28px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+    animation: cardIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  @keyframes cardIn {
+    from { opacity:0; transform: translateY(20px) scale(0.98); }
+    to   { opacity:1; transform: translateY(0) scale(1); }
+  }
+
+  .q-topic {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 16px;
+    padding: 4px 12px;
+    background: var(--teal-glow);
+    border: 1px solid var(--teal-border);
+    border-radius: 20px;
+  }
+
+  .q-text {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.05rem, 3vw, 1.3rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.45;
+    margin-bottom: 22px;
+  }
+
+  /* ── OPTIONS ── */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .opt-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-card2);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    text-align: left;
+    transition: all 0.18s ease;
+    line-height: 1.4;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--teal);
+    background: var(--teal-glow);
+    color: var(--white);
+    transform: translateY(-2px);
+  }
+
+  .opt-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text-mid);
+    transition: all 0.18s ease;
+  }
+
+  .opt-btn:hover:not(:disabled) .opt-letter {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: var(--bg);
+  }
+
+  .opt-btn.correct {
+    background: var(--correct-bg);
+    border-color: var(--correct-border);
+    color: var(--correct);
+  }
+
+  .opt-btn.correct .opt-letter {
+    background: var(--correct);
+    border-color: var(--correct);
+    color: white;
+  }
+
+  .opt-btn.wrong {
+    background: var(--wrong-bg);
+    border-color: var(--wrong-border);
+    color: var(--wrong);
+  }
+
+  .opt-btn.wrong .opt-letter {
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color: white;
+  }
+
+  .opt-btn.rev-correct { background: var(--correct-bg); border-color: var(--correct-border); color: var(--correct); }
+  .opt-btn.rev-correct .opt-letter { background: var(--correct); border-color: var(--correct); color: white; }
+  .opt-btn.rev-wrong { background: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong); }
+  .opt-btn.rev-wrong .opt-letter { background: var(--wrong); border-color: var(--wrong); color: white; }
+  .opt-btn:disabled { cursor: default; }
+
+  /* ── FEEDBACK ── */
+  .feedback {
+    display: none;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    animation: feedIn 0.25s ease both;
+    line-height: 1.5;
+  }
+
+  @keyframes feedIn { from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)} }
+  .feedback.correct { background: var(--correct-bg); color: var(--correct); border: 1px solid var(--correct-border); display: flex; }
+  .feedback.wrong   { background: var(--wrong-bg); color: var(--wrong); border: 1px solid var(--wrong-border); display: flex; }
+  .feedback.review  { background: var(--teal-glow); color: var(--teal); border: 1px solid var(--teal-border); display: flex; }
+  .fb-icon { font-size: 1.2rem; }
+
+  /* ── VERSE NOTE ── */
+  .verse-note {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 18px;
+    background: var(--bg);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    font-size: 13.5px;
+    color: var(--text-mid);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .verse-note.show { display: block; }
+  .verse-ref {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-top: 5px;
+    display: block;
+    font-style: normal;
+  }
+
+  /* ── ACTION ROW ── */
+  .action-row { display: flex; gap: 10px; margin-top: 18px; }
+
+  .action-btn {
+    flex: 1;
+    padding: 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.04em;
+  }
+
+  .action-btn.primary { background: var(--teal); color: var(--bg); }
+  .action-btn.primary:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 6px 20px var(--teal-glow); }
+  .action-btn.secondary { background: var(--bg-card2); color: var(--text-mid); border: 1px solid var(--border); }
+  .action-btn.secondary:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ── EXIT MODAL ── */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:500; align-items:center; justify-content:center; padding:20px; backdrop-filter: blur(4px); }
+  .modal-overlay.show { display:flex; }
+  .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px 28px; max-width: 380px; width:100%; text-align:center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); animation: cardIn 0.3s ease both; }
+  .modal-icon { font-size: 2.8rem; margin-bottom: 12px; display: block; }
+  .modal h3 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+  .modal p { font-size: 14px; color: var(--text-mid); margin-bottom: 24px; line-height: 1.6; }
+  .modal-btns { display: flex; gap: 10px; }
+  .modal-btn { flex:1; padding: 13px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; }
+  .modal-btn.primary { background: var(--wrong); color: white; }
+  .modal-btn.primary:hover { opacity: 0.85; }
+  .modal-btn.secondary { background: var(--bg-card2); color: var(--text-mid); border: 1px solid var(--border); }
+  .modal-btn.secondary:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ── START SCREEN ── */
+  .start-screen { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px 28px; box-shadow: var(--shadow); }
+
+  .start-hero {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .start-hero-icon { font-size: 3.5rem; margin-bottom: 12px; display: block; }
+  .start-hero h2 { font-family: 'Syne', sans-serif; font-size: 1.7rem; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+  .start-hero p { font-size: 15px; color: var(--text-mid); line-height: 1.6; max-width: 480px; margin: 0 auto; }
+
+  .start-section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+
+  .topic-card {
+    background: var(--bg-card2);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .topic-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .topic-card.selected { border-color: var(--teal); background: var(--teal-glow); }
+  .topic-card .t-icon { font-size: 1.7rem; margin-bottom: 7px; display: block; }
+  .topic-card .t-name { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--text); letter-spacing: 0.05em; }
+
+  .count-row { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+
+  .count-btn {
+    flex: 1;
+    min-width: 90px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--bg-card2);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .count-btn.active, .count-btn:hover { background: var(--teal); color: var(--bg); border-color: var(--teal); }
+
+  .start-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--teal);
+    color: var(--bg);
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.06em;
+    box-shadow: 0 4px 20px var(--teal-glow);
+  }
+
+  .start-btn:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 30px var(--teal-glow); }
+
+  /* ── RESULTS ── */
+  .results { display: none; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 44px 28px; box-shadow: var(--shadow); text-align: center; animation: cardIn 0.4s ease both; }
+  .results-icon { font-size: 4rem; margin-bottom: 12px; display: block; }
+  .results-title { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; color: var(--white); margin-bottom: 6px; }
+  .results-sub { font-size: 14px; color: var(--text-mid); margin-bottom: 24px; }
+  .results-score-wrap { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin: 0 0 20px; }
+  .results-score { font-family: 'Syne', sans-serif; font-size: 4rem; font-weight: 800; color: var(--teal); line-height: 1; }
+  .results-score-label { font-size: 14px; color: var(--text-dim); margin-top: 6px; }
+  .results-badge { display: inline-block; background: var(--teal-glow); border: 1px solid var(--teal-border); border-radius: 10px; padding: 10px 24px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: var(--teal); margin-bottom: 22px; letter-spacing: 0.05em; }
+  .results-pts { display: flex; justify-content: center; gap: 5px; flex-wrap: wrap; margin-bottom: 24px; font-size: 1.4rem; }
+  .results-btns { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 28px; }
+  .results-btn { padding: 13px 22px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.04em; }
+  .results-btn.primary { background: var(--teal); color: var(--bg); }
+  .results-btn.primary:hover { background: var(--teal-dark); }
+  .results-btn.secondary { background: var(--bg-card2); color: var(--text-mid); border: 1px solid var(--border); }
+  .results-btn.secondary:hover { border-color: var(--teal); color: var(--teal); }
+  .results-btn.pdf { background: rgba(251,191,36,0.1); color: var(--gold); border: 1px solid rgba(251,191,36,0.3); }
+  .results-btn.pdf:hover { background: rgba(251,191,36,0.2); }
+
+  /* Answer review */
+  .ans-review { margin-top: 12px; text-align: left; }
+  .ans-review-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: var(--white); margin-bottom: 14px; text-align: center; padding-top: 10px; border-top: 1px solid var(--border); letter-spacing: 0.08em; text-transform: uppercase; }
+  .ans-item { background: var(--bg); border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; border-left: 3px solid var(--border); }
+  .ans-item.ok { border-left-color: var(--correct); }
+  .ans-item.no { border-left-color: var(--wrong); }
+  .ans-item-q { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; color: var(--white); margin-bottom: 5px; }
+  .ans-item-d { font-size: 13px; line-height: 1.55; }
+  .c-ans { color: var(--correct); font-weight: 600; }
+  .w-ans { color: var(--wrong); font-weight: 600; }
+  .hint-txt { color: var(--text-dim); font-style: italic; font-size: 12px; margin-top: 4px; display: block; }
+
+  /* Confetti */
+  .confetti-piece { position: fixed; pointer-events: none; z-index: 9999; border-radius: 2px; animation: confettiFall linear forwards; }
+  @keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+  @media (max-width: 480px) {
+    .options { grid-template-columns: 1fr; }
+    .action-row { flex-direction: column; }
+    .q-card { padding: 22px 16px; }
+    .results { padding: 28px 16px; }
+    .nav-btn { font-size: 12px; padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge">✝ Daily Prayers &amp; Blessings</div>
+    <h1>Bible Quiz<br>for <span>Teenagers</span></h1>
+    <div class="header-sub">Real questions. Real faith. Ages 13–17 · No fluff, just truth.</div>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <div class="start-hero">
+      <span class="start-hero-icon">⚡</span>
+      <h2>Think You Know Your Bible?</h2>
+      <p>Pick a topic, choose how many questions, and find out how well you really know the stories, verses, and people of the Bible. Each question comes with a verse note to dig deeper.</p>
+    </div>
+
+    <span class="start-section-label">Choose a Topic</span>
+    <div class="topic-grid">
+      <div class="topic-card selected" data-topic="all" onclick="selectTopic(this)"><span class="t-icon">⚡</span><div class="t-name">All Topics</div></div>
+      <div class="topic-card" data-topic="identity" onclick="selectTopic(this)"><span class="t-icon">🔥</span><div class="t-name">Identity &amp; Purpose</div></div>
+      <div class="topic-card" data-topic="courage" onclick="selectTopic(this)"><span class="t-icon">🦁</span><div class="t-name">Courage &amp; Strength</div></div>
+      <div class="topic-card" data-topic="gospels" onclick="selectTopic(this)"><span class="t-icon">✝</span><div class="t-name">Jesus &amp; the Gospels</div></div>
+      <div class="topic-card" data-topic="wisdom" onclick="selectTopic(this)"><span class="t-icon">💡</span><div class="t-name">Wisdom &amp; Choices</div></div>
+      <div class="topic-card" data-topic="heroes" onclick="selectTopic(this)"><span class="t-icon">⚔️</span><div class="t-name">Bible Heroes</div></div>
+      <div class="topic-card" data-topic="faith" onclick="selectTopic(this)"><span class="t-icon">🙏</span><div class="t-name">Faith &amp; Prayer</div></div>
+      <div class="topic-card" data-topic="prophecy" onclick="selectTopic(this)"><span class="t-icon">📖</span><div class="t-name">Prophecy &amp; End Times</div></div>
+    </div>
+
+    <span class="start-section-label">How Many Questions?</span>
+    <div class="count-row">
+      <button class="count-btn active" onclick="selectCount(this,10)">10 Qs</button>
+      <button class="count-btn" onclick="selectCount(this,20)">20 Qs</button>
+      <button class="count-btn" onclick="selectCount(this,30)">30 Qs</button>
+    </div>
+
+    <button class="start-btn" onclick="startQuiz()">START QUIZ ⚡</button>
+  </div>
+
+  <!-- Quiz Area -->
+  <div id="quizArea" style="display:none;">
+    <div class="score-bar">
+      <div class="score-left">
+        <div class="score-num" id="scoreNum">0</div>
+        <div class="score-label">correct</div>
+      </div>
+      <div class="score-pts" id="scorePts"></div>
+      <div class="prog-pill" id="progPill">1 / 10</div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>← Prev</button>
+      <button class="nav-btn danger" onclick="showExitModal()">✕ Exit</button>
+      <button class="nav-btn pdf" onclick="downloadQuestionsPDF()">↓ Questions PDF</button>
+    </div>
+
+    <div class="prog-wrap">
+      <div class="prog-fill" id="progFill" style="width:0%"></div>
+    </div>
+
+    <div class="q-card" id="qCard">
+      <div class="q-topic" id="qTopic">⚡ Bible</div>
+      <div class="q-text" id="qText">Loading...</div>
+      <div class="options" id="optGrid"></div>
+      <div class="feedback" id="feedback">
+        <span class="fb-icon" id="fbIcon"></span>
+        <span id="fbText"></span>
+      </div>
+      <div class="verse-note" id="verseNote">
+        <span id="verseText"></span>
+        <span class="verse-ref" id="verseRef"></span>
+      </div>
+      <div class="action-row">
+        <button class="action-btn secondary" id="prevBtn" style="display:none;" onclick="goBack()">← Previous</button>
+        <button class="action-btn primary" id="nextBtn" style="display:none;" onclick="nextQuestion()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <span class="results-icon" id="resIcon">⚡</span>
+    <div class="results-title" id="resTitle">Not bad!</div>
+    <div class="results-sub" id="resSub"></div>
+    <div class="results-score-wrap">
+      <div class="results-score" id="resScore">0/0</div>
+      <div class="results-score-label">questions correct</div>
+    </div>
+    <div class="results-badge" id="resBadge">BIBLE EXPLORER</div>
+    <div class="results-pts" id="resPts"></div>
+    <div class="results-btns">
+      <button class="results-btn primary" onclick="restartSame()">↺ Play Again</button>
+      <button class="results-btn secondary" onclick="goHome()">⌂ New Topic</button>
+      <button class="results-btn pdf" onclick="downloadAnswersPDF()">↓ Answers PDF</button>
+    </div>
+    <div class="ans-review" id="ansReview"></div>
+  </div>
+
+</div>
+
+<!-- Exit Modal -->
+<div class="modal-overlay" id="exitModal">
+  <div class="modal">
+    <span class="modal-icon">⚠️</span>
+    <h3>Exit the Quiz?</h3>
+    <p>You've answered <strong id="exitProg">0</strong> questions. Your progress will be lost if you exit.</p>
+    <div class="modal-btns">
+      <button class="modal-btn secondary" onclick="hideExitModal()">Keep Going</button>
+      <button class="modal-btn primary" onclick="confirmExit()">Exit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  300+ QUESTIONS FOR TEENAGERS
+// ══════════════════════════════════════════════════════
+const ALL_QUESTIONS = [
+
+  // ── IDENTITY & PURPOSE ────────────────────────────────
+  {topic:"identity",icon:"🔥",q:"Jeremiah 29:11 says God has plans for you — plans for what?",opts:["A. Trials and testing","B. Peace and a future","C. Wealth and fame","D. Perfect circumstances"],ans:1,hint:"'For I know the thoughts that I think toward you, saith the Lord, thoughts of peace, and not of evil, to give you an expected end.' — Jeremiah 29:11 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"Psalm 139 says you are fearfully and wonderfully...",opts:["A. Created","B. Loved","C. Made","D. Known"],ans:2,hint:"'I will praise thee; for I am fearfully and wonderfully made.' — Psalm 139:14 (KJV). God designed you intentionally."},
+  {topic:"identity",icon:"🔥",q:"What does Romans 8:37 call us through Christ?",opts:["A. Forgiven","B. More than conquerors","C. Beloved","D. Set free"],ans:1,hint:"'Nay, in all these things we are more than conquerors through him that loved us.' — Romans 8:37 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"1 Peter 2:9 calls believers a royal...",opts:["A. Family","B. Nation","C. Priesthood","D. Both B and C"],ans:3,hint:"'But ye are a chosen generation, a royal priesthood, an holy nation.' — 1 Peter 2:9 (KJV). That's your identity."},
+  {topic:"identity",icon:"🔥",q:"Ephesians 2:10 says we are God's...",opts:["A. Children","B. Workmanship","C. Servants","D. Warriors"],ans:1,hint:"'For we are his workmanship, created in Christ Jesus unto good works.' — Ephesians 2:10 (KJV). You are God's masterpiece."},
+  {topic:"identity",icon:"🔥",q:"John 15:15 — Jesus calls his followers not servants, but...",opts:["A. Students","B. Disciples","C. Friends","D. Children"],ans:2,hint:"'I have called you friends; for all things that I have heard of my Father I have made known unto you.' — John 15:15 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"Galatians 3:28 says there is no male or female in Christ — we are all...",opts:["A. Equal","B. Free","C. One in Christ Jesus","D. Forgiven"],ans:2,hint:"'There is neither Jew nor Greek...neither male nor female: for ye are all one in Christ Jesus.' — Galatians 3:28 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"Romans 12:2 says don't be conformed to this world, but be transformed by the renewing of your...",opts:["A. Heart","B. Soul","C. Mind","D. Spirit"],ans:2,hint:"'Be not conformed to this world: but be ye transformed by the renewing of your mind.' — Romans 12:2 (KJV). Your thought life matters."},
+  {topic:"identity",icon:"🔥",q:"Isaiah 43:1 says God calls you by...",opts:["A. Your deeds","B. Your name","C. Your faith","D. Your family"],ans:1,hint:"'I have called thee by thy name; thou art mine.' — Isaiah 43:1 (KJV). God knows your name personally."},
+  {topic:"identity",icon:"🔥",q:"Psalm 37:4 says God will give you the desires of your heart if you...",opts:["A. Pray constantly","B. Obey His commands","C. Delight yourself in Him","D. Trust in His plan"],ans:2,hint:"'Delight thyself also in the Lord; and he shall give thee the desires of thine heart.' — Psalm 37:4 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"2 Corinthians 5:17 — if anyone is in Christ, they are a new...",opts:["A. Person","B. Believer","C. Creature","D. Creation"],ans:2,hint:"'Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.' — 2 Corinthians 5:17 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"Philippians 4:13 — you can do all things through Christ which does what?",opts:["A. Guides you","B. Strengtheneth you","C. Loves you","D. Saves you"],ans:1,hint:"'I can do all things through Christ which strengtheneth me.' — Philippians 4:13 (KJV). Not your own strength — His."},
+  {topic:"identity",icon:"🔥",q:"Matthew 5:14 says you are the... of the world",opts:["A. Salt","B. Hope","C. Light","D. Voice"],ans:2,hint:"'Ye are the light of the world. A city that is set on an hill cannot be hid.' — Matthew 5:14 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"Matthew 5:13 says you are the... of the earth",opts:["A. Light","B. Salt","C. Hope","D. Seed"],ans:1,hint:"'Ye are the salt of the earth.' — Matthew 5:13 (KJV). Salt preserves and flavours — so does your faith in the world."},
+  {topic:"identity",icon:"🔥",q:"Romans 8:14 says those led by the Spirit of God are...",opts:["A. Holy","B. Chosen","C. Sons of God","D. Set apart"],ans:2,hint:"'For as many as are led by the Spirit of God, they are the sons of God.' — Romans 8:14 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"1 John 3:1 marvels at what kind of love the Father has given us?",opts:["A. Boundless","B. Eternal","C. Behold, what manner of love","D. Unconditional"],ans:2,hint:"'Behold, what manner of love the Father hath bestowed upon us, that we should be called the sons of God.' — 1 John 3:1 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"Proverbs 4:23 — above all else, guard your...",opts:["A. Words","B. Heart","C. Eyes","D. Mind"],ans:1,hint:"'Keep thy heart with all diligence; for out of it are the issues of life.' — Proverbs 4:23 (KJV). What you feed your heart matters."},
+  {topic:"identity",icon:"🔥",q:"Who said 'Here I am, send me' when God called for a volunteer?",opts:["A. Jeremiah","B. Moses","C. Isaiah","D. Ezekiel"],ans:2,hint:"'Also I heard the voice of the Lord, saying, Whom shall I send? Then said I, Here am I; send me.' — Isaiah 6:8 (KJV)"},
+  {topic:"identity",icon:"🔥",q:"Timothy was considered young — what did Paul say no one should do because of his youth?",opts:["A. Despise it","B. Ignore it","C. Overlook it","D. Underestimate it"],ans:0,hint:"'Let no man despise thy youth; but be thou an example of the believers.' — 1 Timothy 4:12 (KJV). Age doesn't disqualify you."},
+  {topic:"identity",icon:"🔥",q:"Proverbs 3:5 says trust in the Lord with all your heart and lean not on your own...",opts:["A. Strength","B. Feelings","C. Understanding","D. Plans"],ans:2,hint:"'Trust in the Lord with all thine heart; and lean not unto thine own understanding.' — Proverbs 3:5 (KJV)"},
+
+  // ── COURAGE & STRENGTH ─────────────────────────────────
+  {topic:"courage",icon:"🦁",q:"David defeated Goliath. How tall was Goliath approximately?",opts:["A. 6 feet","B. 7.5 feet","C. Over 9 feet","D. 8 feet"],ans:2,hint:"Goliath of Gath was six cubits and a span — approximately 9 feet 9 inches tall. — 1 Samuel 17:4 (KJV). And a teenager took him down."},
+  {topic:"courage",icon:"🦁",q:"Joshua 1:9 commands Joshua to be strong and very courageous, and says God is with him...",opts:["A. Always","B. Whithersoever thou goest","C. Until the end","D. In every battle"],ans:1,hint:"'Have not I commanded thee? Be strong and of a good courage...for the Lord thy God is with thee whithersoever thou goest.' — Joshua 1:9 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"What did Shadrach, Meshach and Abednego refuse to do that got them thrown into the fire?",opts:["A. Eat the king's food","B. Bow to a golden statue","C. Pray to Nebuchadnezzar","D. Speak Aramaic"],ans:1,hint:"They refused to bow to Nebuchadnezzar's golden image even at the threat of death — and God met them in the fire. — Daniel 3 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Isaiah 40:31 — those who wait on the Lord shall mount up with wings as...",opts:["A. Doves","B. Eagles","C. Angels","D. Sparrows"],ans:1,hint:"'They shall mount up with wings as eagles; they shall run, and not be weary.' — Isaiah 40:31 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Which young boy killed a lion and a bear before he faced Goliath?",opts:["A. Samson","B. Jonathan","C. David","D. Gideon"],ans:2,hint:"David told Saul he had killed both a lion and a bear as a shepherd, preparing him for Goliath. — 1 Samuel 17:36 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Gideon's army started at 32,000 men and God reduced it to how many to fight the Midianites?",opts:["A. 1,000","B. 500","C. 300","D. 100"],ans:2,hint:"God reduced Gideon's army to 300 men so Israel would know that He — not their numbers — won the victory. — Judges 7:7 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"What was Paul and Silas doing in prison at midnight?",opts:["A. Sleeping","B. Praying and singing hymns","C. Planning an escape","D. Writing letters"],ans:1,hint:"'And at midnight Paul and Silas prayed, and sang praises unto God: and the prisoners heard them.' — Acts 16:25 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Which Old Testament hero's strength was in his hair?",opts:["A. David","B. Joshua","C. Samson","D. Gideon"],ans:2,hint:"Samson was a Nazirite set apart from birth. His uncut hair was the sign of his covenant with God and the source of his strength. — Judges 16 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"2 Timothy 1:7 — God has not given us a spirit of fear, but of power, love and...",opts:["A. Peace","B. Grace","C. A sound mind","D. Courage"],ans:2,hint:"'For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.' — 2 Timothy 1:7 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Who escaped through a window in a basket when enemies planned to kill him?",opts:["A. David","B. Elijah","C. Paul","D. Peter"],ans:2,hint:"Paul was let down through the wall in a basket by night to escape those who watched the city gates to kill him. — Acts 9:25 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Esther risked her life to go before the king. What was the famous phrase she used?",opts:["A. God will protect me","B. If I perish, I perish","C. I trust in the Lord","D. Let His will be done"],ans:1,hint:"'If I perish, I perish.' — Esther 4:16 (KJV). Esther chose courage over comfort to save her people."},
+  {topic:"courage",icon:"🦁",q:"Romans 8:31 — if God is for us, who can be...",opts:["A. Greater","B. Against us","C. Our enemy","D. Our judge"],ans:1,hint:"'What shall we then say to these things? If God be for us, who can be against us?' — Romans 8:31 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Which disciple walked on water toward Jesus?",opts:["A. John","B. James","C. Thomas","D. Peter"],ans:3,hint:"Peter stepped out of the boat and walked on the water toward Jesus — the only human other than Jesus to do so. — Matthew 14:29 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Daniel continued to pray three times a day even though it meant being thrown into the...",opts:["A. River","B. Prison","C. Lion's den","D. Fire"],ans:2,hint:"Daniel knew the law but opened his window and prayed as before — and God shut the lions' mouths. — Daniel 6 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Nehemiah rebuilt Jerusalem's walls despite opposition. How long did it take?",opts:["A. 1 year","B. 6 months","C. 52 days","D. 3 months"],ans:2,hint:"The wall was completed in 52 days — in the face of mockery, threats, and opposition. — Nehemiah 6:15 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"What did David say to Goliath before the battle?",opts:["A. 'God fights for me'","B. 'You come with a sword, I come in the name of the Lord'","C. 'I have defeated lions and bears'","D. 'The battle belongs to God'"],ans:1,hint:"'Thou comest to me with a sword...but I come to thee in the name of the Lord of hosts.' — 1 Samuel 17:45 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Who said 'Choose you this day whom ye will serve'?",opts:["A. Moses","B. David","C. Joshua","D. Samuel"],ans:2,hint:"'Choose you this day whom ye will serve...but as for me and my house, we will serve the Lord.' — Joshua 24:15 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"The walls of Jericho fell not by weapons but by what?",opts:["A. An earthquake","B. Fire from heaven","C. Obedience — marching and shouting","D. A great wind"],ans:2,hint:"Israel marched, the priests blew trumpets, the people shouted — and the wall fell flat. Pure obedient faith. — Joshua 6 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Which prophet stood alone against 450 false prophets on Mount Carmel?",opts:["A. Isaiah","B. Jeremiah","C. Elisha","D. Elijah"],ans:3,hint:"Elijah challenged 450 prophets of Baal alone — and God answered with fire. — 1 Kings 18 (KJV)"},
+  {topic:"courage",icon:"🦁",q:"Philippians 4:13 — 'I can do all things through...'",opts:["A. Faith","B. Prayer","C. Christ which strengtheneth me","D. The Spirit"],ans:2,hint:"'I can do all things through Christ which strengtheneth me.' — Philippians 4:13 (KJV). Not your strength — His."},
+
+  // ── JESUS & THE GOSPELS ───────────────────────────────
+  {topic:"gospels",icon:"✝",q:"Jesus said 'I am the way, the truth, and the life.' Which Gospel?",opts:["A. Matthew","B. Mark","C. Luke","D. John"],ans:3,hint:"'I am the way, the truth, and the life: no man cometh unto the Father, but by me.' — John 14:6 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"John 3:16 — 'For God so loved the world that He gave...'",opts:["A. His Word","B. His Spirit","C. His only begotten Son","D. His mercy"],ans:2,hint:"'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish.' — John 3:16 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"How many disciples did Jesus choose?",opts:["A. 7","B. 10","C. 12","D. 70"],ans:2,hint:"Jesus chose twelve disciples — also called apostles — to follow Him and spread His message. — Mark 3:14 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Which disciple betrayed Jesus for 30 pieces of silver?",opts:["A. Peter","B. Thomas","C. James","D. Judas Iscariot"],ans:3,hint:"Judas agreed to betray Jesus to the chief priests for thirty pieces of silver. — Matthew 26:15 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Jesus rose from the dead on which day?",opts:["A. Saturday","B. The third day / Sunday","C. Friday evening","D. Monday"],ans:1,hint:"'He is not here: for he is risen, as he said.' — Matthew 28:6 (KJV). He rose on the first day of the week."},
+  {topic:"gospels",icon:"✝",q:"Jesus turned water into wine at a wedding. This was His...",opts:["A. First miracle","B. Second miracle","C. Greatest miracle","D. Only private miracle"],ans:0,hint:"The wedding at Cana was the beginning of Jesus's miracles — His first public sign. — John 2:11 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"The Sermon on the Mount is found mainly in which Gospel chapters?",opts:["A. Luke 6","B. Matthew 5–7","C. John 14–16","D. Mark 4–5"],ans:1,hint:"The Sermon on the Mount (Matthew 5–7) contains the Beatitudes, the Lord's Prayer, and some of Jesus's most radical teachings."},
+  {topic:"gospels",icon:"✝",q:"What is the shortest verse in the Bible?",opts:["A. Pray always","B. Fear not","C. Jesus wept","D. God is love"],ans:2,hint:"'Jesus wept.' — John 11:35 (KJV). Just two words — and they show Jesus fully entered human grief."},
+  {topic:"gospels",icon:"✝",q:"Jesus fed 5,000 people with five loaves and two fish. What was left over?",opts:["A. Nothing","B. Five baskets","C. Twelve baskets","D. Seven baskets"],ans:2,hint:"'And they did all eat, and were filled: and they took up of the fragments that remained twelve baskets full.' — Matthew 14:20 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Who denied Jesus three times before the rooster crowed?",opts:["A. James","B. John","C. Thomas","D. Peter"],ans:3,hint:"Peter denied knowing Jesus three times — just as Jesus had predicted. But Jesus restored him completely. — John 21 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"The Parable of the Prodigal Son is about...",opts:["A. Money management","B. A lost sheep","C. A father's forgiveness","D. Choosing friends"],ans:2,hint:"The Prodigal Son (Luke 15) is about a father who runs to meet his returning son — a picture of God's unconditional love."},
+  {topic:"gospels",icon:"✝",q:"'Come unto me, all ye that labour and are heavy laden, and I will give you...'",opts:["A. Peace","B. Rest","C. Life","D. Strength"],ans:1,hint:"'Come unto me, all ye that labour and are heavy laden, and I will give you rest.' — Matthew 11:28 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"What was Jesus's job before His ministry?",opts:["A. Fisherman","B. Shepherd","C. Carpenter","D. Scribe"],ans:2,hint:"Jesus grew up in Nazareth and was known as a carpenter, the son of Joseph. — Mark 6:3 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"The Great Commission tells believers to go and make...",opts:["A. Converts","B. Disciples of all nations","C. Churches","D. Miracles"],ans:1,hint:"'Go ye therefore, and teach all nations...and lo, I am with you always, even unto the end of the world.' — Matthew 28:19–20 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"John 10:10 — Jesus said He came so we could have life and have it...",opts:["A. Forever","B. More abundantly","C. In peace","D. Without fear"],ans:1,hint:"'I am come that they might have life, and that they might have it more abundantly.' — John 10:10 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"Jesus said the greatest commandment is to love God with all your heart — and the second is to love your...",opts:["A. Family","B. Friends","C. Neighbour","D. Enemies first"],ans:2,hint:"'Thou shalt love thy neighbour as thyself.' — Matthew 22:39 (KJV). These two commandments cover everything."},
+  {topic:"gospels",icon:"✝",q:"How many Beatitudes are in the Sermon on the Mount?",opts:["A. 7","B. 8","C. 9","D. 10"],ans:1,hint:"There are 8 Beatitudes in Matthew 5:3–10, each beginning with 'Blessed are...'"},
+  {topic:"gospels",icon:"✝",q:"Jesus was baptised in the River Jordan by whom?",opts:["A. The Pharisees","B. Peter","C. John the Baptist","D. His disciples"],ans:2,hint:"John the Baptist baptised Jesus in the River Jordan — and the Holy Spirit descended like a dove. — Matthew 3:16 (KJV)"},
+  {topic:"gospels",icon:"✝",q:"What happened at the moment Jesus died on the cross?",opts:["A. An earthquake and the temple veil tore","B. Lightning struck the temple","C. The sky turned red","D. The disciples fled the city"],ans:0,hint:"'The earth did quake...and the veil of the temple was rent in twain from the top to the bottom.' — Matthew 27:51 (KJV). Access to God was opened."},
+  {topic:"gospels",icon:"✝",q:"The night before His crucifixion, Jesus prayed in the Garden of...",opts:["A. Eden","B. Gethsemane","C. Olive Grove","D. Nazareth"],ans:1,hint:"'And he went a little further, and fell on his face, and prayed.' — Matthew 26:39 (KJV) — in the Garden of Gethsemane."},
+
+  // ── WISDOM & CHOICES ──────────────────────────────────
+  {topic:"wisdom",icon:"💡",q:"Proverbs 13:20 says walk with wise men and you'll be wise, but what about companions of fools?",opts:["A. You'll be tested","B. You'll be destroyed","C. You'll suffer","D. You'll be influenced"],ans:1,hint:"'He that walketh with wise men shall be wise: but a companion of fools shall be destroyed.' — Proverbs 13:20 (KJV). Your circle matters."},
+  {topic:"wisdom",icon:"💡",q:"1 Corinthians 15:33 warns that bad company...",opts:["A. Leads to ruin","B. Corrupts good character","C. Steals your joy","D. Pulls you from God"],ans:1,hint:"'Be not deceived: evil communications corrupt good manners.' — 1 Corinthians 15:33 (KJV). Who you hang around with shapes who you become."},
+  {topic:"wisdom",icon:"💡",q:"What did Solomon ask God for when God said 'ask what I shall give thee'?",opts:["A. Long life","B. Riches","C. Wisdom","D. Victory"],ans:2,hint:"Solomon asked for wisdom to govern God's people — not wealth or long life. God was so pleased He gave all three. — 1 Kings 3:9 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"Proverbs 17:17 says a friend loves at all times, and a brother is born for a time of...",opts:["A. Joy","B. Celebration","C. Adversity","D. Prosperity"],ans:2,hint:"'A friend loveth at all times, and a brother is born for adversity.' — Proverbs 17:17 (KJV). Real friends show up in hard times."},
+  {topic:"wisdom",icon:"💡",q:"Matthew 6:33 says seek first the kingdom of God and all these things shall be...",opts:["A. Granted","B. Added unto you","C. Given in time","D. Found"],ans:1,hint:"'But seek ye first the kingdom of God...and all these things shall be added unto you.' — Matthew 6:33 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"Proverbs 4:23 — guard your heart above all else because out of it flow the...",opts:["A. Issues of life","B. Words you speak","C. Thoughts you think","D. Sins you commit"],ans:0,hint:"'Keep thy heart with all diligence; for out of it are the issues of life.' — Proverbs 4:23 (KJV). Guard what you watch, listen to, and think about."},
+  {topic:"wisdom",icon:"💡",q:"James 1:5 says if you lack wisdom, ask...",opts:["A. Your parents","B. Your pastor","C. God who gives liberally","D. The wise among you"],ans:2,hint:"'If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not.' — James 1:5 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"Proverbs 16:18 says pride goes before...",opts:["A. A fall","B. Destruction","C. Failure","D. Shame"],ans:1,hint:"'Pride goeth before destruction, and an haughty spirit before a fall.' — Proverbs 16:18 (KJV). Humility matters."},
+  {topic:"wisdom",icon:"💡",q:"Galatians 6:7 — whatever a man sows, that shall he also...",opts:["A. Grow","B. Reap","C. Receive","D. Plant again"],ans:1,hint:"'Be not deceived; God is not mocked: for whatsoever a man soweth, that shall he also reap.' — Galatians 6:7 (KJV). Your choices have consequences."},
+  {topic:"wisdom",icon:"💡",q:"Ecclesiastes is famous for the phrase 'there is nothing new under the...'",opts:["A. Sky","B. Stars","C. Sun","D. Moon"],ans:2,hint:"'There is no new thing under the sun.' — Ecclesiastes 1:9 (KJV). Written by Solomon — the wisest man who lived."},
+  {topic:"wisdom",icon:"💡",q:"Who wrote most of the book of Proverbs?",opts:["A. David","B. Moses","C. Solomon","D. Asaph"],ans:2,hint:"The book of Proverbs is largely attributed to King Solomon, the wisest man who ever lived. — Proverbs 1:1 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"Proverbs 22:6 — train up a child in the way he should go, and when he is old...",opts:["A. He will prosper","B. He will not depart from it","C. He will remember","D. He will lead others"],ans:1,hint:"'Train up a child in the way he should go: and when he is old, he will not depart from it.' — Proverbs 22:6 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"1 Thessalonians 5:22 — abstain from all appearance of...",opts:["A. Sin","B. Wickedness","C. Evil","D. Darkness"],ans:2,hint:"'Abstain from all appearance of evil.' — 1 Thessalonians 5:22 (KJV). Even how things look matters."},
+  {topic:"wisdom",icon:"💡",q:"Proverbs 3:6 — acknowledge God in all your ways and He shall...",opts:["A. Prosper you","B. Direct your paths","C. Bless your work","D. Keep you safe"],ans:1,hint:"'In all thy ways acknowledge him, and he shall direct thy paths.' — Proverbs 3:6 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"Joseph resisted the advances of Potiphar's wife and...",opts:["A. Was rewarded immediately","B. Fled and was falsely accused","C. Confronted her husband","D. Was praised by God openly"],ans:1,hint:"Joseph fled — and was falsely imprisoned. But God's plan still worked. Integrity isn't always immediately rewarded. — Genesis 39 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"Proverbs 31:30 says charm is deceitful and beauty is vain, but a woman who... shall be praised",opts:["A. Is kind","B. Fears the Lord","C. Works hard","D. Is humble"],ans:1,hint:"'Favour is deceitful, and beauty is vain: but a woman that feareth the Lord, she shall be praised.' — Proverbs 31:30 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"Which book of the Bible asks 'How can a young man cleanse his way?' and answers with God's Word?",opts:["A. Proverbs","B. Ecclesiastes","C. James","D. Psalms"],ans:3,hint:"'Wherewithal shall a young man cleanse his way? by taking heed thereto according to thy word.' — Psalm 119:9 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"Proverbs 12:1 says whoever loves discipline loves...",opts:["A. God","B. Growth","C. Knowledge","D. Wisdom"],ans:2,hint:"'Whoso loveth instruction loveth knowledge: but he that hateth reproof is brutish.' — Proverbs 12:1 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"James 1:19 says be quick to...",opts:["A. Pray","B. Listen","C. Forgive","D. Act"],ans:1,hint:"'Wherefore, my beloved brethren, let every man be swift to hear, slow to speak, slow to wrath.' — James 1:19 (KJV)"},
+  {topic:"wisdom",icon:"💡",q:"What was the result when Job remained faithful through all his suffering?",opts:["A. He was healed immediately","B. God explained why he suffered","C. God restored twice what he had lost","D. He was taken to heaven"],ans:2,hint:"God restored Job's fortunes and gave him twice as much as he had before. — Job 42:10 (KJV). Faithfulness in suffering is never wasted."},
+
+  // ── BIBLE HEROES ──────────────────────────────────────
+  {topic:"heroes",icon:"⚔️",q:"Moses led Israel out of slavery in which country?",opts:["A. Babylon","B. Assyria","C. Egypt","D. Persia"],ans:2,hint:"God used Moses to lead Israel out of 400 years of bondage in Egypt through miraculous signs and wonders. — Exodus 12 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Ruth left her homeland to stay with her mother-in-law Naomi. What did she say?",opts:["A. 'I will follow you to the end'","B. 'Whither thou goest, I will go'","C. 'Your people shall be my people'","D. Both B and C"],ans:3,hint:"'Whither thou goest, I will go; and where thou lodgest, I will lodge: thy people shall be my people.' — Ruth 1:16 (KJV). Loyalty at its finest."},
+  {topic:"heroes",icon:"⚔️",q:"Esther became queen and risked her life to save which people?",opts:["A. The Egyptians","B. The Babylonians","C. The Jewish people","D. The Persians"],ans:2,hint:"Esther approached the king unsummoned — risking death — to expose Haman's plot to destroy the Jewish people. — Esther 5–7 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Who was thrown into a pit by his own brothers and sold into slavery?",opts:["A. Benjamin","B. Joseph","C. Reuben","D. Judah"],ans:1,hint:"Joseph's brothers sold him to Ishmaelite traders for twenty pieces of silver — but God turned it for good. — Genesis 37 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Paul wrote much of the New Testament. What was his name before his conversion?",opts:["A. Simon","B. Barnabas","C. Saul","D. Cornelius"],ans:2,hint:"Paul was originally named Saul of Tarsus — a persecutor of Christians until his dramatic encounter with Jesus on the road to Damascus. — Acts 9 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Mary Magdalene was the first person to see Jesus after the resurrection. What did Jesus say to her?",opts:["A. 'Peace be with you'","B. 'Do not be afraid'","C. 'Mary'","D. 'Go and tell my disciples'"],ans:2,hint:"Jesus simply called her name: 'Mary.' She turned and said 'Rabboni' — which means Teacher. — John 20:16 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Noah obeyed God and built the ark. How many years did it likely take?",opts:["A. 5 years","B. 20 years","C. 40 years","D. Approximately 100 years"],ans:3,hint:"Scripture suggests Noah built the ark over an extended period — possibly around 100 years. He obeyed without seeing the rain. — Genesis 6 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Which prophetess judged Israel and led them into battle?",opts:["A. Esther","B. Miriam","C. Deborah","D. Hannah"],ans:2,hint:"Deborah was a prophetess and judge who went into battle with Barak against Sisera's army. — Judges 4 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Elijah was taken to heaven in what?",opts:["A. A great wind","B. A chariot of fire","C. A cloud","D. A pillar of light"],ans:1,hint:"'And Elijah went up by a whirlwind into heaven' in a chariot of fire. — 2 Kings 2:11 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Abraham was called to sacrifice his son Isaac. What did God provide at the last moment?",opts:["A. A dove","B. A lamb","C. A ram","D. An ox"],ans:2,hint:"God provided a ram caught in the thicket as a substitute — foreshadowing Christ as our ultimate sacrifice. — Genesis 22:13 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Who built the temple in Jerusalem?",opts:["A. David","B. Moses","C. Solomon","D. Nehemiah"],ans:2,hint:"Solomon built the temple in Jerusalem — though God told David he couldn't because he was a man of war. — 1 Kings 6 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Which prophet was known for his visions of dry bones coming to life?",opts:["A. Isaiah","B. Daniel","C. Ezekiel","D. Jeremiah"],ans:2,hint:"God showed Ezekiel a valley of dry bones that came to life — a vision of national restoration. — Ezekiel 37 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Peter's original name before Jesus renamed him was...",opts:["A. Andrew","B. Simon","C. Levi","D. Philip"],ans:1,hint:"'And he brought him to Jesus. And when Jesus beheld him, he said, Thou art Simon...thou shalt be called Cephas (Peter).' — John 1:42 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Who was Moses's sister who watched over him when he was placed in the Nile?",opts:["A. Deborah","B. Miriam","C. Zipporah","D. Rachel"],ans:1,hint:"Miriam watched over baby Moses in the basket on the Nile and arranged for his own mother to nurse him. — Exodus 2:4 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Which New Testament woman is praised for her faith and hospitality as a Gentile in Jesus's genealogy?",opts:["A. Ruth","B. Rahab","C. Tamar","D. Bathsheba"],ans:1,hint:"Rahab the prostitute of Jericho hid Israel's spies and was saved — and is listed in both Matthew's genealogy of Jesus and Hebrews 11. — Joshua 2 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"How many times did Jonah try to run from God's call before finally going to Nineveh?",opts:["A. Once","B. Twice","C. Three times","D. He eventually chose willingly"],ans:0,hint:"Jonah ran once — and that was enough for God to get his attention via a great storm and a great fish. — Jonah 1 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Who led Israel into the Promised Land after Moses?",opts:["A. Caleb","B. Aaron","C. Eleazar","D. Joshua"],ans:3,hint:"Joshua son of Nun led Israel across the Jordan River into the Promised Land. — Joshua 1 (KJV)"},
+  {topic:"heroes",icon:"⚔️",q:"Which apostle is known as 'the doubter' because he wouldn't believe the resurrection until he saw Jesus?",opts:["A. James","B. Philip","C. Thomas","D. Bartholomew"],ans:2,hint:"Thomas said 'Except I shall see in his hands the print of the nails...I will not believe.' — John 20:25 (KJV). But when he saw Jesus, he said 'My Lord and my God.'"},
+  {topic:"heroes",icon:"⚔️",q:"What did Abraham do that made God count it to him as righteousness?",opts:["A. Built an altar","B. Kept the law","C. Believed God","D. Made a sacrifice"],ans:2,hint:"'And he believed in the Lord; and he counted it to him for righteousness.' — Genesis 15:6 (KJV). Faith — not works — was the foundation."},
+  {topic:"heroes",icon:"⚔️",q:"Which woman in the New Testament gave all she had — just two small coins?",opts:["A. Mary Magdalene","B. Joanna","C. The widow","D. Lydia"],ans:2,hint:"Jesus said the widow who gave two mites had given more than all the rich — for she gave out of her poverty, all that she had. — Mark 12:44 (KJV)"},
+
+  // ── FAITH & PRAYER ────────────────────────────────────
+  {topic:"faith",icon:"🙏",q:"Hebrews 11:1 defines faith as the substance of things hoped for and the evidence of things...",opts:["A. Prayed for","B. Hoped for","C. Not seen","D. Believed"],ans:2,hint:"'Now faith is the substance of things hoped for, the evidence of things not seen.' — Hebrews 11:1 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Matthew 17:20 — faith like a mustard seed can move...",opts:["A. People","B. Obstacles","C. Mountains","D. Kingdoms"],ans:2,hint:"'If ye have faith as a grain of mustard seed...nothing shall be impossible unto you.' — Matthew 17:20 (KJV). Size of faith matters less than direction."},
+  {topic:"faith",icon:"🙏",q:"The Lord's Prayer starts with 'Our Father which art in...'",opts:["A. Glory","B. Heaven","C. Spirit","D. Light"],ans:1,hint:"'Our Father which art in heaven, Hallowed be thy name.' — Matthew 6:9 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"1 John 4:8 says 'God is...'",opts:["A. Mighty","B. Holy","C. Love","D. Just"],ans:2,hint:"'He that loveth not knoweth not God; for God is love.' — 1 John 4:8 (KJV). Love isn't just something God does — it's who He is."},
+  {topic:"faith",icon:"🙏",q:"Matthew 6:33 — seek first the kingdom of God and all these things will be...",opts:["A. Granted","B. Added unto you","C. Found","D. Provided"],ans:1,hint:"'But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.' — Matthew 6:33 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Philippians 4:6–7 says pray with thanksgiving and God's peace will guard your...",opts:["A. Steps","B. Soul","C. Hearts and minds","D. Days"],ans:2,hint:"'And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.' — Philippians 4:7 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Romans 10:9 says confess with your mouth that Jesus is Lord and believe God raised Him, and you shall be...",opts:["A. Forgiven","B. Saved","C. Justified","D. Sanctified"],ans:1,hint:"'That if thou shalt confess with thy mouth the Lord Jesus, and shalt believe in thine heart...thou shalt be saved.' — Romans 10:9 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Acts 1:8 — you shall receive power when the Holy Spirit comes upon you and be witnesses...",opts:["A. To Jerusalem only","B. To the world","C. Unto the uttermost part of the earth","D. To all nations"],ans:2,hint:"'But ye shall receive power, after that the Holy Ghost is come upon you...unto the uttermost part of the earth.' — Acts 1:8 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"John 16:33 — Jesus says in this world you will have tribulation, but be of good cheer because...",opts:["A. God is with you","B. I have overcome the world","C. Your faith will grow","D. Heaven awaits you"],ans:1,hint:"'In the world ye shall have tribulation: but be of good cheer; I have overcome the world.' — John 16:33 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"James 5:16 says the prayer of a righteous person is...",opts:["A. Holy","B. Heard","C. Powerful and effective","D. Always answered"],ans:2,hint:"'The effectual fervent prayer of a righteous man availeth much.' — James 5:16 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Romans 1:16 — Paul says he is not ashamed of the gospel because it is the power of God unto...",opts:["A. Truth","B. Healing","C. Salvation","D. Freedom"],ans:2,hint:"'For I am not ashamed of the gospel of Christ: for it is the power of God unto salvation to every one that believeth.' — Romans 1:16 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Ephesians 6:11 — put on the whole armour of God to stand against the...",opts:["A. Temptations of the flesh","B. Wiles of the devil","C. Darkness of this world","D. Schemes of men"],ans:1,hint:"'Put on the whole armour of God, that ye may be able to stand against the wiles of the devil.' — Ephesians 6:11 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Mark 11:24 — whatever you ask in prayer, believe you have received it and...",opts:["A. It will happen","B. God will respond","C. It will be given to you","D. Your faith will grow"],ans:2,hint:"'What things soever ye desire, when ye pray, believe that ye receive them, and ye shall have them.' — Mark 11:24 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"The Holy Spirit is also called the...",opts:["A. Spirit of Power","B. Spirit of Truth","C. Counsellor","D. Both B and C"],ans:3,hint:"Jesus calls the Holy Spirit both the Comforter/Counsellor (John 14:16) and the Spirit of truth (John 16:13). — KJV"},
+  {topic:"faith",icon:"🙏",q:"1 Corinthians 6:19 — your body is a temple of the...",opts:["A. Lord","B. Holy Spirit","C. Living God","D. Father"],ans:1,hint:"'Know ye not that your body is the temple of the Holy Ghost which is in you?' — 1 Corinthians 6:19 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Hebrews 12:1 says run the race set before us and lay aside every...",opts:["A. Sin","B. Fear","C. Weight and sin that entangles","D. Distraction"],ans:2,hint:"'Let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race.' — Hebrews 12:1 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Romans 8:28 says all things work together for good for those who...",opts:["A. Believe in God","B. Love God","C. Pray always","D. Walk in faith"],ans:1,hint:"'And we know that all things work together for good to them that love God.' — Romans 8:28 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"The fruit of the Spirit does NOT include which of these?",opts:["A. Love","B. Courage","C. Joy","D. Peace"],ans:1,hint:"The fruit of the Spirit (Galatians 5:22–23 KJV): love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance. Courage is not listed — but it's a result of walking in the Spirit."},
+  {topic:"faith",icon:"🙏",q:"Revelation 3:20 — Jesus stands at the door and knocks. If you open it, He will...",opts:["A. Give you peace","B. Come in and dine with you","C. Fill you with His Spirit","D. Forgive your sins"],ans:1,hint:"'Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him.' — Revelation 3:20 (KJV)"},
+  {topic:"faith",icon:"🙏",q:"Galatians 2:20 — Paul says it is no longer he who lives but...",opts:["A. The Spirit within him","B. Christ who lives in me","C. God who works through him","D. Faith that sustains him"],ans:1,hint:"'I am crucified with Christ: nevertheless I live; yet not I, but Christ liveth in me.' — Galatians 2:20 (KJV)"},
+
+  // ── PROPHECY & END TIMES ──────────────────────────────
+  {topic:"prophecy",icon:"📖",q:"Isaiah 53:5 — He was wounded for our transgressions, bruised for our...",opts:["A. Sins","B. Iniquities","C. Failures","D. Disobedience"],ans:1,hint:"'But he was wounded for our transgressions, he was bruised for our iniquities.' — Isaiah 53:5 (KJV). Written 700 years before Jesus."},
+  {topic:"prophecy",icon:"📖",q:"Micah 5:2 prophesied the Messiah would be born in which town?",opts:["A. Nazareth","B. Jerusalem","C. Bethlehem","D. Jericho"],ans:2,hint:"'But thou, Bethlehem Ephratah...out of thee shall he come forth unto me that is to be ruler in Israel.' — Micah 5:2 (KJV). Fulfilled 700 years later."},
+  {topic:"prophecy",icon:"📖",q:"Zechariah 9:9 prophesied the king would come riding on a...",opts:["A. White horse","B. Chariot","C. Donkey","D. Cloud"],ans:2,hint:"'Behold, thy King cometh unto thee...riding upon an ass.' — Zechariah 9:9 (KJV). Fulfilled on Palm Sunday, centuries later."},
+  {topic:"prophecy",icon:"📖",q:"How many books of prophecy are in the Old Testament?",opts:["A. 12","B. 17","C. 20","D. 22"],ans:1,hint:"There are 17 prophetic books in the Old Testament: 5 Major Prophets (Isaiah through Daniel) and 12 Minor Prophets (Hosea through Malachi)."},
+  {topic:"prophecy",icon:"📖",q:"John 14:3 — Jesus said 'I go to prepare a place for you' and promised He would...",opts:["A. Send His Spirit","B. Come again and receive you","C. Return at the last day","D. Open the gates of heaven"],ans:1,hint:"'And if I go and prepare a place for you, I will come again, and receive you unto myself.' — John 14:3 (KJV)"},
+  {topic:"prophecy",icon:"📖",q:"Revelation 21:4 promises God will wipe away all...",opts:["A. Sin","B. Sorrow","C. Tears","D. Darkness"],ans:2,hint:"'And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying.' — Revelation 21:4 (KJV)"},
+  {topic:"prophecy",icon:"📖",q:"Daniel interpreted Nebuchadnezzar's dream of a statue made of different materials. What did the head of gold represent?",opts:["A. The Roman Empire","B. The Babylonian Empire","C. The Kingdom of God","D. The Medo-Persian Empire"],ans:1,hint:"Daniel told Nebuchadnezzar 'Thou art this head of gold' — representing the Babylonian Empire's supremacy. — Daniel 2:38 (KJV)"},
+  {topic:"prophecy",icon:"📖",q:"1 Thessalonians 4:16 says the Lord shall descend from heaven with what?",opts:["A. Angels and fire","B. A shout, archangel's voice, and trump of God","C. A great cloud of witnesses","D. His saints"],ans:1,hint:"'For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God.' — 1 Thessalonians 4:16 (KJV)"},
+  {topic:"prophecy",icon:"📖",q:"Isaiah 7:14 prophesied that a virgin would conceive and bear a son called...",opts:["A. Messiah","B. Emmanuel","C. Jesus","D. Wonderful"],ans:1,hint:"'Behold, a virgin shall conceive, and bear a son, and shall call his name Immanuel.' — Isaiah 7:14 (KJV). Fulfilled in Matthew 1:23."},
+  {topic:"prophecy",icon:"📖",q:"Psalm 22:16 prophesied they would pierce His hands and...",opts:["A. His feet","B. His side","C. His body","D. His brow"],ans:0,hint:"'They pierced my hands and my feet.' — Psalm 22:16 (KJV). Written by David 1,000 years before Jesus — before crucifixion even existed."},
+  {topic:"prophecy",icon:"📖",q:"The book of Revelation was written on which island?",opts:["A. Malta","B. Crete","C. Cyprus","D. Patmos"],ans:3,hint:"The Apostle John received his revelation while exiled on the island of Patmos. — Revelation 1:9 (KJV)"},
+  {topic:"prophecy",icon:"📖",q:"How many seals are opened in the book of Revelation?",opts:["A. 5","B. 7","C. 12","D. 10"],ans:1,hint:"Seven seals are opened in Revelation 6–8 — part of the sequence of judgements described in John's vision."},
+  {topic:"prophecy",icon:"📖",q:"Matthew 24:14 says the gospel will be preached in the whole world as a testimony to all nations, and then...",opts:["A. God's Spirit will be poured out","B. The end will come","C. Christ will return","D. Israel will be restored"],ans:1,hint:"'And this gospel of the kingdom shall be preached in all the world for a witness unto all nations; and then shall the end come.' — Matthew 24:14 (KJV)"},
+  {topic:"prophecy",icon:"📖",q:"Isaiah 40:3 prophesied 'A voice crying in the wilderness: prepare the way of the Lord.' Who fulfilled this?",opts:["A. Moses","B. Elijah","C. John the Baptist","D. Paul"],ans:2,hint:"John the Baptist fulfilled Isaiah's prophecy — preparing the way for Jesus's ministry. — Matthew 3:3 (KJV)"},
+  {topic:"prophecy",icon:"📖",q:"What does the number 666 represent in Revelation 13?",opts:["A. The number of years of tribulation","B. The mark of the beast","C. The number of demons","D. Satan's number"],ans:1,hint:"'And his number is Six hundred threescore and six.' — Revelation 13:18 (KJV) — the number of the beast, associated with the Antichrist."},
+  {topic:"prophecy",icon:"📖",q:"Jeremiah 31:33 — God promised a new covenant where He would put His law in their...",opts:["A. Minds only","B. Books","C. Hearts and minds","D. Mouths"],ans:2,hint:"'I will put my law in their inward parts, and write it in their hearts.' — Jeremiah 31:33 (KJV). Fulfilled through Christ."},
+  {topic:"prophecy",icon:"📖",q:"The 'Four Horsemen of the Apocalypse' are found in which book?",opts:["A. Daniel","B. Isaiah","C. Revelation","D. Ezekiel"],ans:2,hint:"The Four Horsemen ride out as the first four seals are opened in Revelation 6 — representing conquest, war, famine, and death."},
+  {topic:"prophecy",icon:"📖",q:"Joel 2:28 prophesied that God would pour out His Spirit on...",opts:["A. The righteous","B. All flesh","C. Israel alone","D. The prophets"],ans:1,hint:"'And it shall come to pass...that I will pour out my spirit upon all flesh.' — Joel 2:28 (KJV). Fulfilled at Pentecost in Acts 2."},
+  {topic:"prophecy",icon:"📖",q:"How many prophecies about Jesus does the Old Testament contain (approximately)?",opts:["A. 50","B. 100","C. Over 300","D. 500"],ans:2,hint:"Scholars count over 300 messianic prophecies in the Old Testament — all fulfilled in Jesus Christ. The odds are astronomically impossible by chance."},
+  {topic:"prophecy",icon:"📖",q:"Acts 2 records the fulfilment of Joel's prophecy when the Holy Spirit came on which day?",opts:["A. Easter Sunday","B. Pentecost","C. The Feast of Tabernacles","D. The Day of Atonement"],ans:1,hint:"On the Day of Pentecost (50 days after Passover), the Holy Spirit fell on the disciples and 3,000 were saved. — Acts 2:1 (KJV)"}
+];
+
+// ════════════════════ STATE ════════════════════
+let selTopic="all", selCount=10, questions=[], idx=0, score=0, answered=false, userAnswers=[];
+
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+
+function topicLabel(t){return{identity:"Identity & Purpose",courage:"Courage & Strength",gospels:"Jesus & the Gospels",wisdom:"Wisdom & Choices",heroes:"Bible Heroes",faith:"Faith & Prayer",prophecy:"Prophecy & End Times"}[t]||"Bible";}
+function topicIcon(t){return{identity:"🔥",courage:"🦁",gospels:"✝",wisdom:"💡",heroes:"⚔️",faith:"🙏",prophecy:"📖"}[t]||"⚡";}
+
+function selectTopic(el){document.querySelectorAll('.topic-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');selTopic=el.dataset.topic;}
+function selectCount(el,n){document.querySelectorAll('.count-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');selCount=n;}
+
+function startQuiz(){
+  let pool=selTopic==="all"?ALL_QUESTIONS:ALL_QUESTIONS.filter(q=>q.topic===selTopic);
+  if(!pool.length)pool=ALL_QUESTIONS;
+  questions=shuffle(pool).slice(0,Math.min(selCount,pool.length));
+  idx=0;score=0;userAnswers=[];
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('results').style.display='none';
+  document.getElementById('quizArea').style.display='block';
+  updateScore();showQuestion();
+}
+
+function showQuestion(){
+  answered=false;
+  const q=questions[idx], total=questions.length, prev=userAnswers[idx];
+  document.getElementById('progPill').textContent=`${idx+1} / ${total}`;
+  document.getElementById('progFill').style.width=`${(idx/total)*100}%`;
+  document.getElementById('qTopic').innerHTML=`${topicIcon(q.topic)} ${topicLabel(q.topic)}`;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('backBtn').disabled=idx===0;
+  document.getElementById('prevBtn').style.display=idx===0?'none':'block';
+
+  const grid=document.getElementById('optGrid');grid.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letters[i]}</span><span>${opt.slice(3)}</span>`;
+    if(prev!==undefined){
+      btn.disabled=true;
+      if(i===q.ans)btn.classList.add('rev-correct');
+      if(i===prev.chosen&&!prev.wasCorrect)btn.classList.add('rev-wrong');
+    } else {
+      btn.onclick=()=>selectAnswer(i,btn,q.ans,q.hint);
+    }
+    grid.appendChild(btn);
+  });
+
+  const fb=document.getElementById('feedback');
+  const vn=document.getElementById('verseNote');
+  if(prev!==undefined){
+    fb.className='feedback review';fb.style.display='flex';
+    document.getElementById('fbIcon').textContent='📖';
+    document.getElementById('fbText').textContent=prev.wasCorrect?'You got this one right ✓':'Reviewing — check the verse below';
+    vn.classList.add('show');
+    const parts=q.hint.split('—');
+    document.getElementById('verseText').textContent=parts[0].trim();
+    document.getElementById('verseRef').textContent=parts.length>1?parts.slice(1).join('—').trim():'';
+    document.getElementById('nextBtn').style.display='block';answered=true;
+  } else {
+    fb.className='feedback';fb.style.display='none';
+    vn.classList.remove('show');
+    document.getElementById('nextBtn').style.display='none';
+  }
+
+  const card=document.getElementById('qCard');card.style.animation='none';card.offsetHeight;card.style.animation='cardIn 0.35s cubic-bezier(0.22,1,0.36,1) both';
+}
+
+function selectAnswer(i,btn,correct,hint){
+  if(answered)return;answered=true;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const wasCorrect=i===correct;
+  userAnswers[idx]={chosen:i,correct,wasCorrect};
+  if(wasCorrect){score++;btn.classList.add('correct');showFb(true);updateScore();launchConfetti();}
+  else{btn.classList.add('wrong');document.querySelectorAll('.opt-btn')[correct].classList.add('correct');showFb(false);}
+  const vn=document.getElementById('verseNote');vn.classList.add('show');
+  const parts=hint.split('—');
+  document.getElementById('verseText').textContent=parts[0].trim();
+  document.getElementById('verseRef').textContent=parts.length>1?parts.slice(1).join('—').trim():'';
+  document.getElementById('nextBtn').style.display='block';
+}
+
+function showFb(ok){
+  const fb=document.getElementById('feedback');
+  const okM=["Correct! ✓","That's right!","Nailed it ⚡","Yes! Keep going.","On point ✓","Correct — let's go!"];
+  const noM=["Not this time — check the verse.","Almost! Read the verse below.","Keep going — you're learning.","Good try — the verse explains it.","Dig into that verse and try again."];
+  fb.className=`feedback ${ok?'correct':'wrong'}`;fb.style.display='flex';
+  document.getElementById('fbIcon').textContent=ok?'✓':'✕';
+  document.getElementById('fbText').textContent=ok?okM[Math.floor(Math.random()*okM.length)]:noM[Math.floor(Math.random()*noM.length)];
+}
+
+function nextQuestion(){idx++;if(idx>=questions.length)showResults();else showQuestion();}
+function goBack(){if(idx===0)return;idx--;showQuestion();}
+function showExitModal(){document.getElementById('exitProg').textContent=userAnswers.filter(Boolean).length;document.getElementById('exitModal').classList.add('show');}
+function hideExitModal(){document.getElementById('exitModal').classList.remove('show');}
+function confirmExit(){hideExitModal();document.getElementById('quizArea').style.display='none';document.getElementById('results').style.display='none';document.getElementById('startScreen').style.display='block';score=0;idx=0;userAnswers=[];updateScore();}
+
+function updateScore(){
+  document.getElementById('scoreNum').textContent=score;
+  const pts=document.getElementById('scorePts');pts.innerHTML='';
+  const show=Math.min(score,10);
+  for(let i=0;i<show;i++){const s=document.createElement('span');s.className='score-pt lit';s.textContent='⚡';pts.appendChild(s);}
+  for(let i=show;i<Math.min(questions.length||10,10);i++){const s=document.createElement('span');s.className='score-pt';s.textContent='⚡';pts.appendChild(s);}
+}
+
+function launchConfetti(){
+  const colors=['#2dd4bf','#0d9488','#fbbf24','#22c55e','#f8fafc'];
+  for(let i=0;i<20;i++){const c=document.createElement('div');c.className='confetti-piece';c.style.cssText=`left:${Math.random()*100}vw;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${0.8+Math.random()*0.7}s;animation-delay:${Math.random()*0.25}s;width:${5+Math.random()*6}px;height:${5+Math.random()*6}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;document.body.appendChild(c);setTimeout(()=>c.remove(),2000);}
+}
+
+function showResults(){
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('quizArea').style.display='none';
+  const res=document.getElementById('results');res.style.display='block';
+  const total=questions.length,pct=score/total;
+  let icon='⚡',title='',sub='',badge='';
+  if(pct===1){icon='🏆';title='PERFECT SCORE!';sub='You absolutely know your Bible. Respect.';badge='BIBLE MASTER';}
+  else if(pct>=0.8){icon='🔥';title='FIRE RESULT!';sub='You really know your stuff. Keep going.';badge='BIBLE SCHOLAR';}
+  else if(pct>=0.6){icon='⚡';title='SOLID EFFORT!';sub='You know more than you think. Push harder.';badge='BIBLE EXPLORER';}
+  else if(pct>=0.4){icon='💪';title='KEEP GRINDING!';sub='Every wrong answer is a lesson. You\'re learning.';badge='TRUTH SEEKER';}
+  else{icon='📖';title='START HERE';sub='Open the Word, read daily. You\'ll surprise yourself.';badge='BIBLE BEGINNER';}
+  document.getElementById('resIcon').textContent=icon;
+  document.getElementById('resTitle').textContent=title;
+  document.getElementById('resSub').textContent=sub;
+  document.getElementById('resScore').textContent=`${score}/${total}`;
+  document.getElementById('resBadge').textContent=badge;
+  const rp=document.getElementById('resPts');rp.innerHTML='';
+  for(let i=0;i<Math.min(score,20);i++){const s=document.createElement('span');s.textContent='⚡';rp.appendChild(s);}
+  // Answer review
+  const rev=document.getElementById('ansReview');
+  rev.innerHTML=`<div class="ans-review-title">YOUR ANSWERS</div>`;
+  questions.forEach((q,i)=>{
+    const ua=userAnswers[i];
+    const item=document.createElement('div');
+    item.className='ans-item '+(ua?(ua.wasCorrect?'ok':'no'):'');
+    const ct=q.opts[q.ans].slice(3);
+    const yt=ua?q.opts[ua.chosen].slice(3):'—';
+    item.innerHTML=`<div class="ans-item-q">${i+1}. ${q.q}</div>
+    <div class="ans-item-d">${ua&&ua.wasCorrect?`<span class="c-ans">✓ ${ct}</span>`:`${ua?`<span class="w-ans">✕ You: ${yt}</span>&nbsp; `:'<span class="w-ans">—</span>&nbsp;'}<span class="c-ans">✓ ${ct}</span>`}<br><span class="hint-txt">${q.hint}</span></div>`;
+    rev.appendChild(item);
+  });
+  if(pct>=0.8){for(let i=0;i<2;i++)setTimeout(()=>launchConfetti(),i*500);}
+}
+
+function restartSame(){startQuiz();}
+function goHome(){document.getElementById('results').style.display='none';document.getElementById('quizArea').style.display='none';document.getElementById('startScreen').style.display='block';score=0;idx=0;userAnswers=[];updateScore();}
+
+function openPrint(html){
+  const w=window.open('','_blank');
+  if(!w){alert('Please allow pop-ups to download.');return;}
+  w.document.write(html);w.document.close();w.focus();setTimeout(()=>w.print(),700);
+}
+
+function downloadQuestionsPDF(){
+  if(!questions.length){alert('Start the quiz first!');return;}
+  const L=['A','B','C','D'];
+  let h=`<html><head><title>Bible Quiz for Teens — Questions</title><style>
+    body{font-family:Arial,sans-serif;max-width:700px;margin:0 auto;padding:30px;color:#1e293b;font-size:14px;line-height:1.6;}
+    h1{color:#0d9488;font-size:20px;margin-bottom:4px;}
+    .sub{color:#64748b;font-size:12px;margin-bottom:24px;font-style:italic;}
+    .q{margin-bottom:18px;page-break-inside:avoid;border-bottom:1px solid #e2e8f0;padding-bottom:16px;}
+    .qcat{color:#2dd4bf;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px;}
+    .qn{font-weight:bold;color:#0d9488;font-size:12px;margin-bottom:3px;}
+    .qt{font-size:15px;font-weight:bold;margin-bottom:8px;color:#1e293b;}
+    .opt{font-size:14px;margin:3px 0 3px 12px;color:#334155;}
+    .footer{margin-top:32px;border-top:1px solid #e2e8f0;padding-top:12px;font-size:12px;color:#64748b;text-align:center;}
+    @media print{body{padding:14px;}}
+  </style></head><body>
+  <h1>⚡ Bible Quiz for Teenagers — Questions</h1>
+  <div class="sub">Daily Prayers &amp; Blessings | Ages 13–17 | ${questions.length} Questions | Topic: ${selTopic==='all'?'All Topics':topicLabel(selTopic)}</div>`;
+  questions.forEach((q,i)=>{
+    h+=`<div class="q"><div class="qcat">${topicIcon(q.topic)} ${topicLabel(q.topic)}</div><div class="qn">Question ${i+1}</div><div class="qt">${q.q}</div>${q.opts.map((o,oi)=>`<div class="opt">${L[oi]}. ${o.slice(3)}</div>`).join('')}</div>`;
+  });
+  h+=`<div class="footer">dailyprayersandblessings.com | Bible Quiz for Teens | Answer key available after completing the quiz</div></body></html>`;
+  openPrint(h);
+}
+
+function downloadAnswersPDF(){
+  const L=['A','B','C','D'];
+  const total=questions.length,pct=score/total;
+  const badge=pct===1?'BIBLE MASTER':pct>=0.8?'BIBLE SCHOLAR':pct>=0.6?'BIBLE EXPLORER':pct>=0.4?'TRUTH SEEKER':'BIBLE BEGINNER';
+  let h=`<html><head><title>Bible Quiz for Teens — Answers</title><style>
+    body{font-family:Arial,sans-serif;max-width:700px;margin:0 auto;padding:30px;color:#1e293b;font-size:13px;line-height:1.6;}
+    h1{color:#0d9488;font-size:20px;margin-bottom:4px;}
+    .sub{color:#64748b;font-size:12px;margin-bottom:20px;font-style:italic;}
+    .score-box{background:#f0fdfa;border:2px solid #2dd4bf;border-radius:10px;padding:14px 20px;margin-bottom:22px;text-align:center;}
+    .big{font-size:36px;font-weight:bold;color:#0d9488;}
+    .lbl{font-size:13px;color:#64748b;}
+    .bdg{font-size:15px;font-weight:bold;color:#0d9488;margin-top:4px;letter-spacing:0.08em;}
+    table{width:100%;border-collapse:collapse;font-size:12px;}
+    th{background:#0d9488;color:white;padding:9px 7px;text-align:left;font-size:12px;}
+    td{padding:8px 7px;border-bottom:1px solid #e2e8f0;vertical-align:top;}
+    tr:nth-child(even) td{background:#f8fafc;}
+    .cr td{background:#f0fdf4!important;}
+    .wr td{background:#fff5f5!important;}
+    .tick{color:#22c55e;font-weight:bold;}
+    .cross{color:#ef4444;font-weight:bold;}
+    .ans{color:#22c55e;font-weight:bold;}
+    .hint-row td{font-style:italic;font-size:11px;color:#64748b;background:#f8fafc!important;border-bottom:2px solid #e2e8f0;}
+    .footer{margin-top:32px;border-top:1px solid #e2e8f0;padding-top:12px;font-size:11px;color:#64748b;text-align:center;}
+    @media print{body{padding:14px;}}
+  </style></head><body>
+  <h1>⚡ Bible Quiz for Teenagers — Answer Key</h1>
+  <div class="sub">Daily Prayers &amp; Blessings | Ages 13–17 | ${total} Questions</div>
+  <div class="score-box"><div class="big">${score} / ${total}</div><div class="lbl">correct</div><div class="bdg">${badge}</div></div>
+  <table><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>✓✗</th></tr>`;
+  questions.forEach((q,i)=>{
+    const ua=userAnswers[i];
+    const chosen=ua?q.opts[ua.chosen].slice(3):'Not answered';
+    const correct=q.opts[q.ans].slice(3);
+    const ok=ua&&ua.wasCorrect;
+    h+=`<tr class="${ua?(ok?'cr':'wr'):''}"><td>${i+1}</td><td>${q.q}</td><td>${chosen}</td><td class="ans">${correct}</td><td>${ua?(ok?'<span class="tick">✓</span>':'<span class="cross">✗</span>'):'—'}</td></tr>`;
+    h+=`<tr class="hint-row"><td colspan="5">📖 ${q.hint}</td></tr>`;
+  });
+  h+=`<div class="footer">dailyprayersandblessings.com | Bible Quiz for Teens | Keep reading the Word!</div></body></html>`;
+  openPrint(h);
+}
+</script>
+</body>
+</html>
